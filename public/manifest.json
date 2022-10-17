@@ -1,0 +1,8 @@
+{
+  "short_name": "ICP",
+  "name": "ice-cream-paces-ICP",
+  "icons": [
+  ],
+  "start_url": ".",
+  "display": "standalone"
+}
