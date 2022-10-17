@@ -1,7 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
+:root {
+  --primaryMain: #F6F6F6;
+  --primaryLight: #FDFDFD;
+  --primaryDark: #C4C4C4;
+  --textSecondary: #C0FCFF;
+  --secondaryMain: #4ca0a5;
+  --secondaryLight: #C0FCFF;
+  --secondaryDark: #1e8388;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Lato', sans-serif;
+}
+
+.navbar-container {
+  padding: 0.5rem 0;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  font-size: 2rem;
+  color: var(--secondaryDark);
+}
+
+.logo span {
+  font-size: 0.6rem;
+}
+
+a {
+  text-transform: uppercase;
+  padding: 10px;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  background-color: var(--primaryMain);
+}
+
+a:link {
+  color: var(--secondaryDark);
+}
+
+a:visited {
+  color: var(--secondaryDark);
+}
+
+a:hover {
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 10px var(--secondaryMain);
+  color: var(--secondaryMain);
+}
+
+a:active {
+  color: var(--secondaryDark);
 }
