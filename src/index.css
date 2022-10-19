@@ -27,8 +27,8 @@ body {
 }
 
 .container {
+  margin: 0 1em;
   margin-top: 2em;
-  width: 100%;
   display: flex;
   justify-content: center;
 }
@@ -43,6 +43,14 @@ body {
 
 .min-width {
   min-width: 20em;
+}
+
+.full-width {
+  width: 100vw;
+}
+
+.half-width {
+  width: 50vw;
 }
 
 .flex-col {
@@ -63,4 +71,10 @@ body {
   background-color: var(--default) !important;
   border: 1px solid var(--secondaryLight) !important;
   border-radius: 0.5em !important;
+  scale: 1.0 !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.shop-card:hover {
+  scale: 1.1 !important;
 }
