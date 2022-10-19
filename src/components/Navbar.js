@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Link as MuiLink,
@@ -9,9 +8,8 @@ import {
 } from "@mui/material";
 import { CiIceCream } from "react-icons/ci";
 
-const Navbar = () => {
-  const [loginIn, setLoginIn] = useState(false);
-  const [userType, setUserType] = useState("");
+const Navbar = (props) => {
+  const { navbarData } = props;
 
   return (
     <AppBar position="static" elevation={0}>
@@ -32,91 +30,15 @@ const Navbar = () => {
                 </MuiLink>
               </Typography>
             </Grid>
-            <Grid item>
-              <Typography>
-                <MuiLink color="text.secondary" component={Link} to="/search">
-                  Szukaj
-                </MuiLink>
-              </Typography>
-            </Grid>
-            {!loginIn && (
-              <>
-                <Grid item>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/login"
-                    >
-                      Zaloguj
-                    </MuiLink>
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/register"
-                    >
-                      Zarejestruj
-                    </MuiLink>
-                  </Typography>
-                </Grid>
-              </>
-            )}
-            {loginIn && (
-              <>
-                <Grid item>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/profile"
-                    >
-                      Profil
-                    </MuiLink>
-                  </Typography>
-                </Grid>
-                {userType === "owner" && (
-                  <Grid item>
-                    <Typography>
-                      <MuiLink
-                        color="text.secondary"
-                        component={Link}
-                        to="/shop"
-                      >
-                        Sklep
-                      </MuiLink>
-                    </Typography>
-                  </Grid>
-                )}
-                {userType === "admin" && (
-                  <Grid item>
-                    <Typography>
-                      <MuiLink
-                        color="text.secondary"
-                        component={Link}
-                        to="/admin"
-                      >
-                        Admin panel
-                      </MuiLink>
-                    </Typography>
-                  </Grid>
-                )}
-                <Grid item>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/logout"
-                    >
-                      Wyloguj
-                    </MuiLink>
-                  </Typography>
-                </Grid>
-              </>
-            )}
+            {navbarData.map((nav) => (
+              <Grid item>
+                <Typography>
+                  <MuiLink color="text.secondary" component={Link} to={nav.to}>
+                    {nav.label}
+                  </MuiLink>
+                </Typography>
+              </Grid>
+            ))}
           </Grid>
         </Toolbar>
       </div>

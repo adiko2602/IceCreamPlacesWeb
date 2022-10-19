@@ -14,14 +14,13 @@ import { CiIceCream } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";
 
-const Navbar = () => {
-  const [loginIn, setLoginIn] = useState(false);
-  const [userType, setUserType] = useState("");
+const Navbar = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { navbarData } = props;
 
   return (
-    <AppBar position="static">
-      <Toolbar className="max-width">
+    <AppBar position="static" elevation={0}>
+      <Toolbar>
         <Drawer
           open={openDrawer}
           onClose={() =>
@@ -31,7 +30,7 @@ const Navbar = () => {
           }
           anchor="right"
         >
-          <List className="min-width">
+          <List className="half-width">
             <ListItem>
               <Typography>
                 <MuiLink
@@ -47,117 +46,24 @@ const Navbar = () => {
                 </MuiLink>
               </Typography>
             </ListItem>
-            <ListItem>
-              <Typography>
-                <MuiLink
-                  color="text.secondary"
-                  component={Link}
-                  to="/search"
-                  onClick={() =>
-                    setOpenDrawer(() => {
-                      return !openDrawer;
-                    })
-                  }
-                >
-                  Szukaj
-                </MuiLink>
-              </Typography>
-            </ListItem>
-            {!loginIn && (
-              <>
-                <ListItem>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/login"
-                      onClick={() =>
-                        setOpenDrawer(() => {
-                          return !openDrawer;
-                        })
-                      }
-                    >
-                      Zaloguj
-                    </MuiLink>
-                  </Typography>
-                </ListItem>
-                <ListItem>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/register"
-                      onClick={() =>
-                        setOpenDrawer(() => {
-                          return !openDrawer;
-                        })
-                      }
-                    >
-                      Zarejestruj
-                    </MuiLink>
-                  </Typography>
-                </ListItem>
-              </>
-            )}
-            {loginIn && (
-              <>
-                <ListItem>
-                  <Typography>
-                    <MuiLink
-                      color="text.secondary"
-                      component={Link}
-                      to="/profile"
-                      onClick={() =>
-                        setOpenDrawer(() => {
-                          return !openDrawer;
-                        })
-                      }
-                    >
-                      Profil
-                    </MuiLink>
-                  </Typography>
-                </ListItem>
-                {userType === "owner" && (
-                  <ListItem>
-                    <Typography>
-                      <MuiLink
-                        color="text.secondary"
-                        component={Link}
-                        to="/shop"
-                        onClick={() =>
-                          setOpenDrawer(() => {
-                            return !openDrawer;
-                          })
-                        }
-                      >
-                        Sklep
-                      </MuiLink>
-                    </Typography>
-                  </ListItem>
-                )}
-                {userType === "admin" && (
-                  <ListItem>
-                    <Typography>
-                      <MuiLink
-                        color="text.secondary"
-                        component={Link}
-                        to="/admin"
-                        onClick={() =>
-                          setOpenDrawer(() => {
-                            return !openDrawer;
-                          })
-                        }
-                      >
-                        Admin panel
-                      </MuiLink>
-                    </Typography>
-                  </ListItem>
-                )}
-                <ListItem>
-                  <Link to="/logout">Wyloguj</Link>
-                </ListItem>
-              </>
-            )}
+            {navbarData.map((nav) => (
+              <ListItem>
+                <Typography>
+                  <MuiLink
+                    color="text.secondary"
+                    component={Link}
+                    to={nav.to}
+                    onClick={() =>
+                      setOpenDrawer(() => {
+                        return !openDrawer;
+                      })
+                    }
+                  >
+                    {nav.label}
+                  </MuiLink>
+                </Typography>
+              </ListItem>
+            ))}
           </List>
         </Drawer>
         <Typography>
