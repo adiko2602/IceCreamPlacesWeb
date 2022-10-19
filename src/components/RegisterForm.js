@@ -7,6 +7,9 @@ import {
   FormControl,
   FormControlLabel,
   Switch,
+  Card,
+  CardContent,
+  CardHeader,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import validator from "validator";
@@ -58,28 +61,22 @@ const RegisterForm = (props) => {
   }, [email, password, shopOwner]);
 
   return (
-    <Container className="register-container">
+    <Card className="max-width" elevation={0}>
+      <CardHeader title="Zarejestruj się" />
       <form
         onSubmit={(e) => {
           e.preventDefault();
           props.handleSubmit(email, password, shopOwner);
         }}
       >
-        <div className="register-paper">
-          <Typography variant="h5" color="secondary">
-            Zarejestruj się
-          </Typography>
-
+        <CardContent className="flex-col flex-gap-2">
           <FormControl error={emailError}>
             <TextField
-              color="secondary"
               onChange={handleEmailChange}
               value={email}
               type="text"
               id="email"
-              name="email"
               label="Email"
-              variant="outlined"
               error={emailError}
             />
             <FormHelperText>{emailHelperText}</FormHelperText>
@@ -87,13 +84,11 @@ const RegisterForm = (props) => {
 
           <FormControl error={passwordError}>
             <TextField
-              color="secondary"
               onChange={handlePasswordChange}
               value={password}
               type="password"
               id="password"
               label="Hasło"
-              variant="outlined"
               error={passwordError}
             />
             <FormHelperText>{passwordHelperText}</FormHelperText>
@@ -107,29 +102,22 @@ const RegisterForm = (props) => {
                     return !shopOwner;
                   });
                 }}
-                color="secondary"
                 checked={shopOwner}
               />
             }
-            label={
-              <Typography color="secondary">
-                Jestem właścicielem lodziarni
-              </Typography>
-            }
+            label={<Typography>Jestem właścicielem lodziarni</Typography>}
           />
 
           <Button
-            color="secondary"
             disabled={emailError || passwordError || button}
             type="submit"
-            size="large"
             variant="contained"
           >
             Zarejestruj się
           </Button>
-        </div>
+        </CardContent>
       </form>
-    </Container>
+    </Card>
   );
 };
 

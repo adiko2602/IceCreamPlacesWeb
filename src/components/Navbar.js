@@ -1,63 +1,125 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Grid, Toolbar } from "@mui/material";
-import { IoMdIceCream } from "react-icons/io";
+import {
+  Link as MuiLink,
+  AppBar,
+  Grid,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { CiIceCream } from "react-icons/ci";
 
 const Navbar = () => {
   const [loginIn, setLoginIn] = useState(false);
   const [userType, setUserType] = useState("");
 
   return (
-    <AppBar position="static">
-      <Toolbar className="navbar-container">
-        <Link to="/">
-          <div className="logo">
-            <IoMdIceCream />
-            <span>IceCreamPlaces</span>
-          </div>
-        </Link>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item>
-            <Link to="/search">Szukaj</Link>
+    <AppBar position="static" elevation={0}>
+      <div className="center">
+        <Toolbar className="min-width max-width">
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography>
+                <MuiLink color="text.secondary" component={Link} to="/">
+                  <div className="logo">
+                    <CiIceCream />
+                  </div>
+                </MuiLink>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography>
+                <MuiLink color="text.secondary" component={Link} to="/search">
+                  Szukaj
+                </MuiLink>
+              </Typography>
+            </Grid>
+            {!loginIn && (
+              <>
+                <Grid item>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/login"
+                    >
+                      Zaloguj
+                    </MuiLink>
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/register"
+                    >
+                      Zarejestruj
+                    </MuiLink>
+                  </Typography>
+                </Grid>
+              </>
+            )}
+            {loginIn && (
+              <>
+                <Grid item>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/profile"
+                    >
+                      Profil
+                    </MuiLink>
+                  </Typography>
+                </Grid>
+                {userType === "owner" && (
+                  <Grid item>
+                    <Typography>
+                      <MuiLink
+                        color="text.secondary"
+                        component={Link}
+                        to="/shop"
+                      >
+                        Sklep
+                      </MuiLink>
+                    </Typography>
+                  </Grid>
+                )}
+                {userType === "admin" && (
+                  <Grid item>
+                    <Typography>
+                      <MuiLink
+                        color="text.secondary"
+                        component={Link}
+                        to="/admin"
+                      >
+                        Admin panel
+                      </MuiLink>
+                    </Typography>
+                  </Grid>
+                )}
+                <Grid item>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/logout"
+                    >
+                      Wyloguj
+                    </MuiLink>
+                  </Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
-          {!loginIn && (
-            <>
-              <Grid item>
-                <Link to="/login">Zaloguj</Link>
-              </Grid>
-              <Grid item>
-                <Link to="/register">Zarejestruj</Link>
-              </Grid>
-            </>
-          )}
-          {loginIn && (
-            <>
-              <Grid item>
-                <Link to="/profile">Profil</Link>
-              </Grid>
-              {userType === "owner" && (
-                <Grid item>
-                  <Link to="/shop">Sklep</Link>
-                </Grid>
-              )}
-              {userType === "admin" && (
-                <Grid item>
-                  <Link to="/admin">Admin panel</Link>
-                </Grid>
-              )}
-              <Grid item>
-                <Link to="/logout">Wyloguj</Link>
-              </Grid>
-            </>
-          )}
-        </Grid>
-      </Toolbar>
+        </Toolbar>
+      </div>
     </AppBar>
   );
 };

@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Drawer, List, ListItem, Grid } from "@mui/material";
-import { IoMdIceCream } from "react-icons/io";
+import {
+  AppBar,
+  Toolbar,
+  Drawer,
+  List,
+  ListItem,
+  Grid,
+  Typography,
+  Link as MuiLink,
+} from "@mui/material";
+import { CiIceCream } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";
 
@@ -12,7 +21,7 @@ const Navbar = () => {
 
   return (
     <AppBar position="static">
-      <Toolbar className="navbar-container">
+      <Toolbar className="max-width">
         <Drawer
           open={openDrawer}
           onClose={() =>
@@ -21,50 +30,127 @@ const Navbar = () => {
             })
           }
           anchor="right"
-          PaperProps={{
-            sx: {
-              backgroundColor: "#F6F6F6",
-            },
-          }}
         >
-          <List>
-            <ListItem style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Link
-                onClick={() =>
-                  setOpenDrawer(() => {
-                    return false;
-                  })
-                }
-              >
-                <RiCloseFill />
-              </Link>
+          <List className="min-width">
+            <ListItem>
+              <Typography>
+                <MuiLink
+                  color="text.secondary"
+                  component={Link}
+                  onClick={() =>
+                    setOpenDrawer(() => {
+                      return false;
+                    })
+                  }
+                >
+                  <RiCloseFill />
+                </MuiLink>
+              </Typography>
             </ListItem>
             <ListItem>
-              <Link to="/search">Szukaj</Link>
+              <Typography>
+                <MuiLink
+                  color="text.secondary"
+                  component={Link}
+                  to="/search"
+                  onClick={() =>
+                    setOpenDrawer(() => {
+                      return !openDrawer;
+                    })
+                  }
+                >
+                  Szukaj
+                </MuiLink>
+              </Typography>
             </ListItem>
             {!loginIn && (
               <>
                 <ListItem>
-                  <Link to="/login">Zaloguj</Link>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/login"
+                      onClick={() =>
+                        setOpenDrawer(() => {
+                          return !openDrawer;
+                        })
+                      }
+                    >
+                      Zaloguj
+                    </MuiLink>
+                  </Typography>
                 </ListItem>
                 <ListItem>
-                  <Link to="/register">Zarejestruj</Link>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/register"
+                      onClick={() =>
+                        setOpenDrawer(() => {
+                          return !openDrawer;
+                        })
+                      }
+                    >
+                      Zarejestruj
+                    </MuiLink>
+                  </Typography>
                 </ListItem>
               </>
             )}
             {loginIn && (
               <>
                 <ListItem>
-                  <Link to="/profile">Profil</Link>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to="/profile"
+                      onClick={() =>
+                        setOpenDrawer(() => {
+                          return !openDrawer;
+                        })
+                      }
+                    >
+                      Profil
+                    </MuiLink>
+                  </Typography>
                 </ListItem>
                 {userType === "owner" && (
                   <ListItem>
-                    <Link to="/shop">Sklep</Link>
+                    <Typography>
+                      <MuiLink
+                        color="text.secondary"
+                        component={Link}
+                        to="/shop"
+                        onClick={() =>
+                          setOpenDrawer(() => {
+                            return !openDrawer;
+                          })
+                        }
+                      >
+                        Sklep
+                      </MuiLink>
+                    </Typography>
                   </ListItem>
                 )}
                 {userType === "admin" && (
                   <ListItem>
-                    <Link to="/admin">Admin panel</Link>
+                    <Typography>
+                      <MuiLink
+                        color="text.secondary"
+                        component={Link}
+                        to="/admin"
+                        onClick={() =>
+                          setOpenDrawer(() => {
+                            return !openDrawer;
+                          })
+                        }
+                      >
+                        Admin panel
+                      </MuiLink>
+                    </Typography>
                   </ListItem>
                 )}
                 <ListItem>
@@ -74,12 +160,13 @@ const Navbar = () => {
             )}
           </List>
         </Drawer>
-        <Link to="/">
-          <div className="logo">
-            <IoMdIceCream />
-            <span>IceCreamPlaces</span>
-          </div>
-        </Link>
+        <Typography>
+          <MuiLink color="text.secondary" component={Link} to="/">
+            <div className="logo">
+              <CiIceCream />
+            </div>
+          </MuiLink>
+        </Typography>
         <Grid
           container
           direction="row"
@@ -88,7 +175,9 @@ const Navbar = () => {
           spacing={2}
         >
           <Grid item>
-            <Link
+            <MuiLink
+              color="text.secondary"
+              component={Link}
               onClick={() =>
                 setOpenDrawer(() => {
                   return !openDrawer;
@@ -96,7 +185,7 @@ const Navbar = () => {
               }
             >
               <FiMenu />
-            </Link>
+            </MuiLink>
           </Grid>
         </Grid>
       </Toolbar>

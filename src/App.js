@@ -7,11 +7,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <div style={{ marginTop: "2rem" }}></div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <div className="container">
+        <div className="max-width flex-col">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 };
