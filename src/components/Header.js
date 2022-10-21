@@ -1,97 +1,71 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import DrawerNavbar from "./DrawerNavbar";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useUserContext } from "../hooks/useUserContext";
+import { useGlobalContext } from "../hooks/useGlobalContext";
 
 const Header = () => {
-  const [userType, setUserType] = useState("default");
-  const [navbarData, setNavbarData] = useState([]);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { user } = useUserContext();
+  const { global } = useGlobalContext();
+  const [navbarLinksByUser, setNavbarLinksByUser] = useState([]);
 
   useEffect(() => {
-    switch (userType) {
-      case "user":
-        setNavbarData([
-          {
-            to: "/search",
-            label: "Szukaj",
-          },
-          {
-            to: "/profile",
-            label: "Profil",
-          },
-          {
-            to: "/logout",
-            label: "Wyloguj",
-          },
-        ]);
-        break;
+    let ignore = false;
 
-      case "owner":
-        setNavbarData([
-          {
-            to: "/search",
-            label: "Szukaj",
-          },
-          {
-            to: "/profile",
-            label: "Profil",
-          },
-          {
-            to: "/shop",
-            label: "Lodziarnia",
-          },
-          {
-            to: "/logout",
-            label: "Wyloguj",
-          },
-        ]);
-        break;
+    const navbarLinks = [
+      {
+        to: "/search",
+        label: "Szukaj",
+        type: ["default", "user", "owner", "admin"],
+      },
+      {
+        to: "/profile",
+        label: "Profil",
+        type: ["user", "owner", "admin"],
+      },
+      {
+        to: "/shop",
+        label: "Lodziarnia",
+        type: ["owner"],
+      },
+      {
+        to: "/admin",
+        label: "Admin panel",
+        type: ["admin"],
+      },
+      {
+        to: "/login",
+        label: "Zaloguj",
+        type: ["default"],
+      },
+      {
+        to: "/register",
+        label: "Zarejestruj",
+        type: ["default"],
+      },
+      {
+        to: "/logout",
+        label: "Wyloguj",
+        type: ["user", "owner", "admin"],
+      },
+    ];
 
-      case "admin":
-        setNavbarData([
-          {
-            to: "/search",
-            label: "Szukaj",
-          },
-          {
-            to: "/profile",
-            label: "Profil",
-          },
-          {
-            to: "/admin",
-            label: "Admin panel",
-          },
-          {
-            to: "/logout",
-            label: "Wyloguj",
-          },
-        ]);
-        break;
-
-      default:
-        setNavbarData([
-          {
-            to: "/search",
-            label: "Szukaj",
-          },
-          {
-            to: "/login",
-            label: "Zaloguj",
-          },
-          {
-            to: "/register",
-            label: "Zarejestruj",
-          },
-        ]);
-        break;
+    if (!ignore) {
+      setNavbarLinksByUser(
+        navbarLinks.filter((navbarLink) => {
+          if (navbarLink.type.includes(user.type)) return navbarLink;
+          return null;
+        })
+      );
     }
-  }, [userType]);
 
-  if (isMobile) return <DrawerNavbar navbarData={navbarData} />;
-  return <Navbar navbarData={navbarData} />;
+    return () => {
+      ignore = true;
+    };
+  }, [user.type]);
+
+  if (global.isMobile) return <DrawerNavbar navbarData={navbarLinksByUser} />;
+  return <Navbar navbarData={navbarLinksByUser} />;
 };
 
 export default Header;
