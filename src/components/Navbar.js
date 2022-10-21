@@ -8,9 +8,7 @@ import {
 } from "@mui/material";
 import { CiIceCream } from "react-icons/ci";
 
-const Navbar = (props) => {
-  const { navbarData } = props;
-
+const Navbar = ({ navbarData }) => {
   return (
     <AppBar position="static" elevation={0}>
       <div className="center">
@@ -24,14 +22,14 @@ const Navbar = (props) => {
             <Grid item>
               <Typography>
                 <MuiLink color="text.secondary" component={Link} to="/">
-                  <div className="logo">
+                  <span className="logo">
                     <CiIceCream />
-                  </div>
+                  </span>
                 </MuiLink>
               </Typography>
             </Grid>
-            {navbarData.map((nav) => (
-              <Grid item>
+            {navbarData.map((nav, i) => (
+              <Grid item key={i}>
                 <Typography>
                   <MuiLink color="text.secondary" component={Link} to={nav.to}>
                     {nav.label}

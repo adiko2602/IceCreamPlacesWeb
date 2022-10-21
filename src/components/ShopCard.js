@@ -7,10 +7,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const ShopCard = (props) => {
-  const { _id, name, address, iceCreams } = props.shop;
-
-  console.log(props.shop);
+const ShopCard = ({ shop }) => {
+  const { _id, name, address, iceCreams } = shop;
   return (
     <Card className="shop-card" elevation={0}>
       <CardHeader title={name} />

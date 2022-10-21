@@ -14,9 +14,8 @@ import { CiIceCream } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";
 
-const Navbar = (props) => {
+const Navbar = ({ navbarData }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const { navbarData } = props;
 
   return (
     <AppBar position="static" elevation={0}>
@@ -46,8 +45,8 @@ const Navbar = (props) => {
                 </MuiLink>
               </Typography>
             </ListItem>
-            {navbarData.map((nav) => (
-              <ListItem>
+            {navbarData.map((nav, i) => (
+              <ListItem key={i}>
                 <Typography>
                   <MuiLink
                     color="text.secondary"
@@ -68,9 +67,9 @@ const Navbar = (props) => {
         </Drawer>
         <Typography>
           <MuiLink color="text.secondary" component={Link} to="/">
-            <div className="logo">
+            <span className="logo">
               <CiIceCream />
-            </div>
+            </span>
           </MuiLink>
         </Typography>
         <Grid
