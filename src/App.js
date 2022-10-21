@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Register from "./pages/Register";
+import Search from "./pages/Search";
 import { useGlobalContext } from "./hooks/useGlobalContext";
 import { useEffect } from "react";
 
@@ -23,6 +24,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </div>
       </div>
