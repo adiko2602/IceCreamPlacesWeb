@@ -8,42 +8,42 @@ const Home = () => {
     {
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
-      iceCreams: ["trusk", "czekol"],
+      flavors: ["trusk", "czekol"],
     },
     {
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
-      iceCreams: ["malin", "cist"],
+      flavors: ["malin", "cist"],
     },
     {
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
-      iceCreams: ["trusk", "czekol"],
+      flavors: ["trusk", "czekol"],
     },
     {
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
-      iceCreams: ["malin", "cist"],
+      flavors: ["malin", "cist"],
     },
     {
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
-      iceCreams: ["trusk", "czekol"],
+      flavors: ["trusk", "czekol"],
     },
     {
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
-      iceCreams: ["malin", "cist"],
+      flavors: ["malin", "cist"],
     },
     {
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
-      iceCreams: ["trusk", "czekol"],
+      flavors: ["trusk", "czekol"],
     },
     {
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
-      iceCreams: ["malin", "cist"],
+      flavors: ["malin", "cist"],
     },
   ];
 
@@ -63,7 +63,7 @@ const Home = () => {
         {shops.map((shop, i) =>
           i < 6 ? (
             <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-              <ShopCard shop={shop} />
+              <ShopCard shop={shop} params={{ showFlavors: false }} />
             </Grid>
           ) : (
             ""
