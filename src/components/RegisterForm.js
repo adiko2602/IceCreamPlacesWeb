@@ -26,39 +26,79 @@ const RegisterForm = (props) => {
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    if (!validator.isEmail(e.target.value)) {
-      setEmailError(true);
-      setEmailHelperText("Nieprawidłowy adres email");
-    } else {
-      setEmailError(false);
-      setEmailHelperText("");
-    }
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    if (
-      !validator.isStrongPassword(e.target.value, {
-        minUppercase: 0,
-        minSymbols: 0,
-        minLenght: 8,
-        returnScore: false,
-      })
-    ) {
-      setPasswordError(true);
-      setPasswordHelperText(
-        "Hasło musi zawierać minimum 8 znaków (w tym conajmniej 1 literę oraz 1 cyfrę)"
-      );
-    } else {
-      setPasswordError(false);
-      setPasswordHelperText("");
-    }
   };
 
   useEffect(() => {
-    if (email !== "" && password !== "") setButton(false);
-    else setButton(true);
+    let ignore = false;
+
+    if (email !== "" && password !== "")
+      if (!ignore) setButton(false);
+      else if (!ignore) setButton(true);
+
+    return () => (ignore = true);
   }, [email, password, shopOwner]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (email === "") {
+      if (!ignore) {
+        setEmailError(false);
+        setEmailHelperText("");
+      }
+    } else {
+      if (!validator.isEmail(email)) {
+        if (!ignore) {
+          setEmailError(true);
+          setEmailHelperText("Nieprawidłowy adres email");
+        }
+      } else {
+        if (!ignore) {
+          setEmailError(false);
+          setEmailHelperText("");
+        }
+      }
+    }
+    return () => (ignore = true);
+  }, [email]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (password === "") {
+      if (!ignore) {
+        setPasswordError(false);
+        setPasswordHelperText("");
+      }
+    } else {
+      if (
+        !validator.isStrongPassword(password, {
+          minUppercase: 0,
+          minSymbols: 0,
+          minLenght: 8,
+          returnScore: false,
+        })
+      ) {
+        if (!ignore) {
+          setPasswordError(true);
+          setPasswordHelperText(
+            "Hasło musi zawierać minimum 8 znaków (w tym conajmniej 1 literę oraz 1 cyfrę)"
+          );
+        }
+      } else {
+        if (!ignore) {
+          setPasswordError(false);
+          setPasswordHelperText("");
+        }
+      }
+    }
+
+    return () => (ignore = true);
+  }, [password]);
 
   return (
     <Card className="max-width" elevation={0}>
