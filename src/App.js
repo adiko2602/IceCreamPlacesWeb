@@ -1,9 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
+import { useMediaQuery, useTheme } from "@mui/material";
 import Register from "./pages/Register";
+import { useGlobalContext } from "./hooks/useGlobalContext";
+import { useEffect } from "react";
 
 const App = () => {
+  const { dispatch } = useGlobalContext();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    dispatch({ type: "SET_IS_MOBILE", payload: isMobile });
+  }, [isMobile, dispatch]);
+
   return (
     <BrowserRouter>
       <Header />
