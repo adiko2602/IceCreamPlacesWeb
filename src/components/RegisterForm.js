@@ -14,15 +14,15 @@ import {
 import { useEffect, useState } from "react";
 import validator from "validator";
 
-const RegisterForm = (props) => {
+const RegisterForm = ({ registerError, registerHelperText, handleSubmit }) => {
   const [button, setButton] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
+  const [emailError, setEmailError] = useState(true);
   const [passwordError, setPasswordError] = useState(false);
   const [emailHelperText, setEmailHelperText] = useState("");
   const [passwordHelperText, setPasswordHelperText] = useState("");
-  const [shopOwner, setShopOwner] = useState(false);
+  const [owner, setOwner] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -40,7 +40,7 @@ const RegisterForm = (props) => {
       else if (!ignore) setButton(true);
 
     return () => (ignore = true);
-  }, [email, password, shopOwner]);
+  }, [email, password, owner]);
 
   useEffect(() => {
     let ignore = false;
@@ -106,20 +106,22 @@ const RegisterForm = (props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          props.handleSubmit(email, password, shopOwner);
+          handleSubmit(email, password, owner);
         }}
       >
         <CardContent className="flex-col flex-gap-2">
-          <FormControl error={emailError}>
+          <FormControl error={emailError || registerError}>
             <TextField
               onChange={handleEmailChange}
               value={email}
               type="text"
               id="email"
               label="Email"
-              error={emailError}
+              error={emailError || registerError}
             />
-            <FormHelperText>{emailHelperText}</FormHelperText>
+            <FormHelperText>
+              {emailHelperText || registerHelperText}
+            </FormHelperText>
           </FormControl>
 
           <FormControl error={passwordError}>
@@ -138,11 +140,11 @@ const RegisterForm = (props) => {
               <Switch
                 onClick={(e) => {
                   e.preventDefault();
-                  setShopOwner(() => {
-                    return !shopOwner;
+                  setOwner(() => {
+                    return !owner;
                   });
                 }}
-                checked={shopOwner}
+                checked={owner}
               />
             }
             label={<Typography>Jestem właścicielem lodziarni</Typography>}
