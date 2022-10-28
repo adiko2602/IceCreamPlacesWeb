@@ -26,7 +26,11 @@ const ShopAddForm = ({ handleSubmit }) => {
   );
 
   const name = useRef(null);
-  const address = useRef(null);
+  const country = useRef();
+  const city = useRef();
+  const postCode = useRef();
+  const streetName = useRef();
+  const streetNumber = useRef();
 
   const flavorsData = [
     "Ananasowe",
@@ -96,9 +100,9 @@ const ShopAddForm = ({ handleSubmit }) => {
 
   const handleFlavorsChange = (e) => {
     if (!flavors.includes(e.target.value)) {
-      setFlavors((prev) => [...prev, e.target.value]);
+      setFlavors((prev) => [...prev, { name: e.target.value, active: true }]);
     } else {
-      setFlavors((prev) => prev.filter((p) => p !== e.target.value));
+      setFlavors((prev) => prev.filter((p) => p.name !== e.target.value));
     }
   };
 
@@ -108,7 +112,14 @@ const ShopAddForm = ({ handleSubmit }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit(name.current.value, address.current.value, flavors);
+          let address = {
+            country: country.current.value,
+            city: city.current.value,
+            postCode: postCode.current.value,
+            streetName: streetName.current.value,
+            streetNumber: streetNumber.current.value,
+          };
+          handleSubmit(name.current.value, address, flavors);
         }}
       >
         <CardContent className="flex-col flex-gap-2">
@@ -131,10 +142,66 @@ const ShopAddForm = ({ handleSubmit }) => {
               onChange={(e) => {
                 handleAddressChange(e);
               }}
-              inputRef={address}
+              inputRef={country}
               type="text"
-              id="address"
-              label="Adres"
+              id="country"
+              label="Państwo"
+              error={addressHelperText !== ""}
+            />
+            <FormHelperText>{addressHelperText}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={addressHelperText !== ""}>
+            <TextField
+              onChange={(e) => {
+                handleAddressChange(e);
+              }}
+              inputRef={city}
+              type="text"
+              id="city"
+              label="Miasto"
+              error={addressHelperText !== ""}
+            />
+            <FormHelperText>{addressHelperText}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={addressHelperText !== ""}>
+            <TextField
+              onChange={(e) => {
+                handleAddressChange(e);
+              }}
+              inputRef={postCode}
+              type="text"
+              id="postCode"
+              label="Kod pocztowy"
+              error={addressHelperText !== ""}
+            />
+            <FormHelperText>{addressHelperText}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={addressHelperText !== ""}>
+            <TextField
+              onChange={(e) => {
+                handleAddressChange(e);
+              }}
+              inputRef={streetName}
+              type="text"
+              id="streetName"
+              label="Ulica"
+              error={addressHelperText !== ""}
+            />
+            <FormHelperText>{addressHelperText}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={addressHelperText !== ""}>
+            <TextField
+              onChange={(e) => {
+                handleAddressChange(e);
+              }}
+              inputRef={streetNumber}
+              type="text"
+              id="streetNumber"
+              label="Numer"
               error={addressHelperText !== ""}
             />
             <FormHelperText>{addressHelperText}</FormHelperText>
@@ -169,7 +236,7 @@ const ShopAddForm = ({ handleSubmit }) => {
           <Button
             type="submit"
             variant="contained"
-            disabled={nameHelperText !== "" || addressHelperText !== ""}
+            // disabled={nameHelperText !== "" || addressHelperText !== ""}
           >
             Dodaj lodziarnię
           </Button>

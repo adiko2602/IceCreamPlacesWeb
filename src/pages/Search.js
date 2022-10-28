@@ -7,6 +7,9 @@ import ShopCard from "../components/ShopCard";
 // MUI
 import { TextField, Box, Typography, Grid } from "@mui/material";
 
+// Services
+import { getShops } from "../services/shopService";
+
 const Search = () => {
   const [shopList, setShopList] = useState([]);
   const [filteredShop, setFilteredShop] = useState([]);
@@ -14,54 +17,18 @@ const Search = () => {
 
   useEffect(() => {
     let ignore = false;
-    // fetch data
 
-    const shops = [
-      {
-        name: "Choise",
-        address: "Legnica, Piastowska 2A/2",
-        flavors: ["trusk", "czekol"],
-      },
-      {
-        name: "Lody Naturalne",
-        address: "Legnica, Chojnowska 27",
-        flavors: ["malin", "cist"],
-      },
-      {
-        name: "Choise",
-        address: "Legnica, Piastowska 2A/2",
-        flavors: ["trusk", "czekol"],
-      },
-      {
-        name: "Lody Naturalne",
-        address: "Legnica, Chojnowska 27",
-        flavors: ["malin", "cist"],
-      },
-      {
-        name: "Choise",
-        address: "Legnica, Piastowska 2A/2",
-        flavors: ["trusk", "czekol"],
-      },
-      {
-        name: "Lody Naturalne",
-        address: "Legnica, Chojnowska 27",
-        flavors: ["malin", "cist"],
-      },
-      {
-        name: "Choise",
-        address: "Legnica, Piastowska 2A/2",
-        flavors: ["trusk", "czekol"],
-      },
-      {
-        name: "Lody Naturalne",
-        address: "Legnica, Chojnowska 27",
-        flavors: ["malin", "cist"],
-      },
-    ];
+    getShops()
+      .then((response) => {
+        console.log(response.data.content);
+        if (!ignore) {
+          setShopList(response.data.content);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    if (!ignore) {
-      setShopList(shops);
-    }
     return () => (ignore = true);
   }, []);
 
@@ -76,7 +43,7 @@ const Search = () => {
             if (
               shop.name.toLowerCase().includes(query.toLowerCase()) ||
               shop.flavors.some((flavor) =>
-                flavor.toLowerCase().includes(query.toLowerCase())
+                flavor.name.toLowerCase().includes(query.toLowerCase())
               )
             )
               return shop;
@@ -110,7 +77,10 @@ const Search = () => {
         {filteredShop.map((shop, i) => {
           return (
             <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-              <ShopCard shop={shop} params={{ showFlavors: true }} />
+              <ShopCard
+                shop={shop}
+                params={{ showFlavors: true, query: query }}
+              />
             </Grid>
           );
         })}
