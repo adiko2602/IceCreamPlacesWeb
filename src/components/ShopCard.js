@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+
+// MUI
 import {
   Card,
   CardHeader,
@@ -9,10 +12,9 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
 const ShopCard = ({ shop, params }) => {
-  const { name, address, flavors } = shop;
+  const { name, address, flavors, _id } = shop;
   const { showFlavors } = params;
   return (
     <Card className="shop-card" elevation={0}>
@@ -20,7 +22,7 @@ const ShopCard = ({ shop, params }) => {
       <CardContent color="secondary">
         <Typography type="h5">{address}</Typography>
         <Typography>
-          <MuiLink component={Link} color="text.primary" to={"_id"}>
+          <MuiLink component={Link} color="text.primary" to={`/shop/${_id}`}>
             Pokaż szczegóły
           </MuiLink>
         </Typography>

@@ -1,6 +1,11 @@
+// Hooks
 import { useState, useEffect } from "react";
-import { TextField, Box, Typography, Grid } from "@mui/material";
+
+// Components
 import ShopCard from "../components/ShopCard";
+
+// MUI
+import { TextField, Box, Typography, Grid } from "@mui/material";
 
 const Search = () => {
   const [shopList, setShopList] = useState([]);

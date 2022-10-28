@@ -1,5 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+
+// Hooks
+import { useState } from "react";
+
+// MUI
 import {
   AppBar,
   Toolbar,
@@ -10,6 +14,8 @@ import {
   Typography,
   Link as MuiLink,
 } from "@mui/material";
+
+// Icons
 import { CiIceCream } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";

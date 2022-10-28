@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+
+// MUI
 import {
   Link as MuiLink,
   AppBar,
@@ -6,6 +8,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+
+// Icons
 import { CiIceCream } from "react-icons/ci";
 
 const Navbar = ({ navbarData }) => {
