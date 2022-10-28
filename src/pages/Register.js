@@ -1,32 +1,31 @@
-import RegisterForm from "../components/RegisterForm";
 import { Link } from "react-router-dom";
+
+// Hooks
+import { useState } from "react";
+
+// Components
+import RegisterForm from "../components/forms/RegisterForm";
+
+// MUI
 import { Link as MuiLink } from "@mui/material";
 
-import { useState } from "react";
-import { useGlobalContext } from "../hooks/useGlobalContext";
+// Services
 import { register } from "../services/authService";
 
 const Register = () => {
-  const { dispatch } = useGlobalContext();
   const [registerOk, setRegisterOk] = useState(false);
-  const [registerError, setRegisterError] = useState(false);
   const [registerHelperText, setRegisterHelperText] = useState("");
 
   const handleSubmit = async (email, password, owner) => {
-    dispatch({ type: "SET_IS_LOADING", payload: true });
-    setRegisterError(false);
     setRegisterHelperText("");
 
     const res = await register(email, password, owner);
 
     if (res.data.status === false) {
-      setRegisterError(true);
       setRegisterHelperText(res.data.message);
-      dispatch({ type: "SET_IS_LOADING", payload: false });
       return;
     }
 
-    dispatch({ type: "SET_IS_LOADING", payload: false });
     setRegisterOk(true);
   };
 
@@ -43,7 +42,6 @@ const Register = () => {
   return (
     <>
       <RegisterForm
-        registerError={registerError}
         registerHelperText={registerHelperText}
         handleSubmit={handleSubmit}
       />
