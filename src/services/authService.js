@@ -1,36 +1,24 @@
 import axios from "axios";
 
 const api = "http://localhost:5014";
+const apiAuth = `${api}/auth/`;
 
-export const register = async (email, password, owner) => {
+export const register = async (email, password) => {
   let body = {
     email: email,
     password: password,
-    type: owner ? "owner" : "",
   };
 
-  const res = await axios.post(`${api}/auth/register`, body);
+  let res = await axios.post(`${apiAuth}register`, body);
   return res;
 };
 
-export const apiTest = async () => {
-  await axios
-    .get(`${api}/sample`)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error));
-};
-
 export const login = async (email, password) => {
-  console.log(email, password);
-  await axios
-    .post(`${api}/auth/login`, {
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  let body = {
+    email: email,
+    password: password,
+  };
+
+  let res = await axios.post(`${apiAuth}login`, body);
+  return res;
 };
