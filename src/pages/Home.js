@@ -1,46 +1,57 @@
+// Components
+import ShopCard from "../components/ShopCard";
+
+// MUI
 import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import ShopCard from "../components/ShopCard";
 
 const Home = () => {
   // fetch data
   const shops = [
     {
+      _id: "123",
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
       flavors: ["trusk", "czekol"],
     },
     {
+      _id: "123",
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
       flavors: ["malin", "cist"],
     },
     {
+      _id: "123",
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
       flavors: ["trusk", "czekol"],
     },
     {
+      _id: "123",
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
       flavors: ["malin", "cist"],
     },
     {
+      _id: "123",
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
       flavors: ["trusk", "czekol"],
     },
     {
+      _id: "123",
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
       flavors: ["malin", "cist"],
     },
     {
+      _id: "123",
       name: "Choise",
       address: "Legnica, Piastowska 2A/2",
       flavors: ["trusk", "czekol"],
     },
     {
+      _id: "123",
       name: "Lody Naturalne",
       address: "Legnica, Chojnowska 27",
       flavors: ["malin", "cist"],
