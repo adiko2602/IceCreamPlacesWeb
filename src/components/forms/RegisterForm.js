@@ -59,54 +59,59 @@ const RegisterForm = ({ registerHelperText, handleSubmit }) => {
   };
 
   return (
-    <Card className="max-width" elevation={0}>
-      <CardHeader title="Zarejestruj się" />
+    <Card className="card">
+      <CardHeader className="card-header" title="Zarejestruj się" />
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit(email.current.value, password.current.value);
         }}
       >
-        <CardContent className="flex-col flex-gap-2">
-          <FormControl
-            error={emailHelperText !== "" || registerHelperText !== ""}
-          >
-            <TextField
-              onChange={(e) => {
-                handleEmailChange(e);
-              }}
-              inputRef={email}
-              type="text"
-              id="email"
-              label="Email"
+        <CardContent className="card-content">
+          <div className="flex-column">
+            <FormControl
               error={emailHelperText !== "" || registerHelperText !== ""}
-            />
-            <FormHelperText>
-              {emailHelperText || registerHelperText}
-            </FormHelperText>
-          </FormControl>
+            >
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleEmailChange(e);
+                }}
+                inputRef={email}
+                type="text"
+                id="email"
+                label="Email"
+                error={emailHelperText !== "" || registerHelperText !== ""}
+              />
+              <FormHelperText>
+                {emailHelperText || registerHelperText}
+              </FormHelperText>
+            </FormControl>
 
-          <FormControl error={passwordHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handlePasswordChange(e);
-              }}
-              inputRef={password}
-              type="password"
-              id="password"
-              label="Hasło"
-              error={passwordHelperText !== ""}
-            />
-            <FormHelperText>{passwordHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={passwordHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handlePasswordChange(e);
+                }}
+                inputRef={password}
+                type="password"
+                id="password"
+                label="Hasło"
+                error={passwordHelperText !== ""}
+              />
+              <FormHelperText>{passwordHelperText}</FormHelperText>
+            </FormControl>
 
-          <Button
-            disabled={emailHelperText !== "" || passwordHelperText !== ""}
-            type="submit"
-            variant="contained"
-          >
-            Zarejestruj się
-          </Button>
+            <Button
+              fullWidth
+              disabled={emailHelperText !== "" || passwordHelperText !== ""}
+              type="submit"
+              variant="contained"
+            >
+              Zarejestruj się
+            </Button>
+          </div>
         </CardContent>
       </form>
     </Card>
