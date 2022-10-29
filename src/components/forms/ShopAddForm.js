@@ -107,8 +107,8 @@ const ShopAddForm = ({ handleSubmit }) => {
   };
 
   return (
-    <Card className="max-width" elevation={0}>
-      <CardHeader title="Dodaj swoją lodziarnię" />
+    <Card className="card">
+      <CardHeader className="card-header" title="Dodaj swoją lodziarnię" />
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -122,124 +122,127 @@ const ShopAddForm = ({ handleSubmit }) => {
           handleSubmit(name.current.value, address, flavors);
         }}
       >
-        <CardContent className="flex-col flex-gap-2">
-          <FormControl error={nameHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleNameChange(e);
-              }}
-              inputRef={name}
-              type="text"
-              id="name"
-              label="Nazwa"
-              error={nameHelperText !== ""}
-            />
-            <FormHelperText>{nameHelperText}</FormHelperText>
-          </FormControl>
+        <CardContent className="card-content">
+          <div className="flex-column">
+            <FormControl error={nameHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleNameChange(e);
+                }}
+                inputRef={name}
+                type="text"
+                id="name"
+                label="Nazwa"
+                error={nameHelperText !== ""}
+              />
+              <FormHelperText>{nameHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl error={addressHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleAddressChange(e);
-              }}
-              inputRef={country}
-              type="text"
-              id="country"
-              label="Państwo"
-              error={addressHelperText !== ""}
-            />
-            <FormHelperText>{addressHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={addressHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleAddressChange(e);
+                }}
+                inputRef={country}
+                type="text"
+                id="country"
+                label="Państwo"
+                error={addressHelperText !== ""}
+              />
+              <FormHelperText>{addressHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl error={addressHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleAddressChange(e);
-              }}
-              inputRef={city}
-              type="text"
-              id="city"
-              label="Miasto"
-              error={addressHelperText !== ""}
-            />
-            <FormHelperText>{addressHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={addressHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleAddressChange(e);
+                }}
+                inputRef={city}
+                type="text"
+                id="city"
+                label="Miasto"
+                error={addressHelperText !== ""}
+              />
+              <FormHelperText>{addressHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl error={addressHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleAddressChange(e);
-              }}
-              inputRef={postCode}
-              type="text"
-              id="postCode"
-              label="Kod pocztowy"
-              error={addressHelperText !== ""}
-            />
-            <FormHelperText>{addressHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={addressHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleAddressChange(e);
+                }}
+                inputRef={postCode}
+                type="text"
+                id="postCode"
+                label="Kod pocztowy"
+                error={addressHelperText !== ""}
+              />
+              <FormHelperText>{addressHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl error={addressHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleAddressChange(e);
-              }}
-              inputRef={streetName}
-              type="text"
-              id="streetName"
-              label="Ulica"
-              error={addressHelperText !== ""}
-            />
-            <FormHelperText>{addressHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={addressHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleAddressChange(e);
+                }}
+                inputRef={streetName}
+                type="text"
+                id="streetName"
+                label="Ulica"
+                error={addressHelperText !== ""}
+              />
+              <FormHelperText>{addressHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl error={addressHelperText !== ""}>
-            <TextField
-              onChange={(e) => {
-                handleAddressChange(e);
-              }}
-              inputRef={streetNumber}
-              type="text"
-              id="streetNumber"
-              label="Numer"
-              error={addressHelperText !== ""}
-            />
-            <FormHelperText>{addressHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={addressHelperText !== ""}>
+              <TextField
+                fullWidth
+                onChange={(e) => {
+                  handleAddressChange(e);
+                }}
+                inputRef={streetNumber}
+                type="text"
+                id="streetNumber"
+                label="Numer"
+                error={addressHelperText !== ""}
+              />
+              <FormHelperText>{addressHelperText}</FormHelperText>
+            </FormControl>
 
-          <FormControl>
-            <FormGroup>
-              <Grid
-                container
-                gap={3}
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-start"
-              >
-                {flavorsData.map((f) => (
-                  <Grid key={f} item xs={12} sm={6} md={4} lg={3}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          value={f}
-                          onChange={(e) => handleFlavorsChange(e)}
-                        />
-                      }
-                      label={f}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </FormGroup>
-          </FormControl>
+            <FormControl>
+              <FormGroup>
+                <Grid container>
+                  {flavorsData.map((f) => (
+                    <Grid key={f} item xs={12} sm={6} md={4}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={f}
+                            onChange={(e) => handleFlavorsChange(e)}
+                          />
+                        }
+                        label={f}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </FormGroup>
+            </FormControl>
 
-          <Button
-            type="submit"
-            variant="contained"
-            // disabled={nameHelperText !== "" || addressHelperText !== ""}
-          >
-            Dodaj lodziarnię
-          </Button>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              disabled={nameHelperText !== "" || addressHelperText !== ""}
+            >
+              Dodaj lodziarnię
+            </Button>
+          </div>
         </CardContent>
       </form>
     </Card>

@@ -14,24 +14,17 @@ import { CiIceCream } from "react-icons/ci";
 
 const Navbar = ({ navbarData }) => {
   return (
-    <AppBar position="static" elevation={0}>
-      <div className="center">
-        <Toolbar className="min-width max-width">
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography>
-                <MuiLink color="text.secondary" component={Link} to="/">
-                  <span className="logo">
-                    <CiIceCream />
-                  </span>
-                </MuiLink>
-              </Typography>
-            </Grid>
+    <AppBar position="static">
+      <Toolbar>
+        <div className="flex-row flex-space-beetwen full-width">
+          <Typography variant="h5">
+            <MuiLink color="text.secondary" component={Link} to="/">
+              <span>
+                <CiIceCream />
+              </span>
+            </MuiLink>
+          </Typography>
+          <Grid container gap={3}>
             {navbarData.map((nav, i) => (
               <Grid item key={i}>
                 <Typography>
@@ -42,8 +35,8 @@ const Navbar = ({ navbarData }) => {
               </Grid>
             ))}
           </Grid>
-        </Toolbar>
-      </div>
+        </div>
+      </Toolbar>
     </AppBar>
   );
 };

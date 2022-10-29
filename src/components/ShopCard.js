@@ -16,6 +16,9 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
+// Icons
+import { CiMapPin } from "react-icons/ci";
+
 const ShopCard = ({ shop, params }) => {
   const { name, address, flavors, _id } = shop;
   const { country, city, postCode, streetName, streetNumber } = address;
@@ -43,11 +46,14 @@ const ShopCard = ({ shop, params }) => {
   }, [query]);
 
   return (
-    <Card className="shop-card" elevation={0}>
-      <CardHeader title={name} />
-      <CardContent color="secondary">
+    <Card elevation={0} className="card">
+      <CardHeader className="card-header" title={name} />
+      <CardContent className="card-content" color="secondary">
         <Typography type="h5">
-          {country} {city} {postCode} {streetName} {streetNumber}
+          <span>
+            <CiMapPin />
+          </span>{" "}
+          {streetName} {streetNumber}, {postCode} {city} {country}
         </Typography>
         <Typography>
           <MuiLink component={Link} color="text.primary" to={`/shop/${_id}`}>
@@ -59,7 +65,7 @@ const ShopCard = ({ shop, params }) => {
             <Typography>Lista smaków</Typography>
             <Grid container>
               {filteredFlavors.map((flavor, i) => (
-                <Grid xs={12} key={i} item>
+                <Grid key={i} item>
                   <FormGroup>
                     <FormControlLabel
                       disabled

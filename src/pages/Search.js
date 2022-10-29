@@ -5,7 +5,15 @@ import { useState, useEffect } from "react";
 import ShopCard from "../components/ShopCard";
 
 // MUI
-import { TextField, Box, Typography, Grid } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+} from "@mui/material";
 
 // Services
 import { getShops } from "../services/shopService";
@@ -57,35 +65,37 @@ const Search = () => {
   }, [query]);
 
   return (
-    <Box className="flex-col flex-gap-2 min-width max-width">
-      <Typography variant="h5" gutterBottom>
-        Wyszukaj lodziarnię po nazwie lub smaku :D.
-      </Typography>
-      <TextField
-        onChange={(e) => setQuery(e.target.value)}
-        value={query}
-        type="text"
-        label="Szukaj"
+    <Card className="card">
+      <CardHeader
+        className="card-header"
+        title="
+        Wyszukaj lodziarnię po nazwie lub smaku :D."
       />
-      <Grid
-        container
-        gap={3}
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        {filteredShop.map((shop, i) => {
-          return (
-            <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-              <ShopCard
-                shop={shop}
-                params={{ showFlavors: true, query: query }}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Box>
+      <CardContent className="card-content">
+        <div className="flex-column">
+          <Typography variant="h5" gutterBottom></Typography>
+          <TextField
+            onChange={(e) => setQuery(e.target.value)}
+            value={query}
+            type="text"
+            label="Szukaj"
+            fullWidth
+          />
+          <Grid container>
+            {filteredShop.map((shop, i) => {
+              return (
+                <Grid item key={i} xs={12} sm={6} md={4}>
+                  <ShopCard
+                    shop={shop}
+                    params={{ showFlavors: true, query: query }}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

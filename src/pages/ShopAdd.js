@@ -21,24 +21,22 @@ const ShopAdd = () => {
       setCreateShopOk(res.data.content);
     }
   };
-  return (
-    <>
-      {createShopOk !== null ? (
-        <div>
-          Lodziarnia dodana prawidłowo{" "}
-          <MuiLink
-            component={Link}
-            color="text.primary"
-            to={`/shop/${createShopOk._id}`}
-          >
-            pokaż lodziarnię
-          </MuiLink>
-        </div>
-      ) : (
-        <ShopAddForm handleSubmit={handleSubmit} />
-      )}
-    </>
-  );
+
+  if (createShopOk) {
+    return (
+      <div>
+        Lodziarnia dodana prawidłowo{" "}
+        <MuiLink
+          component={Link}
+          color="text.primary"
+          to={`/shop/${createShopOk._id}`}
+        >
+          pokaż lodziarnię
+        </MuiLink>
+      </div>
+    );
+  }
+  return <ShopAddForm handleSubmit={handleSubmit} />;
 };
 
 export default ShopAdd;

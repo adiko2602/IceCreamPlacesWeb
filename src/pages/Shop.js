@@ -11,11 +11,21 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
 } from "@mui/material";
+
+// Icons
+import { CiIceCream } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
+import { CiMapPin } from "react-icons/ci";
 
 const Shop = () => {
   const [shop, setShop] = useState();
   const [shopDataHelperText, setShopDataHelperText] = useState("");
+  const [shopOk, setShopOk] = useState(false);
 
   const params = useParams();
 
@@ -23,6 +33,7 @@ const Shop = () => {
     getShop(params.id)
       .then((response) => {
         setShop(response.data.content);
+        setShopOk(true);
         console.log(response.data.content);
       })
       .catch((err) => {
@@ -30,45 +41,65 @@ const Shop = () => {
       });
   }, [params.id]);
 
-  return (
-    <>
-      {/* <div>{JSON.stringify(shop)}</div> */}
-      {shop && (
-        <Container className="max-width">
-          <Grid container direction="row" justifyContent="center">
-            <Grid item xs={6}>
-              <Typography>Lodziarnia</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography>{shop.name}</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography>Adres</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography>
+  if (shopOk) {
+    return (
+      <Card className="card">
+        <CardHeader
+          className="card-header"
+          title={
+            <div className="flex-row">
+              <Typography variant="h4">
+                <CiIceCream />
+              </Typography>
+              <Typography variant="h5">{shop.name}</Typography>
+            </div>
+          }
+          subheader={
+            <div className="flex-row">
+              <Typography variant="h4">
+                <CiMapPin />
+              </Typography>
+              <Typography variant="h6">
                 {shop.address.streetName} {shop.address.streetNumber}
                 {", "}
                 {shop.address.postCode} {shop.address.city}{" "}
                 {shop.address.country}
               </Typography>
-            </Grid>
-            {shop.flavors.map((flavor, i) => (
-              <Grid item key={i} xs={12}>
-                <FormGroup>
-                  <FormControlLabel
-                    disabled
-                    control={<Checkbox defaultChecked={flavor.available} />}
-                    label={flavor.name}
-                  />
-                </FormGroup>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      )}
-    </>
-  );
+            </div>
+          }
+          // action={
+
+          // }
+        />
+        <CardContent className="card-content">
+          <div className="flex-column">
+            <Card className="card">
+              <CardHeader className="card-header" title="Smaki do wyboru" />
+              <CardContent className="card-content">
+                <Grid container>
+                  {shop.flavors.map((flavor, i) => (
+                    <Grid item xs={12} sm={6} md={4}>
+                      <FormGroup key={i}>
+                        <FormControlLabel
+                          disabled
+                          control={
+                            <Checkbox defaultChecked={flavor.available} />
+                          }
+                          label={flavor.name}
+                        />
+                      </FormGroup>
+                    </Grid>
+                  ))}
+                </Grid>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return <div>fuckup</div>;
 };
 
 export default Shop;

@@ -24,7 +24,7 @@ const Navbar = ({ navbarData }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
-    <AppBar position="static" elevation={0}>
+    <AppBar position="static">
       <Toolbar>
         <Drawer
           open={openDrawer}
@@ -35,57 +35,53 @@ const Navbar = ({ navbarData }) => {
           }
           anchor="right"
         >
-          <List className="half-width">
-            <ListItem>
-              <Typography>
-                <MuiLink
-                  color="text.secondary"
-                  component={Link}
-                  onClick={() =>
-                    setOpenDrawer(() => {
-                      return false;
-                    })
-                  }
-                >
-                  <RiCloseFill />
-                </MuiLink>
-              </Typography>
-            </ListItem>
-            {navbarData.map((nav, i) => (
-              <ListItem key={i}>
+          <div className="half-width">
+            <List fullWidth>
+              <ListItem>
                 <Typography>
                   <MuiLink
                     color="text.secondary"
                     component={Link}
-                    to={nav.to}
                     onClick={() =>
                       setOpenDrawer(() => {
-                        return !openDrawer;
+                        return false;
                       })
                     }
                   >
-                    {nav.label}
+                    <RiCloseFill />
                   </MuiLink>
                 </Typography>
               </ListItem>
-            ))}
-          </List>
+              {navbarData.map((nav, i) => (
+                <ListItem key={i}>
+                  <Typography>
+                    <MuiLink
+                      color="text.secondary"
+                      component={Link}
+                      to={nav.to}
+                      onClick={() =>
+                        setOpenDrawer(() => {
+                          return !openDrawer;
+                        })
+                      }
+                    >
+                      {nav.label}
+                    </MuiLink>
+                  </Typography>
+                </ListItem>
+              ))}
+            </List>
+          </div>
         </Drawer>
-        <Typography>
-          <MuiLink color="text.secondary" component={Link} to="/">
-            <span className="logo">
-              <CiIceCream />
-            </span>
-          </MuiLink>
-        </Typography>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item>
+        <div className="flex-row flex-space-between full-width">
+          <Typography variant="h5">
+            <MuiLink color="text.secondary" component={Link} to="/">
+              <span>
+                <CiIceCream />
+              </span>
+            </MuiLink>
+          </Typography>
+          <Typography variant="h5">
             <MuiLink
               color="text.secondary"
               component={Link}
@@ -97,8 +93,8 @@ const Navbar = ({ navbarData }) => {
             >
               <FiMenu />
             </MuiLink>
-          </Grid>
-        </Grid>
+          </Typography>
+        </div>
       </Toolbar>
     </AppBar>
   );
