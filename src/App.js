@@ -19,6 +19,8 @@ import Test from "./pages/Test";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Lost from "./pages/Lost";
+import ProfileView from "./components/ProfileView";
+import ProfileEdit from "./components/ProfileEdit";
 
 const App = () => {
   const { dispatch, global } = useGlobalContext();
@@ -41,12 +43,15 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/shop/:id" element={<Shop />} />
           <Route exact path="/shop/add" element={<ShopAdd />} />
-          <Route
-            path="/profile"
-            element={user.type === "default" ? <Lost /> : <Profile />}
-          />
+
           <Route path="/login" element={<Login />} />
-          <Route path="/test" element={<Test />} />
+
+          <Route path="/profile" element={<Profile />}>
+            <Route path="view" element={<ProfileView />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
+
+          <Route path="*" element={<Test />} />
         </Routes>
       </Container>
     </BrowserRouter>
