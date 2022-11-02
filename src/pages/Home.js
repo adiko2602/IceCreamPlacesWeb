@@ -15,18 +15,28 @@ const Home = () => {
   const [shops, setShops] = useState([]);
 
   useEffect(() => {
-    getShops()
-      .then((response) => {
-        console.log(response.data.content);
-        setShops(response.data.content);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let ignore = false;
+    const data = async () => {
+      const data = await getShops();
+      if (!data || !data.status) {
+        if (!ignore) {
+          setShops(["Błąd pobierania danych"]);
+        }
+      }
+      if (!ignore) {
+        setShops(data.content);
+      }
+    };
+
+    data();
+
+    return () => (ignore = true);
   }, []);
 
   return (
     <div className="flex-column">
+      {console.log(shops)}
+
       <Typography variant="h5" gutterBottom>
         Witaj na stronie poświęconej lodziarniom. Tutaj znajdziesz każdą
         lodziarnię w Twojej okolicy.

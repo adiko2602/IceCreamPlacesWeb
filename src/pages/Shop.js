@@ -30,15 +30,25 @@ const Shop = () => {
   const params = useParams();
 
   useEffect(() => {
-    getShop(params.id)
-      .then((response) => {
-        setShop(response.data.content);
+    let igonre = false;
+
+    const data = async () => {
+      const data = await getShop(params.id);
+      console.log(data);
+      if (!data || !data.status) {
+        if (!igonre) {
+          setShopDataHelperText("Błąd pobierania danych");
+          setShopOk(false);
+        }
+      }
+      if (!igonre) {
+        setShop(data.content);
         setShopOk(true);
-        console.log(response.data.content);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    };
+
+    data();
+    return () => (igonre = true);
   }, [params.id]);
 
   if (shopOk) {
@@ -99,7 +109,7 @@ const Shop = () => {
     );
   }
 
-  return <div>fuckup</div>;
+  return <Typography variant="h5">{shopDataHelperText}</Typography>;
 };
 
 export default Shop;

@@ -1,24 +1,37 @@
-import axios from "axios";
+import api from "./api";
 
-const api = "http://localhost:5014";
-const apiAuth = `${api}/auth/`;
-
-export const register = async (email, password) => {
-  let body = {
-    email: email,
-    password: password,
-  };
-
-  let res = await axios.post(`${apiAuth}register`, body);
-  return res;
+export const registerUser = async (email, password) => {
+  try {
+    const res = await api.post("/auth/register", {
+      email: email,
+      password: password,
+    });
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };
 
-export const login = async (email, password) => {
-  let body = {
-    email: email,
-    password: password,
-  };
-
-  let res = await axios.post(`${apiAuth}login`, body);
-  return res;
+export const loginUser = async (email, password) => {
+  try {
+    const res = await api.post("/auth/login", {
+      email: email,
+      password: password,
+    });
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };
