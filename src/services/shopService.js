@@ -1,28 +1,52 @@
-import axios from "axios";
-
-const api = "http://localhost:5014";
-const apiShop = `${api}/shops/`;
+import api from "./api";
 
 export const getShop = async (id) => {
-  let res = await axios.get(`${apiShop}${id}`);
-  return res;
+  try {
+    const res = await api.get(`/shops/${id}`);
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };
 
 export const getShops = async () => {
-  let res = await axios.get(apiShop);
-  return res;
+  try {
+    const res = await api.get("/shops");
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };
 
 export const createShop = async (name, address, flavors) => {
-  let body = {
-    name: name,
-    address: address,
-    flavors: flavors,
-  };
-
-  console.log(body);
-  let res = await axios.post(`${apiShop}`, body);
-  return res;
+  try {
+    const res = await api.post("/shops", {
+      name: name,
+      address: address,
+      flavors: flavors,
+    });
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };
 
 export const updateShop = async () => {
@@ -30,6 +54,16 @@ export const updateShop = async () => {
 };
 
 export const deleteShop = async (id) => {
-  let res = await axios.delete(`${apiShop}${id}`);
-  return res;
+  try {
+    const res = await api.delete(`/shops${id}`);
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.header);
+    } else {
+      console.log(`Error: ${err.message}`);
+    }
+  }
 };

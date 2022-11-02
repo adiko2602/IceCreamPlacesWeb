@@ -25,18 +25,18 @@ const Search = () => {
 
   useEffect(() => {
     let ignore = false;
-
-    getShops()
-      .then((response) => {
-        console.log(response.data.content);
+    const data = async () => {
+      const data = await getShops();
+      if (!data || !data.status) {
         if (!ignore) {
-          setShopList(response.data.content);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+      if (!ignore) {
+        setShopList(data.content);
+      }
+    };
 
+    data();
     return () => (ignore = true);
   }, []);
 
