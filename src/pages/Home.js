@@ -6,37 +6,37 @@ import ShopCard from "../components/ShopCard";
 
 // MUI
 import { Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { GetShops } from "../services/shop";
 
 // Services
-import { getShops } from "../services/shopService";
 
 const Home = () => {
   const [shops, setShops] = useState([]);
 
   useEffect(() => {
-    let ignore = false;
-    const data = async () => {
-      const data = await getShops();
-      if (!data || !data.status) {
-        if (!ignore) {
-          setShops(["Błąd pobierania danych"]);
-        }
-      }
-      if (!ignore) {
-        setShops(data.content);
-      }
+    const getRandomInt = (max) => {
+      const rand = Math.floor(Math.random() * max);
+      return rand;
     };
 
-    data();
+    const populateShops = async () => {
+      const arr = await GetShops();
+      if (arr.length <= 6) {
+        setShops(arr);
+        return;
+      }
+      const repNum = arr.length;
+      for (let i = 6; i < repNum; i++) {
+        arr.splice(getRandomInt(arr.length - 1), 1);
+      }
+      setShops(arr);
+    };
 
-    return () => (ignore = true);
+    populateShops();
   }, []);
 
   return (
     <div className="flex-column">
-      {console.log(shops)}
-
       <Typography variant="h5" gutterBottom>
         Witaj na stronie poświęconej lodziarniom. Tutaj znajdziesz każdą
         lodziarnię w Twojej okolicy.
@@ -45,10 +45,7 @@ const Home = () => {
         {shops.map((shop, i) =>
           i < 6 ? (
             <Grid item xs={12} sm={6} md={4} key={i}>
-              <ShopCard
-                shop={shop}
-                params={{ showFlavors: false, query: "" }}
-              />
+              <ShopCard shop={shop} params={{ showFlavors: false }} />
             </Grid>
           ) : (
             ""

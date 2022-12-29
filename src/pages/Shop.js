@@ -1,11 +1,9 @@
 // Hooks
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Services
-import { getShop } from "../services/shopService";
 import {
-  Container,
   Grid,
   Typography,
   FormGroup,
@@ -14,6 +12,7 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Link as MuiLink,
   Button,
 } from "@mui/material";
 
@@ -21,95 +20,125 @@ import {
 import { CiIceCream } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { CiMapPin } from "react-icons/ci";
+import { CiTrash } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
+import { GetShopById } from "../services/shop";
+import Map from "../components/Map";
+import { useUser } from "../context/UserContext";
 
 const Shop = () => {
-  const [shop, setShop] = useState();
-  const [shopDataHelperText, setShopDataHelperText] = useState("");
-  const [shopOk, setShopOk] = useState(false);
-
+  const [showMap, setShowMap] = useState(false);
+  const [shop, setShop] = useState(null);
   const params = useParams();
+  const userContext = useUser();
 
   useEffect(() => {
-    let igonre = false;
-
-    const data = async () => {
-      const data = await getShop(params.id);
-      console.log(data);
-      if (!data || !data.status) {
-        if (!igonre) {
-          setShopDataHelperText("Błąd pobierania danych");
-          setShopOk(false);
-        }
-      }
-      if (!igonre) {
-        setShop(data.content);
-        setShopOk(true);
-      }
+    const populateShop = async (id) => {
+      setShop(await GetShopById(id));
     };
 
-    data();
-    return () => (igonre = true);
+    populateShop(params.id);
   }, [params.id]);
 
-  if (shopOk) {
-    return (
-      <Card className="card">
-        <CardHeader
-          className="card-header"
-          title={
-            <div className="flex-row">
-              <Typography variant="h4">
-                <CiIceCream />
-              </Typography>
-              <Typography variant="h5">{shop.name}</Typography>
+  if (!shop) return null;
+  return (
+    <Card className="card">
+      <CardHeader
+        className="card-header"
+        title={
+          <div className="flex-space-between flex-row full-width">
+            <div>
+              <div className="flex-row">
+                <Typography variant="h4">
+                  <CiIceCream />
+                </Typography>
+                <Typography variant="h5">{shop.name}</Typography>
+              </div>
             </div>
-          }
-          subheader={
-            <div className="flex-row">
-              <Typography variant="h4">
-                <CiMapPin />
-              </Typography>
-              <Typography variant="h6">
-                {shop.address.streetName} {shop.address.streetNumber}
-                {", "}
-                {shop.address.postCode} {shop.address.city}{" "}
-                {shop.address.country}
-              </Typography>
-            </div>
-          }
-          // action={
-
-          // }
-        />
-        <CardContent className="card-content">
-          <div className="flex-column">
-            <Card className="card">
-              <CardHeader className="card-header" title="Smaki do wyboru" />
-              <CardContent className="card-content">
-                <Grid container>
-                  {shop.flavors.map((flavor, i) => (
-                    <Grid item xs={12} sm={6} md={4}>
-                      <FormGroup key={i}>
-                        <FormControlLabel
-                          disabled
-                          control={
-                            <Checkbox defaultChecked={flavor.available} />
-                          }
-                          label={flavor.name}
-                        />
-                      </FormGroup>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
+            {userContext.user
+              ? userContext.user.shops.map((shop) =>
+                  shop.id._id === params.id ? (
+                    <div>
+                      {" "}
+                      <MuiLink
+                        style={{ margin: "0 20px" }}
+                        color="text.primary"
+                        component={Link}
+                        to={`/shop/${params.id}/edit`}
+                      >
+                        <span>
+                          <CiEdit />
+                        </span>
+                      </MuiLink>
+                      {shop.jobPosition === "owner" && (
+                        <MuiLink
+                          color="text.primary"
+                          component={Link}
+                          to={`/shop/${params.id}/delete`}
+                        >
+                          <span>
+                            <CiTrash />
+                          </span>
+                        </MuiLink>
+                      )}
+                    </div>
+                  ) : null
+                )
+              : ""}
           </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return <Typography variant="h5">{shopDataHelperText}</Typography>;
+        }
+        subheader={
+          <div className="flex-row">
+            <Typography variant="h4">
+              <CiMapPin />
+            </Typography>
+            <Typography variant="h6">
+              {shop.address.streetName} {shop.address.streetNumber},{" "}
+              {shop.address.postCode} {shop.address.city},{" "}
+              {shop.address.country}
+            </Typography>
+          </div>
+        }
+      />
+      <CardContent className="card-content">
+        <div className="flex-column">
+          {showMap && <Map mapData={shop.address} pinDraggable={false} />}
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowMap(() => !showMap);
+            }}
+          >
+            {!showMap ? "Pokaż na mapie" : "Zamknij mapę"}
+          </Button>
+        </div>
+      </CardContent>
+      <CardContent className="card-content">
+        <div className="flex-column">
+          <Card className="card">
+            <CardHeader className="card-header" title="Smaki do wyboru" />
+            <CardContent className="card-content">
+              <Grid container>
+                {shop.flavors.map((flavor, i) => (
+                  <Grid item xs={12} sm={6} md={4}>
+                    <FormGroup key={i}>
+                      <FormControlLabel
+                        disabled
+                        control={<Checkbox defaultChecked={flavor.available} />}
+                        label={flavor.name}
+                      />
+                    </FormGroup>
+                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default Shop;

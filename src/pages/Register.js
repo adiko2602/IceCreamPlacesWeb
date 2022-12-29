@@ -1,53 +1,106 @@
-import { Link } from "react-router-dom";
-
 // Hooks
-import { useState } from "react";
-
-// Components
-import RegisterForm from "../components/forms/RegisterForm";
-
-// MUI
-import { Link as MuiLink } from "@mui/material";
 
 // Services
-import { registerUser } from "../services/authService";
+import { Register } from "../services/auth";
 
-const Register = () => {
-  const [registerOk, setRegisterOk] = useState(false);
-  const [registerHelperText, setRegisterHelperText] = useState("");
+import validator from "validator";
 
-  const handleSubmit = async (email, password) => {
-    setRegisterHelperText("");
+// Hooks
+import { useState, useRef } from "react";
 
-    const data = await registerUser(email, password);
-    console.log(data);
+// MUI
+import {
+  TextField,
+  Button,
+  FormHelperText,
+  FormControl,
+  Card,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-    if (!data || !data.status) {
-      setRegisterHelperText("Wystąpił błąd rejestracji");
+const Registers = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const email = useRef("");
+  const password = useRef("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validator.isEmail(email.current.value)) {
+      setError("Nieprawidłowy adres email.");
       return;
     }
 
-    setRegisterOk(true);
+    if (
+      !validator.isStrongPassword(password.current.value, {
+        minUppercase: 1,
+        minSymbols: 1,
+        minLenght: 8,
+        returnScore: false,
+      })
+    ) {
+      setError(
+        "Hasło musi składać się z minimum 1 dużej litery, minimum 1 znaku specjalnego i zawierać minimum 8 znaków."
+      );
+      return;
+    }
+
+    const registerData = await Register(
+      email.current.value,
+      password.current.value
+    );
+
+    if (!registerData.status) {
+      setError(registerData.message);
+      return;
+    }
+
+    navigate("/login");
   };
 
-  if (registerOk) {
-    return (
-      <div>
-        Rejestracja przebiegła pomyślnie, możesz się{" "}
-        <MuiLink component={Link} to="/login">
-          zalogować
-        </MuiLink>
-      </div>
-    );
-  }
   return (
-    <>
-      <RegisterForm
-        registerHelperText={registerHelperText}
-        handleSubmit={handleSubmit}
-      />
-    </>
+    <Card className="card">
+      <CardHeader className="card-header" title="Zarejestruj się" />
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
+        <CardContent className="card-content">
+          {error && <div className="error">{error}</div>}
+          <div className="flex-column">
+            <FormControl>
+              <TextField
+                fullWidth
+                inputRef={email}
+                type="text"
+                id="email"
+                label="Email"
+              />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+
+            <FormControl>
+              <TextField
+                fullWidth
+                inputRef={password}
+                type="password"
+                id="password"
+                label="Hasło"
+              />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+
+            <Button fullWidth type="submit" variant="contained">
+              Zarejestruj się
+            </Button>
+          </div>
+        </CardContent>
+      </form>
+    </Card>
   );
 };
 
-export default Register;
+export default Registers;

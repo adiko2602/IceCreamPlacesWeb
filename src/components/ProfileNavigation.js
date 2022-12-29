@@ -11,6 +11,12 @@ const ProfileNavigation = () => {
         <MuiLink component={Link} to="edit">
           Edytuj
         </MuiLink>
+        <MuiLink component={Link} to="favorite">
+          Ulubione
+        </MuiLink>
+        <MuiLink component={Link} to="/shop">
+          Lodziarnie
+        </MuiLink>
       </CardContent>
     </Card>
   );
