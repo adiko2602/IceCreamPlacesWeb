@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 // Services
-import { getShops } from "../services/shopService";
+import { GetShops } from "../services/shop";
 
 const Search = () => {
   const [shopList, setShopList] = useState([]);
@@ -24,44 +24,30 @@ const Search = () => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    let ignore = false;
-    const data = async () => {
-      const data = await getShops();
-      if (!data || !data.status) {
-        if (!ignore) {
-        }
-      }
-      if (!ignore) {
-        setShopList(data.content);
-      }
+    const populateShopList = async () => {
+      setShopList(await GetShops());
     };
 
-    data();
-    return () => (ignore = true);
+    populateShopList();
   }, []);
 
   useEffect(() => {
-    let ignore = false;
     if (query === "") {
-      if (!ignore) setFilteredShop([]);
+      setFilteredShop([]);
     } else {
-      if (!ignore) {
-        setFilteredShop(
-          shopList.filter((shop) => {
-            if (
-              shop.name.toLowerCase().includes(query.toLowerCase()) ||
-              shop.flavors.some((flavor) =>
-                flavor.name.toLowerCase().includes(query.toLowerCase())
-              )
+      setFilteredShop(
+        shopList.filter((shop) => {
+          if (
+            shop.name.toLowerCase().includes(query.toLowerCase()) ||
+            shop.flavors.some((flavor) =>
+              flavor.name.toLowerCase().includes(query.toLowerCase())
             )
-              return shop;
-            return null;
-          })
-        );
-      }
+          )
+            return shop;
+          return null;
+        })
+      );
     }
-
-    return () => (ignore = true);
   }, [query]);
 
   return (
@@ -85,10 +71,7 @@ const Search = () => {
             {filteredShop.map((shop, i) => {
               return (
                 <Grid item key={i} xs={12} sm={6} md={4}>
-                  <ShopCard
-                    shop={shop}
-                    params={{ showFlavors: true, query: query }}
-                  />
+                  <ShopCard shop={shop} params={{ showFlavors: true }} />
                 </Grid>
               );
             })}

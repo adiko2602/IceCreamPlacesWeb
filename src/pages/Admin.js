@@ -1,19 +1,8 @@
-import { Typography, Card, CardContent, CardHeader, Grid } from "@mui/material";
-import {
-  BrowserRouter,
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useRouteMatch,
-} from "react-router-dom";
+import { Card, CardHeader, Typography, Grid, CardContent } from "@mui/material";
+import AdminNavigation from "../components/AdminNavigation";
+import { Outlet } from "react-router-dom";
 
-import ProfileNavigation from "../components/ProfileNavigation.js";
-import { useUser } from "../context/UserContext.js";
-
-const Profile = () => {
-  const user = useUser();
-
+const Admin = () => {
   return (
     <Card className="card">
       <CardHeader
@@ -23,7 +12,7 @@ const Profile = () => {
       <CardContent className="card-content">
         <Grid container>
           <Grid item xs={12} sm={3}>
-            <ProfileNavigation />
+            <AdminNavigation />
           </Grid>
           <Grid item xs={12} sm={9}>
             <Outlet />
@@ -34,4 +23,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Admin;

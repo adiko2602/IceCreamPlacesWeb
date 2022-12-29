@@ -1,53 +1,116 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
-import { useState } from "react";
-
-// Components
-import LoginForm from "../components/forms/LoginForm";
 
 // MUI
 import { Link as MuiLink } from "@mui/material";
 
-// Services
-import { loginUser } from "../services/authService";
+import validator from "validator";
 
-const Login = () => {
-  const [loginOk, setLoginOk] = useState(false);
-  const [loginHelperText, setLoginHelperText] = useState("");
+// Hooks
+import { useState, useRef } from "react";
 
-  const handleSubmit = async (email, password) => {
-    setLoginHelperText("");
+// MUI
+import {
+  TextField,
+  Button,
+  FormHelperText,
+  FormControl,
+  Card,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
 
-    const data = await loginUser(email, password);
-    console.log(data);
+import { useUser } from "../context/UserContext";
+import { Login } from "../services/auth";
+import { GetUser } from "../services/user";
 
-    if (!data || !data.status) {
-      setLoginHelperText("Wystąpił błąd logowania");
+const Logins = () => {
+  const navigate = useNavigate();
+  const email = useRef("");
+  const password = useRef("");
+  const [error, setError] = useState("");
+
+  const user = useUser();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validator.isEmail(email.current.value)) {
+      setError("Nieprawidłowy adres email.");
       return;
     }
 
-    setLoginOk(true);
+    if (
+      !validator.isStrongPassword(password.current.value, {
+        minUppercase: 1,
+        minSymbols: 1,
+        minLenght: 8,
+        returnScore: false,
+      })
+    ) {
+      setError(
+        "Hasło musi składać się z minimum 1 dużej litery, minimum 1 znaku specjalnego i zawierać minimum 8 znaków."
+      );
+      return;
+    }
+
+    const loginData = await Login(email.current.value, password.current.value);
+    if (!loginData.status) {
+      setError(loginData.message);
+      return;
+    }
+
+    const userData = await GetUser();
+    if (!userData.status) {
+      setError("Bład pobierania danych o użytkowniku.");
+      return;
+    }
+
+    user.setUser(userData.content);
+    navigate("/");
   };
 
-  if (loginOk) {
-    return (
-      <div>
-        Logowanie przebiegło pomyślnie, możesz przejść na{" "}
-        <MuiLink component={Link} to="/">
-          stronę główną
-        </MuiLink>
-      </div>
-    );
-  }
   return (
-    <>
-      <LoginForm
-        loginHelperText={loginHelperText}
-        handleSubmit={handleSubmit}
-      />
-    </>
+    <Card className="card">
+      <CardHeader className="card-header" title="Zaloguj się" />
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
+        <CardContent className="card-content">
+          {error && <div className="error">{error}</div>}
+          <div className="flex-column">
+            <FormControl>
+              <TextField
+                fullWidth
+                inputRef={email}
+                type="text"
+                id="email"
+                label="Email"
+              />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+
+            <FormControl>
+              <TextField
+                fullWidth
+                inputRef={password}
+                type="password"
+                id="password"
+                label="Hasło"
+              />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+
+            <Button fullWidth type="submit" variant="contained">
+              Zaloguj się
+            </Button>
+          </div>
+        </CardContent>
+      </form>
+    </Card>
   );
 };
 
-export default Login;
+export default Logins;

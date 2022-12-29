@@ -10,20 +10,24 @@ const links = [
     label: "Szukaj",
   },
   {
-    to: "/login",
-    label: "Zaloguj",
+    to: "/shop",
+    label: "Lodziarnia",
   },
   {
-    to: "/register",
-    label: "Zarejestruj",
+    to: "/profile",
+    label: "Profil",
+  },
+  {
+    to: "/logout",
+    label: "Wyloguj",
   },
 ];
 
-const Header = () => {
+const OwnerHeader = () => {
   const isMobile = useTheme();
 
   if (!isMobile.getIsMobile()) return <Navbar links={links} />;
   return <DrawerNavbar links={links} />;
 };
 
-export default Header;
+export default OwnerHeader;
