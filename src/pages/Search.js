@@ -17,8 +17,10 @@ import {
 
 // Services
 import { GetShops } from "../services/shop";
+import { ColorRing } from "react-loader-spinner";
 
 const Search = () => {
+  const [loading, setLoading] = useState(true);
   const [shopList, setShopList] = useState([]);
   const [filteredShop, setFilteredShop] = useState([]);
   const [query, setQuery] = useState("");
@@ -28,7 +30,9 @@ const Search = () => {
       setShopList(await GetShops());
     };
 
+    setLoading(true);
     populateShopList();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -49,6 +53,21 @@ const Search = () => {
       );
     }
   }, [query]);
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   return (
     <Card className="card">

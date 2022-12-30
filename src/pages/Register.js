@@ -19,17 +19,21 @@ import {
   CardHeader,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 const Registers = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const email = useRef("");
   const password = useRef("");
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     if (!validator.isEmail(email.current.value)) {
       setError("Nieprawidłowy adres email.");
+      setLoading(false);
       return;
     }
 
@@ -44,6 +48,7 @@ const Registers = () => {
       setError(
         "Hasło musi składać się z minimum 1 dużej litery, minimum 1 znaku specjalnego i zawierać minimum 8 znaków."
       );
+      setLoading(false);
       return;
     }
 
@@ -54,11 +59,27 @@ const Registers = () => {
 
     if (!registerData.status) {
       setError(registerData.message);
+      setLoading(false);
       return;
     }
 
     navigate("/login");
   };
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   return (
     <Card className="card">
