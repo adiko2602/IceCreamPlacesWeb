@@ -75,7 +75,7 @@ const Reviews = ({ reviews, shopId, setShop }) => {
     setLoading(false);
   };
 
-  if (loading || !userContext.user)
+  if (loading)
     return (
       <div className="flex-row full-width flex-center">
         <ColorRing
@@ -97,16 +97,18 @@ const Reviews = ({ reviews, shopId, setShop }) => {
         title={
           <div className="flex-row flex-space-between">
             <div>Oceny i komentarze</div>
-            <IconButton
-              color="primary"
-              onClick={(e) => {
-                e.preventDefault();
-                setAddReview(() => !addReview);
-              }}
-            >
-              {!addReview && <AiOutlinePlus />}
-              {addReview && <AiOutlineMinus />}
-            </IconButton>
+            {userContext.user && (
+              <IconButton
+                color="primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setAddReview(() => !addReview);
+                }}
+              >
+                {!addReview && <AiOutlinePlus />}
+                {addReview && <AiOutlineMinus />}
+              </IconButton>
+            )}
           </div>
         }
       />
@@ -147,47 +149,49 @@ const Reviews = ({ reviews, shopId, setShop }) => {
             </Button>
           </>
         )}
-        {reviews.map((review) => {
-          return (
-            <Card key={review._id} className="card">
-              <CardHeader
-                className="card-header"
-                title={
-                  <Typography variant="body2">
-                    <div className="flex-row flex-space-between">
-                      {/* <div>{createStars(review.rate)}</div> */}
-                      <div>
-                        <Rating name="read-only" value={review.rate} readOnly />
+        {reviews
+          .map((review) => {
+            return (
+              <Card key={review._id} className="card">
+                <CardHeader
+                  className="card-header"
+                  title={
+                    <Typography variant="body2">
+                      <div className="flex-row flex-space-between">
+                        {/* <div>{createStars(review.rate)}</div> */}
+                        <div>
+                          <Rating
+                            name="read-only"
+                            value={review.rate}
+                            readOnly
+                          />
+                        </div>
+                        <div>{review.updatedAt.slice(0, 10)}</div>
                       </div>
-                      <div>{review.updatedAt.slice(0, 10)}</div>
-                    </div>
-                  </Typography>
-                }
-              />
-              <CardContent className="card-content">
-                <Typography variant="body1">{review.content}</Typography>
-              </CardContent>
-              {review.user === userContext.user._id && (
+                    </Typography>
+                  }
+                />
                 <CardContent className="card-content">
-                  <Typography variant="h5">
-                    <div className="flex-row flex-space-between">
-                      <div></div>
-                      <IconButton
-                        onClick={(e) =>
-                          handleDeleteRewiev(e, shopId, review._id)
-                        }
-                        color="primary"
-                        component="label"
-                      >
-                        <CiTrash />
-                      </IconButton>
-                    </div>
-                  </Typography>
+                  <div className="flex-row flex-space-between">
+                    <Typography variant="body1">{review.content}</Typography>
+                    {userContext.user &&
+                      review.user === userContext.user._id && (
+                        <IconButton
+                          onClick={(e) =>
+                            handleDeleteRewiev(e, shopId, review._id)
+                          }
+                          color="primary"
+                          component="label"
+                        >
+                          <CiTrash />
+                        </IconButton>
+                      )}
+                  </div>
                 </CardContent>
-              )}
-            </Card>
-          );
-        })}
+              </Card>
+            );
+          })
+          .reverse()}
       </CardContent>
     </Card>
   );
