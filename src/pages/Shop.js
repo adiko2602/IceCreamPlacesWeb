@@ -25,8 +25,10 @@ import { CiEdit } from "react-icons/ci";
 import { GetShopById } from "../services/shop";
 import Map from "../components/Map";
 import { useUser } from "../context/UserContext";
+import { ColorRing } from "react-loader-spinner";
 
 const Shop = () => {
+  const [loading, setLoading] = useState(true);
   const [showMap, setShowMap] = useState(false);
   const [shop, setShop] = useState(null);
   const params = useParams();
@@ -37,8 +39,25 @@ const Shop = () => {
       setShop(await GetShopById(id));
     };
 
+    setLoading(true);
     populateShop(params.id);
+    setLoading(false);
   }, [params.id]);
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   if (!shop) return null;
   return (

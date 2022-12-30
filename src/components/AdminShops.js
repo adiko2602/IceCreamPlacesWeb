@@ -8,8 +8,10 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetShops } from "../services/shop";
+import { ColorRing } from "react-loader-spinner";
 
 const AdminShops = () => {
+  const [loading, setLoading] = useState(true);
   const [shops, setShops] = useState([]);
 
   useEffect(() => {
@@ -17,8 +19,25 @@ const AdminShops = () => {
       setShops(await GetShops());
     };
 
+    setLoading(true);
     populateShops();
+    setLoading(false);
   }, []);
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   if (!shops) return null;
 

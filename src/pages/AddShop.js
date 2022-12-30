@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ColorRing } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import ShopAddAddress from "../components/ShopAddAddress";
 import ShopAddFlavors from "../components/ShopAddFlavors";
@@ -11,6 +12,7 @@ import { CreateShop } from "../services/shop";
 import { GetUser } from "../services/user";
 
 const AddShop = () => {
+  const [loading, setLoading] = useState(false);
   const user = useUser();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -40,15 +42,18 @@ const AddShop = () => {
   };
 
   const handleCreateShop = async () => {
+    setLoading(true);
     const createShopData = await CreateShop(formData);
     if (!createShopData.status) {
       setError(createShopData.message);
+      setLoading(false);
       return;
     }
 
     const userData = await GetUser();
     if (!userData.status) {
       setError(userData.message);
+      setLoading(false);
       return;
     }
 
@@ -60,6 +65,21 @@ const AddShop = () => {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   switch (step) {
     case 1: {

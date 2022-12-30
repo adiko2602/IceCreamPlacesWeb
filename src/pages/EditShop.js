@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ColorRing } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import ShopAddAddress from "../components/ShopAddAddress";
 import ShopAddFlavors from "../components/ShopAddFlavors";
@@ -11,6 +12,7 @@ import { GetShopById, UpdateShopById } from "../services/shop";
 import { GetUser } from "../services/user";
 
 const EditShop = () => {
+  const [loading, setLoading] = useState(true);
   const user = useUser();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -26,6 +28,7 @@ const EditShop = () => {
   };
 
   const handleUpdateShop = async () => {
+    setLoading(true);
     const res = await UpdateShopById(params.id, formData);
     if (res.status) {
       console.log(res.content);
@@ -37,6 +40,7 @@ const EditShop = () => {
       return;
     }
     setError(res.message);
+    setLoading(false);
     console.log(res.message);
   };
 
@@ -45,12 +49,29 @@ const EditShop = () => {
       setFormData(await GetShopById(id));
     };
 
+    setLoading(true);
     populateShop(params.id);
+    setLoading(false);
   }, [params.id]);
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
+
+  if (loading)
+    return (
+      <div className="flex-row full-width flex-center">
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      </div>
+    );
 
   if (!formData) return null;
   switch (step) {

@@ -1,6 +1,10 @@
 import { Card, CardHeader, Typography, CardContent } from "@mui/material";
+import { useState } from "react";
 
 const AdminUsers = () => {
+  const [loading, setLoading] = useState(true);
+
+  setLoading(false);
   return (
     <Card className="card">
       <CardHeader
