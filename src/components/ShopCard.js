@@ -14,13 +14,14 @@ import {
   FormGroup,
   Checkbox,
   FormControlLabel,
+  Rating,
 } from "@mui/material";
 
 // Icons
 import { CiMapPin } from "react-icons/ci";
 
 const ShopCard = ({ shop, params }) => {
-  const { name, address, openingHours, flavors, _id } = shop;
+  const { name, address, openingHours, flavors, _id, rating } = shop;
   const { country, city, postCode, streetName, streetNumber } = address;
   const { weekDay, startHour, startMinute, endHour, endMinute } = openingHours;
   const { showFlavors, showOpenHours, isSummary } = params;
@@ -65,7 +66,15 @@ const ShopCard = ({ shop, params }) => {
 
   return (
     <Card elevation={0} className="card">
-      <CardHeader className="card-header" title={<strong>{name}</strong>} />
+      <CardHeader
+        className="card-header"
+        title={
+          <div className="flex-row flex-space-between">
+            <strong>{name}</strong>
+            <Rating name="read-only" value={rating} readOnly />
+          </div>
+        }
+      />
       <CardContent className="card-content" color="secondary">
         <Typography type="h5">
           <span>

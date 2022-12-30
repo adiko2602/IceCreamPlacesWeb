@@ -14,6 +14,7 @@ import {
   CardContent,
   Link as MuiLink,
   Button,
+  Rating,
 } from "@mui/material";
 
 // Icons
@@ -26,6 +27,8 @@ import { GetShopById } from "../services/shop";
 import Map from "../components/Map";
 import { useUser } from "../context/UserContext";
 import { ColorRing } from "react-loader-spinner";
+import Reviews from "../components/Reviews";
+import { GetUser } from "../services/user";
 
 const Shop = () => {
   const [loading, setLoading] = useState(true);
@@ -39,8 +42,14 @@ const Shop = () => {
       setShop(await GetShopById(id));
     };
 
+    const populateUser = async () => {
+      const userData = await GetUser();
+      userContext.setUser(await userData.content);
+    };
+
     setLoading(true);
     populateShop(params.id);
+    populateUser();
     setLoading(false);
   }, [params.id]);
 
@@ -61,102 +70,100 @@ const Shop = () => {
 
   if (!shop) return null;
   return (
-    <Card className="card">
-      <CardHeader
-        className="card-header"
-        title={
-          <div className="flex-space-between flex-row full-width">
-            <div>
+    <>
+      <Card className="card">
+        <CardHeader
+          className="card-header"
+          title={
+            <div className="flex-space-between flex-row full-width">
               <div className="flex-row">
                 <Typography variant="h4">
                   <CiIceCream />
                 </Typography>
                 <Typography variant="h5">{shop.name}</Typography>
+                <Rating name="read-only" value={shop.rating} readOnly />
               </div>
-            </div>
-            {userContext.user
-              ? userContext.user.shops.map((shop) =>
-                  shop.id._id === params.id ? (
-                    <div>
-                      {" "}
-                      <MuiLink
-                        style={{ margin: "0 20px" }}
-                        color="text.primary"
-                        component={Link}
-                        to={`/shop/${params.id}/edit`}
-                      >
-                        <span>
-                          <CiEdit />
-                        </span>
-                      </MuiLink>
-                      {shop.jobPosition === "owner" && (
+              {userContext.user
+                ? userContext.user.shops.map((shop) =>
+                    shop.id._id === params.id ? (
+                      <div>
+                        {" "}
                         <MuiLink
+                          style={{ margin: "0 20px" }}
                           color="text.primary"
                           component={Link}
-                          to={`/shop/${params.id}/delete`}
+                          to={`/shop/${params.id}/edit`}
                         >
                           <span>
-                            <CiTrash />
+                            <CiEdit />
                           </span>
                         </MuiLink>
-                      )}
-                    </div>
-                  ) : null
-                )
-              : ""}
+                        {shop.jobPosition === "owner" && (
+                          <MuiLink
+                            color="text.primary"
+                            component={Link}
+                            to={`/shop/${params.id}/delete`}
+                          >
+                            <span>
+                              <CiTrash />
+                            </span>
+                          </MuiLink>
+                        )}
+                      </div>
+                    ) : null
+                  )
+                : ""}
+            </div>
+          }
+          subheader={
+            <div className="flex-row">
+              <Typography variant="h4">
+                <CiMapPin />
+              </Typography>
+              <Typography variant="h6">
+                {shop.address.streetName} {shop.address.streetNumber},{" "}
+                {shop.address.postCode} {shop.address.city},{" "}
+                {shop.address.country}
+              </Typography>
+            </div>
+          }
+        />
+        <CardContent className="card-content">
+          <div className="flex-column">
+            {showMap && <Map mapData={shop.address} pinDraggable={false} />}
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowMap(() => !showMap);
+              }}
+            >
+              {!showMap ? "Pokaż na mapie" : "Zamknij mapę"}
+            </Button>
           </div>
-        }
-        subheader={
-          <div className="flex-row">
-            <Typography variant="h4">
-              <CiMapPin />
-            </Typography>
-            <Typography variant="h6">
-              {shop.address.streetName} {shop.address.streetNumber},{" "}
-              {shop.address.postCode} {shop.address.city},{" "}
-              {shop.address.country}
-            </Typography>
-          </div>
-        }
-      />
-      <CardContent className="card-content">
-        <div className="flex-column">
-          {showMap && <Map mapData={shop.address} pinDraggable={false} />}
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowMap(() => !showMap);
-            }}
-          >
-            {!showMap ? "Pokaż na mapie" : "Zamknij mapę"}
-          </Button>
-        </div>
-      </CardContent>
-      <CardContent className="card-content">
-        <div className="flex-column">
-          <Card className="card">
-            <CardHeader className="card-header" title="Smaki do wyboru" />
-            <CardContent className="card-content">
-              <Grid container>
-                {shop.flavors.map((flavor, i) => (
-                  <Grid item xs={12} sm={6} md={4}>
-                    <FormGroup key={i}>
-                      <FormControlLabel
-                        disabled
-                        control={<Checkbox defaultChecked={flavor.available} />}
-                        label={flavor.name}
-                      />
-                    </FormGroup>
-                  </Grid>
-                ))}
+        </CardContent>
+      </Card>
+      <Card className="card">
+        <CardHeader className="card-header" title="Smaki do wyboru" />
+        <CardContent className="card-content">
+          <Grid container>
+            {shop.flavors.map((flavor, i) => (
+              <Grid item xs={12} sm={6} md={4}>
+                <FormGroup key={i}>
+                  <FormControlLabel
+                    disabled
+                    control={<Checkbox defaultChecked={flavor.available} />}
+                    label={flavor.name}
+                  />
+                </FormGroup>
               </Grid>
-            </CardContent>
-          </Card>
-        </div>
-      </CardContent>
-    </Card>
+            ))}
+          </Grid>
+        </CardContent>
+      </Card>
+      <Reviews reviews={shop.reviews} shopId={params.id} setShop={setShop} />
+    </>
   );
 };
 
