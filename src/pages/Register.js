@@ -2,7 +2,7 @@
 
 // Services
 import { Register } from "../services/auth";
-
+import { Link } from "react-router-dom";
 import validator from "validator";
 
 // Hooks
@@ -17,6 +17,8 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Link as MuiLink,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
@@ -84,13 +86,14 @@ const Registers = () => {
   return (
     <Card className="card">
       <CardHeader className="card-header" title="Zarejestruj się" />
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
-        <CardContent className="card-content">
-          {error && <div className="error">{error}</div>}
+
+      <CardContent className="card-content">
+        {error && <div className="error">{error}</div>}{" "}
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <div className="flex-column">
             <FormControl>
               <TextField
@@ -118,8 +121,16 @@ const Registers = () => {
               Zarejestruj się
             </Button>
           </div>
-        </CardContent>
-      </form>
+        </form>
+        <br />
+        <Typography variant="body1">
+          Masz już konto? Kliknij{" "}
+          <MuiLink color="text.secondary" component={Link} to="/login">
+            <strong>tutaj</strong>
+          </MuiLink>
+          , aby się zalogować.
+        </Typography>
+      </CardContent>
     </Card>
   );
 };

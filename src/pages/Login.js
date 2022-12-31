@@ -3,7 +3,7 @@ import { Link, useAsyncError, useNavigate } from "react-router-dom";
 // Hooks
 
 // MUI
-import { Link as MuiLink } from "@mui/material";
+import { Link as MuiLink, Typography } from "@mui/material";
 
 import validator from "validator";
 
@@ -25,6 +25,7 @@ import { useUser } from "../context/UserContext";
 import { Login } from "../services/auth";
 import { GetUser } from "../services/user";
 import { ColorRing } from "react-loader-spinner";
+import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +33,7 @@ const Logins = () => {
   const email = useRef("");
   const password = useRef("");
   const [error, setError] = useState("");
+  const [resendEmailForm, setResendEmailForm] = useState(false);
 
   const user = useUser();
 
@@ -93,45 +95,84 @@ const Logins = () => {
     );
 
   return (
-    <Card className="card">
-      <CardHeader className="card-header" title="Zaloguj się" />
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
+    <>
+      <Card className="card">
+        <CardHeader className="card-header" title="Zaloguj się" />
+
         <CardContent className="card-content">
           {error && <div className="error">{error}</div>}
-          <div className="flex-column">
-            <FormControl>
-              <TextField
-                fullWidth
-                inputRef={email}
-                type="text"
-                id="email"
-                label="Email"
-              />
-              <FormHelperText></FormHelperText>
-            </FormControl>
+          <form
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <div className="flex-column">
+              <FormControl>
+                <TextField
+                  fullWidth
+                  inputRef={email}
+                  type="text"
+                  id="email"
+                  label="Email"
+                />
+                <FormHelperText></FormHelperText>
+              </FormControl>
 
-            <FormControl>
-              <TextField
-                fullWidth
-                inputRef={password}
-                type="password"
-                id="password"
-                label="Hasło"
-              />
-              <FormHelperText></FormHelperText>
-            </FormControl>
+              <FormControl>
+                <TextField
+                  fullWidth
+                  inputRef={password}
+                  type="password"
+                  id="password"
+                  label="Hasło"
+                />
+                <FormHelperText></FormHelperText>
+              </FormControl>
 
-            <Button fullWidth type="submit" variant="contained">
-              Zaloguj się
-            </Button>
-          </div>
+              <Button fullWidth type="submit" variant="contained">
+                Zaloguj się
+              </Button>
+            </div>
+          </form>
+          <br />
+          <Typography variant="body1">
+            Nie masz konta? Kliknij{" "}
+            <MuiLink color="text.secondary" component={Link} to="/register">
+              <strong>tutaj</strong>
+            </MuiLink>
+            , aby je założyć.
+          </Typography>
+          <Typography variant="body1">
+            Nie dostałeś maila z potwierdzeniem rejestracji? Kliknij{" "}
+            <MuiLink
+              color="text.secondary"
+              component={Link}
+              onClick={() => {
+                setResendEmailForm(() => !resendEmailForm);
+              }}
+            >
+              <strong>tutaj</strong>
+            </MuiLink>
+            , aby go wysłać ponownie.
+          </Typography>
+
+          {resendEmailForm && (
+            <Card className="card">
+              <CardHeader
+                className="card-header"
+                title="Wpisz adres email, użyty przy rejestracji"
+              />
+              <CardContent className="card-content">
+                <ResendEmailConfirmation
+                  setResendEmailForm={setResendEmailForm}
+                  setErrorLogin={setError}
+                />
+              </CardContent>
+            </Card>
+          )}
         </CardContent>
-      </form>
-    </Card>
+      </Card>
+    </>
   );
 };
 

@@ -44,6 +44,23 @@ export const Register = async (email, password) => {
     });
 };
 
+export const ResendEmail = async (email) => {
+  const api = useAxios();
+
+  return await api
+    .post("mail/resend-confirmation", {
+      email: email,
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
 export const Logout = () => {
   if (!JSON.parse(localStorage.getItem("token"))) return;
   localStorage.removeItem("token");
