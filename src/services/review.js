@@ -5,6 +5,8 @@ export const CreateReview = async (shopId, reviewContent) => {
   const api = useAxios();
   const authHeader = useAuthHeader();
 
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
+
   return await api
     .post(`shops/${shopId}/review`, reviewContent, authHeader)
     .then((response) => {
@@ -20,6 +22,8 @@ export const CreateReview = async (shopId, reviewContent) => {
 export const DeleteReview = async (shopId, reviewId) => {
   const api = useAxios();
   const authHeader = useAuthHeader();
+
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
     .delete(`shops/${shopId}/review/${reviewId}`, authHeader)

@@ -8,7 +8,7 @@ const ProfileFavorite = () => {
         title={<Typography variant="h5">Ulubione</Typography>}
       />
       <CardContent className="card-content">
-        jestem konentent ulubione profil
+        <Typography>W budowie...</Typography>
       </CardContent>
     </Card>
   );

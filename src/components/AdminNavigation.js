@@ -1,16 +1,42 @@
-import { Card, CardContent, Link as MuiLink } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Link as MuiLink,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const AdminNavigation = () => {
+  const { pathname } = useLocation();
+
   return (
     <Card className="card">
       <CardContent className="card-content">
-        <MuiLink component={Link} to="users">
-          Użytkownicy
-        </MuiLink>
-        <MuiLink component={Link} to="shops">
-          Lodziarnie
-        </MuiLink>
+        <Grid container>
+          <Grid item xs={12} sm={3}>
+            <MuiLink
+              to="shops"
+              component={Link}
+              className={pathname.includes("shops") ? "active-link" : ""}
+            >
+              Lodziarnie
+            </MuiLink>
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <MuiLink
+              to="users"
+              component={Link}
+              className={pathname.includes("users") ? "active-link" : ""}
+            >
+              Użytkownicy
+            </MuiLink>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

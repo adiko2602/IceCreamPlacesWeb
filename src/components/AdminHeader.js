@@ -10,12 +10,12 @@ const links = [
     label: "Szukaj",
   },
   {
-    to: "/profile",
+    to: "/profile/view",
     label: "Profil",
   },
   {
-    to: "/admin",
-    label: "Admin panel",
+    to: "/admin/shops",
+    label: "Panel administratora",
   },
   {
     to: "/logout",

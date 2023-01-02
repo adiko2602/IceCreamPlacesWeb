@@ -5,54 +5,66 @@ import { useState, useEffect } from "react";
 import ShopCard from "../components/ShopCard";
 
 // MUI
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { GetShops } from "../services/shop";
 import { ColorRing } from "react-loader-spinner";
+import Loading from "../components/Loading";
 
 // Services
 
 const Home = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [showMore, setShowMore] = useState(false);
+
+  const delay = (delayInms) => {
+    return new Promise((resolve) => setTimeout(resolve, delayInms));
+  };
+
+  const compare = (a, b) => {
+    if (a.rating < b.rating) {
+      return 1;
+    }
+    if (a.rating > b.rating) {
+      return -1;
+    }
+    return 0;
+  };
+
+  const shuffle = (a) => {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
 
   useEffect(() => {
+    setError("");
     const populateShops = async () => {
-      const getRandomInt = (max) => {
-        const rand = Math.floor(Math.random() * max);
-        return rand;
-      };
+      const getShopsData = await GetShops();
 
-      const arr = await GetShops();
-      if (arr.length <= 6) {
-        setShops(arr);
+      if (!getShopsData.status) {
+        setError(getShopsData.message);
+        setLoading(false);
         return;
       }
-      const repNum = arr.length;
-      for (let i = 6; i < repNum; i++) {
-        arr.splice(getRandomInt(arr.length - 1), 1);
-      }
+
+      const arr = getShopsData.content;
+      // shuffle(arr);
+      await arr.sort(compare);
+
       setShops(arr);
+      setLoading(false);
     };
 
     setLoading(true);
     populateShops();
-    setLoading(false);
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
+  if (!shops) return <Loading />;
 
   return (
     <div className="flex-column">
@@ -60,17 +72,39 @@ const Home = () => {
         Witaj na stronie poświęconej lodziarniom. Tutaj znajdziesz każdą
         lodziarnię w Twojej okolicy.
       </Typography>
+      {error && <div className="error">{error}</div>}
       <Grid container>
-        {shops.map((shop, i) =>
-          i < 6 ? (
-            <Grid item xs={12} sm={6} md={4} key={i}>
+        {!showMore &&
+          shops.map((shop, i) =>
+            i < 6 ? (
+              <Grid key={i} item xs={12} sm={6} md={4}>
+                <ShopCard shop={shop} params={{ showFlavors: false }} />
+              </Grid>
+            ) : (
+              ""
+            )
+          )}
+        {showMore &&
+          shops.map((shop, i) => (
+            <Grid key={i} item xs={12} sm={6} md={4}>
               <ShopCard shop={shop} params={{ showFlavors: false }} />
             </Grid>
-          ) : (
-            ""
-          )
-        )}
+          ))}
       </Grid>
+
+      {shops.length > 6 && (
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowMore(() => !showMore);
+          }}
+        >
+          {!showMore && "Pokaż więcej"}
+          {showMore && "Pokaż mniej"}
+        </Button>
+      )}
     </div>
   );
 };

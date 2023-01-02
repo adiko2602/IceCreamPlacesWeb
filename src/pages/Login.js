@@ -26,6 +26,7 @@ import { Login } from "../services/auth";
 import { GetUser } from "../services/user";
 import { ColorRing } from "react-loader-spinner";
 import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
+import Loading from "../components/Loading";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -79,20 +80,7 @@ const Logins = () => {
     navigate("/");
   };
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     <>
