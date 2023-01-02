@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
+import Loading from "../components/Loading";
 
 const Registers = () => {
   const [loading, setLoading] = useState(false);
@@ -68,20 +69,7 @@ const Registers = () => {
     navigate("/login");
   };
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     <Card className="card">

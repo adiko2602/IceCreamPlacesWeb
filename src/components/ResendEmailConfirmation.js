@@ -3,6 +3,7 @@ import { ResendEmail } from "../services/auth";
 import { Button, TextField } from "@mui/material";
 import { ColorRing } from "react-loader-spinner";
 import { useEffect, useState } from "react";
+import Loading from "./Loading";
 
 const ResendEmailConfirmation = ({ setResendEmailForm, setErrorLogin }) => {
   const [email, setEmail] = useState("");
@@ -41,20 +42,7 @@ const ResendEmailConfirmation = ({ setResendEmailForm, setErrorLogin }) => {
     setErrorLogin("");
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     <>

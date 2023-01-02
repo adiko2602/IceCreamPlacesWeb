@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
+import Loading from "../components/Loading";
 
 const Logouts = () => {
   const [loading, setLoading] = useState(true);
@@ -16,20 +17,7 @@ const Logouts = () => {
     navigate("/");
   });
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
   return <div>Wylogowany</div>;
 };
 

@@ -11,10 +11,10 @@ const links = [
   },
   {
     to: "/shop",
-    label: "Lodziarnia",
+    label: "Twoje lodziarnie",
   },
   {
-    to: "/profile",
+    to: "/profile/view",
     label: "Profil",
   },
   {

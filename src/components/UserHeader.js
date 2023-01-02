@@ -10,7 +10,7 @@ const links = [
     label: "Szukaj",
   },
   {
-    to: "/profile",
+    to: "/profile/view",
     label: "Profil",
   },
   {

@@ -9,37 +9,33 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetShops } from "../services/shop";
 import { ColorRing } from "react-loader-spinner";
+import Loading from "./Loading";
 
 const AdminShops = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [shops, setShops] = useState([]);
 
   useEffect(() => {
+    setError("");
     const populateShops = async () => {
-      setShops(await GetShops());
+      const getShopsData = await GetShops();
+      if (!getShopsData.status) {
+        setError(getShopsData.message);
+        setLoading(false);
+        return;
+      }
+      setShops(getShopsData.content);
+      setLoading(false);
     };
 
     setLoading(true);
     populateShops();
-    setLoading(false);
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
-  if (!shops) return null;
+  if (!shops) return <Loading />;
 
   return (
     <Card className="card">
@@ -48,8 +44,12 @@ const AdminShops = () => {
         title={<Typography variant="h5">Lodziarnie</Typography>}
       />
       <CardContent className="card-content">
+        {error && <div className="error">{error}</div>}
         {shops.map((shop) => (
-          <div style={{ borderBottom: "solid 1px black", padding: "10px 0" }}>
+          <div
+            key={shop._id}
+            style={{ borderBottom: "solid 1px black", padding: "10px 0" }}
+          >
             <MuiLink component={Link} to={`/shop/${shop._id}`}>
               {shop._id}
               <br />

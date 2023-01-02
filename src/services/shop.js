@@ -8,10 +8,11 @@ export const GetShops = async () => {
     .get("shops")
     .then((response) => {
       console.log(response.data);
-      return response.data.content;
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
+      return error.response.data;
     });
 };
 
@@ -22,10 +23,11 @@ export const GetShopById = async (shopId) => {
     .get(`shops/${shopId}`)
     .then((response) => {
       console.log(response.data);
-      return response.data.content;
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
+      return error.response.data;
     });
 };
 
@@ -33,7 +35,7 @@ export const CreateShop = async (shop) => {
   const authHeader = useAuthHeader();
   const api = useAxios();
 
-  if (!authHeader) return;
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
     .post("shops", shop, authHeader)
@@ -51,7 +53,7 @@ export const UpdateShopById = async (shopId, shop) => {
   const authHeader = useAuthHeader();
   const api = useAxios();
 
-  if (!authHeader) return;
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
     .patch(`shops/${shopId}`, shop, authHeader)

@@ -24,6 +24,7 @@ import { useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { CreateReview, DeleteReview } from "../services/review";
 import { GetShopById } from "../services/shop";
+import Loading from "./Loading";
 
 const Reviews = ({ reviews, shopId, setShop }) => {
   const [addReview, setAddReview] = useState(false);
@@ -37,7 +38,13 @@ const Reviews = ({ reviews, shopId, setShop }) => {
   const userContext = useUser();
 
   const handleShopUpdate = async (shopId) => {
-    setShop(await GetShopById(shopId));
+    const getShopByIdData = await GetShopById(shopId);
+    if (!getShopByIdData.status) {
+      setError(getShopByIdData.message);
+      setLoading(false);
+      return;
+    }
+    setShop(getShopByIdData.content);
   };
 
   const handleCreateReview = async (shopId) => {
@@ -75,20 +82,7 @@ const Reviews = ({ reviews, shopId, setShop }) => {
     setLoading(false);
   };
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     <Card className="card">
@@ -156,26 +150,22 @@ const Reviews = ({ reviews, shopId, setShop }) => {
                 <CardHeader
                   className="card-header"
                   title={
-                    <Typography variant="body2">
-                      <div className="flex-row flex-space-between">
-                        {/* <div>{createStars(review.rate)}</div> */}
-                        <div>
-                          <Rating
-                            name="read-only"
-                            value={review.rate}
-                            readOnly
-                          />
-                        </div>
-                        <div>{review.updatedAt.slice(0, 10)}</div>
+                    <div className="flex-row flex-space-between">
+                      <div>
+                        <Rating name="read-only" value={review.rate} readOnly />
                       </div>
-                    </Typography>
+                      <Typography variant="body2">
+                        {review.updatedAt.slice(0, 10)}{" "}
+                      </Typography>
+                    </div>
                   }
                 />
                 <CardContent className="card-content">
                   <div className="flex-row flex-space-between">
                     <Typography variant="body1">{review.content}</Typography>
                     {userContext.user &&
-                      review.user === userContext.user._id && (
+                      (review.user === userContext.user._id ||
+                        userContext.user.roles.includes("admin")) && (
                         <IconButton
                           onClick={(e) =>
                             handleDeleteRewiev(e, shopId, review._id)

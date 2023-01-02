@@ -18,21 +18,42 @@ import {
 // Services
 import { GetShops } from "../services/shop";
 import { ColorRing } from "react-loader-spinner";
+import Loading from "../components/Loading";
 
 const Search = () => {
   const [loading, setLoading] = useState(true);
   const [shopList, setShopList] = useState([]);
+  const [error, setError] = useState("");
   const [filteredShop, setFilteredShop] = useState([]);
   const [query, setQuery] = useState("");
 
+  const compare = (a, b) => {
+    if (a.rating < b.rating) {
+      return 1;
+    }
+    if (a.rating > b.rating) {
+      return -1;
+    }
+    return 0;
+  };
+
   useEffect(() => {
     const populateShopList = async () => {
-      setShopList(await GetShops());
+      const getShopsData = await GetShops();
+      if (!getShopsData) {
+        setError(getShopsData.message);
+        setLoading(false);
+        return;
+      }
+
+      const arr = getShopsData.content;
+      await arr.sort(compare);
+      setShopList(arr);
+      setLoading(false);
     };
 
     setLoading(true);
     populateShopList();
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -54,29 +75,17 @@ const Search = () => {
     }
   }, [query]);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
+  if (!shopList) return <Loading />;
 
   return (
     <Card className="card">
       <CardHeader
         className="card-header"
-        title="
-        Wyszukaj lodziarnię po nazwie lub smaku :D."
+        title="Wyszukaj lodziarnię po nazwie lub smaku :D."
       />
       <CardContent className="card-content">
+        {error && <div className="error">{error}</div>}
         <div className="flex-column">
           <Typography variant="h5" gutterBottom></Typography>
           <TextField

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 import ShopAddAddress from "../components/ShopAddAddress";
 import ShopAddFlavors from "../components/ShopAddFlavors";
 import ShopAddMap from "../components/ShopAddMap";
@@ -66,20 +67,7 @@ const AddShop = () => {
     console.log(formData);
   }, [formData]);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   switch (step) {
     case 1: {

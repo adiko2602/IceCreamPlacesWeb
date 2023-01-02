@@ -26,12 +26,13 @@ import { CiEdit } from "react-icons/ci";
 import { GetShopById } from "../services/shop";
 import Map from "../components/Map";
 import { useUser } from "../context/UserContext";
-import { ColorRing } from "react-loader-spinner";
 import Reviews from "../components/Reviews";
 import { GetUser } from "../services/user";
+import Loading from "../components/Loading";
 
 const Shop = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [shop, setShop] = useState(null);
   const params = useParams();
@@ -55,37 +56,34 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    const populateShop = async (id) => {
-      setShop(await GetShopById(id));
-    };
+    setError("");
+    const populate = async (id) => {
+      const getShopByIdData = await GetShopById(id);
+      if (!getShopByIdData.status) {
+        setError(getShopByIdData.message);
+        setLoading(false);
+        return;
+      }
 
-    const populateUser = async () => {
       const userData = await GetUser();
-      userContext.setUser(await userData.content);
+      if (!userData.status) {
+        setError(userData.message);
+        setLoading(false);
+        return;
+      }
+
+      setShop(getShopByIdData.content);
+      await userContext.setUser(userData.content);
+      setLoading(false);
     };
 
     setLoading(true);
-    populateShop(params.id);
-    populateUser();
-    setLoading(false);
+    populate(params.id);
   }, [params.id]);
 
-  if (loading)
-    return (
-      <div className="flex-row full-width flex-center">
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-        />
-      </div>
-    );
-
-  if (!shop) return null;
+  if (loading) return <Loading />;
+  if (!userContext.user) return <Loading />;
+  if (!shop) return <Loading />;
   return (
     <>
       <Card className="card">
@@ -100,36 +98,44 @@ const Shop = () => {
                 <Typography variant="h5">{shop.name}</Typography>
                 <Rating name="read-only" value={shop.rating} readOnly />
               </div>
-              {userContext.user
-                ? userContext.user.shops.map((shop) =>
-                    shop.id._id === params.id ? (
-                      <div>
-                        {" "}
+
+              {userContext.user && (
+                <div>
+                  {(userContext.user.shops.filter(
+                    (shop) => shop.id._id === params.id
+                  ).length > 0 ||
+                    userContext.user.roles.includes("admin")) && (
+                    <>
+                      <MuiLink
+                        style={{ margin: "0 20px" }}
+                        color="text.primary"
+                        component={Link}
+                        to={`/shop/${params.id}/edit`}
+                      >
+                        <span>
+                          <CiEdit />
+                        </span>
+                      </MuiLink>
+                      {(userContext.user.shops.filter(
+                        (shop) =>
+                          shop.id._id === params.id &&
+                          shop.jobPosition === "owner"
+                      ).length > 0 ||
+                        userContext.user.roles.includes("admin")) && (
                         <MuiLink
-                          style={{ margin: "0 20px" }}
                           color="text.primary"
                           component={Link}
-                          to={`/shop/${params.id}/edit`}
+                          to={`/shop/${params.id}/delete`}
                         >
                           <span>
-                            <CiEdit />
+                            <CiTrash />
                           </span>
                         </MuiLink>
-                        {shop.jobPosition === "owner" && (
-                          <MuiLink
-                            color="text.primary"
-                            component={Link}
-                            to={`/shop/${params.id}/delete`}
-                          >
-                            <span>
-                              <CiTrash />
-                            </span>
-                          </MuiLink>
-                        )}
-                      </div>
-                    ) : null
-                  )
-                : ""}
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           }
           subheader={
@@ -146,6 +152,7 @@ const Shop = () => {
           }
         />
         <CardContent className="card-content">
+          {error && <div className="error">{error}</div>}
           <div className="flex-column">
             {showMap && <Map mapData={shop.address} pinDraggable={false} />}
             <Button
@@ -209,7 +216,7 @@ const Shop = () => {
         <CardContent className="card-content">
           <Grid container>
             {shop.flavors.map((flavor, i) => (
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid key={i} item xs={12} sm={6} md={4}>
                 <FormGroup key={i}>
                   <FormControlLabel
                     disabled
