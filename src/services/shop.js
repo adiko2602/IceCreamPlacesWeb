@@ -3,7 +3,6 @@ import { useAuthHeader } from "./useAuthHeader";
 
 export const GetShops = async () => {
   const api = useAxios();
-  await GetSample();
   return await api
     .get("shops")
     .then((response) => {
@@ -15,11 +14,6 @@ export const GetShops = async () => {
       return error.response.data;
     });
 };
-
-export const GetSample = async () => {
-  const api = useAxios();
-  await api.get("sample").then((response) => {console.log(response)}).catch(error => console.log(error));
-}
 
 export const GetShopById = async (shopId) => {
   const api = useAxios();
