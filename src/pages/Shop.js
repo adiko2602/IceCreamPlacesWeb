@@ -64,16 +64,17 @@ const Shop = () => {
         setLoading(false);
         return;
       }
-
-      const userData = await GetUser();
-      if (!userData.status) {
-        setError(userData.message);
-        setLoading(false);
-        return;
-      }
-
       setShop(getShopByIdData.content);
-      await userContext.setUser(userData.content);
+
+      if (userContext.user) {
+        const userData = await GetUser();
+        if (!userData.status) {
+          setError(userData.message);
+          setLoading(false);
+          return;
+        }
+        await userContext.setUser(userData.content);
+      }
       setLoading(false);
     };
 
@@ -82,7 +83,6 @@ const Shop = () => {
   }, [params.id]);
 
   if (loading) return <Loading />;
-  if (!userContext.user) return <Loading />;
   if (!shop) return <Loading />;
   return (
     <>

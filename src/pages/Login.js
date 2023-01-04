@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 
 import { useUser } from "../context/UserContext";
-import { Login } from "../services/auth";
+import { Login, LoginWithGoogle } from "../services/auth";
 import { GetUser } from "../services/user";
 import { ColorRing } from "react-loader-spinner";
 import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
@@ -80,6 +80,15 @@ const Logins = () => {
     navigate("/");
   };
 
+  const handleLoginWithGoogle = (e) => {
+    e.preventDefault();
+    const dataLoginWithGoogle = LoginWithGoogle();
+    if (!dataLoginWithGoogle.status) {
+      setError(dataLoginWithGoogle.message);
+      return;
+    }
+  };
+
   if (loading) return <Loading />;
 
   return (
@@ -122,6 +131,15 @@ const Logins = () => {
               </Button>
             </div>
           </form>
+          <div className="flex-column">
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={(e) => handleLoginWithGoogle(e)}
+            >
+              Google
+            </Button>
+          </div>
           <br />
           <Typography variant="body1">
             Nie masz konta? Kliknij{" "}

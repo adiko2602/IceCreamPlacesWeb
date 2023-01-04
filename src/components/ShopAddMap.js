@@ -8,6 +8,8 @@ const ShopAddMap = ({ step, setStep, formData, setFormData }) => {
     lat: null,
   });
 
+  const [mapLoad, setMapLoad] = useState(true);
+
   useEffect(() => {
     setFormData({
       ...formData,
@@ -30,6 +32,7 @@ const ShopAddMap = ({ step, setStep, formData, setFormData }) => {
           mapData={formData.address}
           pinDraggable={true}
           setCoordinatesFromPin={setCoordinatesFromPin}
+          setMapLoad={setMapLoad}
         />
         <div className="flex-column">
           <div className="flex-row">
@@ -44,6 +47,7 @@ const ShopAddMap = ({ step, setStep, formData, setFormData }) => {
               Wstecz
             </Button>
             <Button
+              disabled={mapLoad}
               fullWidth
               variant="contained"
               onClick={(e) => {

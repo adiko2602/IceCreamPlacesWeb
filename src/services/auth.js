@@ -77,6 +77,21 @@ export const AuthConfirmEmail = async (key) => {
     });
 };
 
+export const LoginWithGoogle = async () => {
+  const api = useAxios();
+
+  return api
+    .get("auth/google")
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response;
+    });
+};
+
 export const Logout = () => {
   if (!JSON.parse(localStorage.getItem("token"))) return;
   localStorage.removeItem("token");
