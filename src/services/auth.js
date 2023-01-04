@@ -61,6 +61,22 @@ export const ResendEmail = async (email) => {
     });
 };
 
+export const AuthConfirmEmail = async (key) => {
+  const api = useAxios();
+  if (!key) return { message: "Nieprawidłowy klucz aktywacji." };
+
+  return api
+    .get(`auth/confirm/${key}`)
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
 export const Logout = () => {
   if (!JSON.parse(localStorage.getItem("token"))) return;
   localStorage.removeItem("token");

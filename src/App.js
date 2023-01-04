@@ -39,6 +39,7 @@ import EditShop from "./pages/EditShop";
 import DeleteShop from "./pages/DeleteShop";
 import Lost from "./pages/Lost";
 import Protected from "./permission/Protected";
+import ConfirmEmail from "./pages/ConfirmEmail";
 
 // Pages
 
@@ -222,6 +223,16 @@ const App = () => {
               </Protected>
             }
           />
+
+          <Route
+            path="/account/confirm/:id"
+            element={
+              <Protected access={["notlogin"]}>
+                <ConfirmEmail />
+              </Protected>
+            }
+          />
+
           <Route path="*" element={<Lost />} />
         </Routes>
       </Container>
