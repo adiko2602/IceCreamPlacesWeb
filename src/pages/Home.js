@@ -1,5 +1,6 @@
 // Hooks
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 // Components
 import ShopCard from "../components/ShopCard";
@@ -58,6 +59,9 @@ const Home = () => {
 
       setShops(arr);
       setLoading(false);
+      Cookies.set("name", "value", { expires: 7 });
+
+      console.log(Cookies.get());
     };
 
     setLoading(true);
