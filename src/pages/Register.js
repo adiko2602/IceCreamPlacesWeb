@@ -23,6 +23,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 const Registers = () => {
   const [loading, setLoading] = useState(false);
@@ -69,6 +71,16 @@ const Registers = () => {
     navigate("/login");
   };
 
+  const handleRegisterWithGoogle = (e) => {
+    e.preventDefault();
+    console.log("Register with google");
+  };
+
+  const handleRegisterWithFacebook = (e) => {
+    e.preventDefault();
+    console.log("Register with facebook");
+  };
+
   if (loading) return <Loading />;
 
   return (
@@ -110,6 +122,24 @@ const Registers = () => {
             </Button>
           </div>
         </form>
+        <div className="flex-row">
+          <Button
+            startIcon={<FcGoogle />}
+            fullWidth
+            variant="outlined"
+            onClick={(e) => handleRegisterWithGoogle(e)}
+          >
+            <strong>Google</strong>
+          </Button>
+          <Button
+            startIcon={<FaFacebook style={{ color: "#3b5998" }} />}
+            fullWidth
+            variant="outlined"
+            onClick={(e) => handleRegisterWithFacebook(e)}
+          >
+            <strong>Facebook</strong>
+          </Button>
+        </div>
         <br />
         <Typography variant="body1">
           Masz już konto? Kliknij{" "}

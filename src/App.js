@@ -40,6 +40,8 @@ import DeleteShop from "./pages/DeleteShop";
 import Lost from "./pages/Lost";
 import Protected from "./permission/Protected";
 import ConfirmEmail from "./pages/ConfirmEmail";
+import LoginGoogle from "./pages/LoginGoogle";
+import axios from "axios";
 
 // Pages
 
@@ -232,6 +234,8 @@ const App = () => {
               </Protected>
             }
           />
+
+          <Route path="/login/google/:key" element={<LoginGoogle />} />
 
           <Route path="*" element={<Lost />} />
         </Routes>

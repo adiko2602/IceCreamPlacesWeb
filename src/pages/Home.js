@@ -64,7 +64,19 @@ const Home = () => {
   }, []);
 
   if (loading) return <Loading />;
-  if (!shops) return <Loading />;
+  if (shops <= 0 || !shops)
+    return (
+      <>
+        <Typography variant="h5" gutterBottom>
+          Witaj na stronie poświęconej lodziarniom. Tutaj znajdziesz każdą
+          lodziarnię w Twojej okolicy.
+        </Typography>
+        <Typography variant="body1">
+          Niestety w naszej bazie są pustki... Możesz założyć konto i dodać
+          swoją lodziarnię :D
+        </Typography>
+      </>
+    );
 
   return (
     <div className="flex-column">

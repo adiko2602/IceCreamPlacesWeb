@@ -3,7 +3,7 @@ import { Link, useAsyncError, useNavigate } from "react-router-dom";
 // Hooks
 
 // MUI
-import { Link as MuiLink, Typography } from "@mui/material";
+import { IconButton, Link as MuiLink, Typography } from "@mui/material";
 
 import validator from "validator";
 
@@ -24,9 +24,10 @@ import {
 import { useUser } from "../context/UserContext";
 import { Login, LoginWithGoogle } from "../services/auth";
 import { GetUser } from "../services/user";
-import { ColorRing } from "react-loader-spinner";
 import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
 import Loading from "../components/Loading";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -80,13 +81,14 @@ const Logins = () => {
     navigate("/");
   };
 
-  const handleLoginWithGoogle = (e) => {
+  const handleLoginWithGoogle = async (e) => {
     e.preventDefault();
-    const dataLoginWithGoogle = LoginWithGoogle();
-    if (!dataLoginWithGoogle.status) {
-      setError(dataLoginWithGoogle.message);
-      return;
-    }
+    window.open(`http://localhost:5014/auth/google/`, "_self");
+  };
+
+  const handleLoginWithFacebook = async (e) => {
+    e.preventDefault();
+    console.log("Facebook");
   };
 
   if (loading) return <Loading />;
@@ -131,13 +133,22 @@ const Logins = () => {
               </Button>
             </div>
           </form>
-          <div className="flex-column">
+          <div className="flex-row">
             <Button
+              startIcon={<FcGoogle />}
               fullWidth
-              variant="contained"
+              variant="outlined"
               onClick={(e) => handleLoginWithGoogle(e)}
             >
-              Google
+              <strong>Google</strong>
+            </Button>
+            <Button
+              startIcon={<FaFacebook style={{ color: "#3b5998" }} />}
+              fullWidth
+              variant="outlined"
+              onClick={(e) => handleLoginWithFacebook(e)}
+            >
+              <strong>Facebook</strong>
             </Button>
           </div>
           <br />

@@ -76,7 +76,19 @@ const Search = () => {
   }, [query]);
 
   if (loading) return <Loading />;
-  if (!shopList) return <Loading />;
+  if (shopList <= 0 || !shopList)
+    return (
+      <div className="flex-column">
+        <>
+          <Typography variant="h5" gutterBottom>
+            Wyszukaj lodziarnię po nazwie lub smaku :D.
+          </Typography>
+          <Typography variant="body1">
+            Niestety nie mamy lodziarni w naszej bazie do wyszukania...
+          </Typography>
+        </>
+      </div>
+    );
 
   return (
     <Card className="card">

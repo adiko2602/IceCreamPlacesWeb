@@ -19,6 +19,23 @@ export const CreateReview = async (shopId, reviewContent) => {
     });
 };
 
+export const UpdateReview = async (shopId, reviewId, reviewContent) => {
+  const api = useAxios();
+  const authHeader = useAuthHeader();
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
+
+  return await api
+    .patch(`shops/${shopId}/review/${reviewId}`, reviewContent, authHeader)
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
 export const DeleteReview = async (shopId, reviewId) => {
   const api = useAxios();
   const authHeader = useAuthHeader();

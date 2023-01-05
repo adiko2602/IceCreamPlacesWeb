@@ -55,14 +55,14 @@ const ShopCard = ({ shop, params }) => {
         <CardHeader
           className="card-header"
           title={
-            <div className="flex-row flex-space-between">
+            <div className="flex-column">
               <strong>{name}</strong>
               <Rating name="read-only" value={rating} readOnly />
             </div>
           }
         />
         <CardContent className="card-content" color="secondary">
-          <Typography type="h5">
+          <Typography variant="body1">
             <span>
               <CiMapPin />
             </span>{" "}
