@@ -25,6 +25,7 @@ import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { baseUrl } from "../services/axios";
 
 const Registers = () => {
   const [loading, setLoading] = useState(false);
@@ -73,7 +74,7 @@ const Registers = () => {
 
   const handleRegisterWithGoogle = (e) => {
     e.preventDefault();
-    console.log("Register with google");
+    window.open(`${baseUrl}/auth/google/`, "_self");
   };
 
   const handleRegisterWithFacebook = (e) => {

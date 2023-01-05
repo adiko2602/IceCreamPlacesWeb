@@ -28,6 +28,7 @@ import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
 import Loading from "../components/Loading";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { baseUrl } from "../services/axios";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -83,7 +84,7 @@ const Logins = () => {
 
   const handleLoginWithGoogle = async (e) => {
     e.preventDefault();
-    window.open(`http://localhost:5014/auth/google/`, "_self");
+    window.open(`${baseUrl}/auth/google/`, "_self");
   };
 
   const handleLoginWithFacebook = async (e) => {
