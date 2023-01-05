@@ -83,6 +83,7 @@ export const LoginWithGoogle = async () => {
   return api
     .get("auth/google/success", { withCredentials: true })
     .then((response) => {
+      console.log(response);
       if (!response.data.content.token) {
         console.log("error with token");
         return { message: "Błąd tokena autoryzacji." };
