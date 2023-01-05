@@ -81,10 +81,18 @@ export const LoginWithGoogle = async () => {
   const api = useAxios();
 
   return api
-    .get("auth/google")
+    .get("auth/google/success", { withCredentials: true })
     .then((response) => {
-      console.log(response);
-      return response;
+      if (!response.data.content.token) {
+        console.log("error with token");
+        return { message: "Błąd tokena autoryzacji." };
+      }
+      localStorage.setItem(
+        "token",
+        JSON.stringify(response.data.content.token)
+      );
+      console.log(response.data);
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -97,7 +105,7 @@ export const Logout = () => {
   localStorage.removeItem("token");
 };
 
-export const CheckIfLogin = () => {
-  if (JSON.parse(localStorage.getItem("token"))) return true;
+export const CheckIfLogin = async () => {
+  if (await JSON.parse(localStorage.getItem("token"))) return true;
   return false;
 };

@@ -58,8 +58,9 @@ const App = () => {
 
   useEffect(() => {
     const populateUser = async () => {
-      if (CheckIfLogin()) {
+      if (await CheckIfLogin()) {
         const userData = await GetUser();
+        if (!userData.status) return;
         user.setUser(await userData.content);
       }
     };
@@ -235,7 +236,7 @@ const App = () => {
             }
           />
 
-          <Route path="/login/google/:key" element={<LoginGoogle />} />
+          <Route path="/google/success" element={<LoginGoogle />} />
 
           <Route path="*" element={<Lost />} />
         </Routes>

@@ -47,7 +47,9 @@ const Search = () => {
       }
 
       const arr = getShopsData.content;
-      await arr.sort(compare);
+      if (arr) {
+        await arr.sort(compare);
+      }
       setShopList(arr);
       setLoading(false);
     };

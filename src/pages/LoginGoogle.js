@@ -1,15 +1,38 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../context/UserContext";
+import { CheckIfLogin, LoginWithGoogle } from "../services/auth";
+import { GetUser } from "../services/user";
 
 const LoginGoogle = () => {
-  const params = useParams();
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const userContext = useUser();
 
   useEffect(() => {
-    localStorage.setItem("token", JSON.stringify(params.key));
+    const log = async () => {
+      const dataLoginWithGoogle = await LoginWithGoogle();
+      if (!dataLoginWithGoogle.status) {
+        setError(dataLoginWithGoogle.message);
+        return;
+      }
+      if (await CheckIfLogin()) {
+        const userData = await GetUser();
+        if (!userData.status) {
+          setError(userData.message);
+          return;
+        }
+        await userContext.setUser(userData.content);
+      }
+    };
+
     navigate("/");
+
+    log();
   }, []);
+
+  return <div>{error && <div className="error">{error}</div>}</div>;
 };
 
 export default LoginGoogle;

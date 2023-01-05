@@ -52,8 +52,9 @@ const Home = () => {
       }
 
       const arr = getShopsData.content;
-      // shuffle(arr);
-      await arr.sort(compare);
+      if (arr) {
+        await arr.sort(compare);
+      }
 
       setShops(arr);
       setLoading(false);
