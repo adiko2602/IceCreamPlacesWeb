@@ -28,11 +28,8 @@ const LoginGoogle = () => {
     //     await userContext.setUser(userData.content);
     //   }
     // };
-
     // window.open(`${baseUrl}/auth/google/success`, "_self");
-
-    navigate("/");
-
+    // navigate("/");
     // log();
   }, []);
 
