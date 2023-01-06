@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,14 +29,26 @@ const LoginGoogle = () => {
     //   }
     // };
 
-    window.open(`${baseUrl}/auth/google/success`, "_self");
+    // window.open(`${baseUrl}/auth/google/success`, "_self");
 
     navigate("/");
 
     // log();
   }, []);
 
-  return <div>{error && <div className="error">{error}</div>}</div>;
+  return (
+    <div>
+      {error && <div className="error">{error}</div>}
+      <Button
+        onClick={async (e) => {
+          e.preventDefault();
+          console.log(await LoginWithGoogle());
+        }}
+      >
+        Zaloguj
+      </Button>
+    </div>
+  );
 };
 
 export default LoginGoogle;

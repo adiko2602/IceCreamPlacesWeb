@@ -81,7 +81,9 @@ export const LoginWithGoogle = async () => {
   const api = useAxios();
 
   return api
-    .get("auth/google/success", { withCredentials: true })
+    .get("https://ice-cream-places-api.vercel.app/auth/google/success", {
+      withCredentials: true,
+    })
     .then((response) => {
       console.log(response);
       if (!response.data.content.token) {
