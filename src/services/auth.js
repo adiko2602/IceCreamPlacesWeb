@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useAxios } from "./axios";
 
 export const Login = async (email, password) => {
@@ -80,27 +81,36 @@ export const AuthConfirmEmail = async (key) => {
 export const LoginWithGoogle = async () => {
   const api = useAxios();
 
-  return api
-    .get("https://ice-cream-places-api.vercel.app/auth/google/success", {
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response);
-      if (!response.data.content.token) {
-        console.log("error with token");
-        return { message: "Błąd tokena autoryzacji." };
-      }
-      localStorage.setItem(
-        "token",
-        JSON.stringify(response.data.content.token)
-      );
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return error.response;
-    });
+  axios.defaults.withCredentials = true;
+  axios("https://ice-cream-places-api.vercel.app/auth/google/success", {
+    method: "GET",
+    withCredentials: true,
+  })
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
+
+  return;
+  // return api
+  //   .get("https://ice-cream-places-api.vercel.app/auth/google/success", {
+  //     withCredentials: true,
+  //   })
+  //   .then((response) => {
+  //     console.log(response);
+  //     if (!response.data.content.token) {
+  //       console.log("error with token");
+  //       return { message: "Błąd tokena autoryzacji." };
+  //     }
+  //     localStorage.setItem(
+  //       "token",
+  //       JSON.stringify(response.data.content.token)
+  //     );
+  //     console.log(response.data);
+  //     return response.data;
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     return error.response;
+  //   });
 };
 
 export const Logout = () => {
