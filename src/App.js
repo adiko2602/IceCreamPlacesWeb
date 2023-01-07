@@ -40,8 +40,9 @@ import DeleteShop from "./pages/DeleteShop";
 import Lost from "./pages/Lost";
 import Protected from "./permission/Protected";
 import ConfirmEmail from "./pages/ConfirmEmail";
-import LoginGoogle from "./pages/LoginGoogle";
-import axios from "axios";
+import AdminUserProfile from "./components/AdminUsersProfile";
+import LoginSocialSuccess from "./pages/LoginSocialSuccess";
+import LoginSuccess from "./pages/LoginSuccess";
 
 // Pages
 
@@ -131,6 +132,9 @@ const App = () => {
             }
           />
 
+          <Route path="/login/success" element={<LoginSuccess />} />
+          <Route path="/login/success/:key" element={<LoginSocialSuccess />} />
+
           <Route
             path="/shop/:id"
             element={
@@ -215,6 +219,7 @@ const App = () => {
             }
           >
             <Route path="users" element={<AdminUsers />} />
+            <Route path="users/:id" element={<AdminUserProfile />} />
             <Route path="shops" element={<AdminShops />} />
           </Route>
 
@@ -235,8 +240,6 @@ const App = () => {
               </Protected>
             }
           />
-
-          <Route path="/google/success" element={<LoginGoogle />} />
 
           <Route path="*" element={<Lost />} />
         </Routes>

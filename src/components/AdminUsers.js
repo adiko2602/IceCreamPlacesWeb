@@ -37,10 +37,10 @@ const AdminUsers = () => {
 
   if (loading) return <Loading />;
 
-  if (!users) return <Loading />;
+  if (!users) return <div>Brak Użytkowników w bazie</div>;
 
   return (
-    <Card className="card">
+    <Card className="card-profile">
       <CardHeader
         className="card-header"
         title={<Typography variant="h5">Użytkownicy</Typography>}
@@ -52,7 +52,7 @@ const AdminUsers = () => {
             key={user._id}
             style={{ borderBottom: "solid 1px black", padding: "10px 0" }}
           >
-            <MuiLink component={Link} to={`/user/${user._id}`}>
+            <MuiLink component={Link} to={`/admin/users/${user._id}`}>
               {user._id}
               <br />
               <strong>{user.email}</strong>

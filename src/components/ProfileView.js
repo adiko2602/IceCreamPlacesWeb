@@ -10,7 +10,7 @@ const ProfileView = () => {
   if (!userContext.user) return <Loading />;
 
   return (
-    <Card className="card">
+    <Card className="card-profile">
       <CardHeader
         className="card-header"
         title={<Typography variant="h5">Przeglądaj profil</Typography>}

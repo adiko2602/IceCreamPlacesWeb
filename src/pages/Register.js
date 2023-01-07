@@ -79,7 +79,7 @@ const Registers = () => {
 
   const handleRegisterWithFacebook = (e) => {
     e.preventDefault();
-    console.log("Register with facebook");
+    window.open(`${baseUrl}/auth/facebook/`, "_self");
   };
 
   if (loading) return <Loading />;

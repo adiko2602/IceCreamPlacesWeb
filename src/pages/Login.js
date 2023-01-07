@@ -79,17 +79,17 @@ const Logins = () => {
     }
 
     user.setUser(userData.content);
-    navigate("/");
+    navigate("/login/success");
   };
 
-  const handleLoginWithGoogle = async (e) => {
+  const handleLoginWithGoogle = (e) => {
     e.preventDefault();
     window.open(`${baseUrl}/auth/google/`, "_self");
   };
 
-  const handleLoginWithFacebook = async (e) => {
+  const handleLoginWithFacebook = (e) => {
     e.preventDefault();
-    console.log("Facebook");
+    window.open(`${baseUrl}/auth/facebook/`, "_self");
   };
 
   if (loading) return <Loading />;

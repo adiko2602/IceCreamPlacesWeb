@@ -43,13 +43,15 @@ export const GetUserById = async (userId) => {
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
-  await api
+  return await api
     .get(`users/${userId}`, authHeader)
     .then((response) => {
       console.log(response.data);
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
+      return error.response.data;
     });
 };
 
@@ -59,12 +61,14 @@ export const UpdateUserById = async (userId, user) => {
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
-  await api
+  return await api
     .patch(`users/${userId}`, user, authHeader)
     .then((response) => {
       console.log(response.data);
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
+      return error.response.data;
     });
 };

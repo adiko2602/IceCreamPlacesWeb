@@ -35,10 +35,17 @@ const AdminShops = () => {
 
   if (loading) return <Loading />;
 
-  if (!shops) return <Loading />;
+  if (!shops)
+    return (
+      <Card className="card-profile">
+        <CardContent className="card-content">
+          Brak Lodziarni w bazie
+        </CardContent>
+      </Card>
+    );
 
   return (
-    <Card className="card">
+    <Card className="card-profile">
       <CardHeader
         className="card-header"
         title={<Typography variant="h5">Lodziarnie</Typography>}

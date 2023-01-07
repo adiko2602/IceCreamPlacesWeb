@@ -15,9 +15,7 @@ const Admin = () => {
           <Grid item xs={12}>
             <AdminNavigation />
           </Grid>
-        </Grid>
 
-        <Grid container>
           <Grid item xs={12}>
             <Outlet />
           </Grid>

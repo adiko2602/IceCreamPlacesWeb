@@ -21,7 +21,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin, setMapLoad }) => {
   useEffect(() => {
     if (!coordinates) return;
     if (map.current) return;
-    setMapLoad(true);
+    if (setMapLoad) setMapLoad(true);
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`,
@@ -34,7 +34,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin, setMapLoad }) => {
     map.current.on("load", () => {
       mapContainer.current.style.visibility = "visible";
       setLoading(false);
-      setMapLoad(false);
+      if (setMapLoad) setMapLoad(false);
     });
     map.current.addControl(new maplibregl.NavigationControl(), "top-right");
     console.log(mapData);
