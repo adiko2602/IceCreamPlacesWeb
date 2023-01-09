@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
-import { GetUser } from "../services/user";
 import Loading from "./Loading";
 
 const ProfileView = () => {

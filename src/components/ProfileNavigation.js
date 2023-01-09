@@ -1,20 +1,10 @@
-import {
-  Card,
-  CardContent,
-  Link as MuiLink,
-  Grid,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { List, ListItemButton, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Stack } from "@mui/system";
 import { useTheme } from "../context/ThemeContext";
 
 const ProfileNavigation = () => {
-  const { pathname } = useLocation();
   const isMobile = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(0);
 

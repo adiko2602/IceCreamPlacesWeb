@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { ColorRing } from "react-loader-spinner";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import ShopAddAddress from "../components/ShopAddAddress";
@@ -63,10 +62,6 @@ const AddShop = () => {
     navigate(`/shop/${createShopData.content._id}`);
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   if (loading) return <Loading />;
 
   switch (step) {
@@ -79,7 +74,6 @@ const AddShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 2: {
       return (
@@ -90,7 +84,6 @@ const AddShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 3: {
       return (
@@ -101,7 +94,6 @@ const AddShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 4: {
       return (
@@ -113,7 +105,6 @@ const AddShop = () => {
           styleTime={styleTime}
         />
       );
-      break;
     }
     case 5: {
       return (
@@ -125,7 +116,6 @@ const AddShop = () => {
           styleTime={styleTime}
         />
       );
-      break;
     }
     case 6: {
       return (
@@ -142,11 +132,9 @@ const AddShop = () => {
           />
         </>
       );
-      break;
     }
     default: {
       return "default";
-      break;
     }
   }
 };

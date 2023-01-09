@@ -1,8 +1,7 @@
 import validator from "validator";
 import { ResendEmail } from "../services/auth";
 import { Button, TextField } from "@mui/material";
-import { ColorRing } from "react-loader-spinner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "./Loading";
 
 const ResendEmailConfirmation = ({ setResendEmailForm, setErrorLogin }) => {
@@ -12,6 +11,7 @@ const ResendEmailConfirmation = ({ setResendEmailForm, setErrorLogin }) => {
   const [ok, setOk] = useState("");
 
   const handleResendEmail = async () => {
+    setError("");
     setLoading(true);
     if (!validator.isEmail(email)) {
       setError("Nieprawidłowy adres email.");
@@ -37,10 +37,6 @@ const ResendEmailConfirmation = ({ setResendEmailForm, setErrorLogin }) => {
   const delay = (delayInms) => {
     return new Promise((resolve) => setTimeout(resolve, delayInms));
   };
-
-  useEffect(() => {
-    setErrorLogin("");
-  }, []);
 
   if (loading) return <Loading />;
 

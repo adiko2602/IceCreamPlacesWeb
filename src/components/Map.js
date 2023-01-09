@@ -48,6 +48,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin, setMapLoad }) => {
 
     marker.addTo(map.current);
     marker.on("dragend", onDragEnd);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin, setMapLoad }) => {
     };
 
     populateCoordinates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

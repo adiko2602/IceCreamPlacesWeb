@@ -28,12 +28,14 @@ const LoginSuccess = () => {
       }
 
       userContext.setUser(userData.content);
+
       await timeout(5000);
+      navigate("/");
     };
 
     setLoading(true);
     populateUser();
-    navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;

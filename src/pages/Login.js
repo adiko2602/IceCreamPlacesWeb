@@ -1,9 +1,9 @@
-import { Link, useAsyncError, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
 
 // MUI
-import { IconButton, Link as MuiLink, Typography } from "@mui/material";
+import { Link as MuiLink, Typography } from "@mui/material";
 
 import validator from "validator";
 
@@ -21,9 +21,7 @@ import {
   CardHeader,
 } from "@mui/material";
 
-import { useUser } from "../context/UserContext";
-import { Login, LoginWithGoogle } from "../services/auth";
-import { GetUser } from "../services/user";
+import { Login } from "../services/auth";
 import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
 import Loading from "../components/Loading";
 import { FcGoogle } from "react-icons/fc";
@@ -37,8 +35,6 @@ const Logins = () => {
   const password = useRef("");
   const [error, setError] = useState("");
   const [resendEmailForm, setResendEmailForm] = useState(false);
-
-  const user = useUser();
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -71,14 +67,6 @@ const Logins = () => {
       return;
     }
 
-    const userData = await GetUser();
-    if (!userData.status) {
-      setError("Bład pobierania danych o użytkowniku.");
-      setLoading(false);
-      return;
-    }
-
-    user.setUser(userData.content);
     navigate("/login/success");
   };
 

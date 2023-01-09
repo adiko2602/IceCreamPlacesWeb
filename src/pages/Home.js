@@ -1,6 +1,5 @@
 // Hooks
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 
 // Components
 import ShopCard from "../components/ShopCard";
@@ -8,20 +7,20 @@ import ShopCard from "../components/ShopCard";
 // MUI
 import { Button, Grid, Typography } from "@mui/material";
 import { GetShops } from "../services/shop";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
+import { GetUser } from "../services/user";
+import { useUser } from "../context/UserContext";
+import { CheckIfLogin } from "../services/auth";
 
 // Services
 
 const Home = () => {
+  const user = useUser();
+
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
-
-  const delay = (delayInms) => {
-    return new Promise((resolve) => setTimeout(resolve, delayInms));
-  };
 
   const compare = (a, b) => {
     if (a.rating < b.rating) {
@@ -33,13 +32,18 @@ const Home = () => {
     return 0;
   };
 
-  const shuffle = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
+  useEffect(() => {
+    const populateUser = async () => {
+      if (await CheckIfLogin()) {
+        const userData = await GetUser();
+        if (!userData.status) return;
+        user.setUser(await userData.content);
+      }
+    };
+
+    populateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setError("");
@@ -59,9 +63,6 @@ const Home = () => {
 
       setShops(arr);
       setLoading(false);
-      Cookies.set("name", "value", { expires: 7 });
-
-      console.log(Cookies.get());
     };
 
     setLoading(true);

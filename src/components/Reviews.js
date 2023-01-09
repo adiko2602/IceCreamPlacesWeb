@@ -3,7 +3,6 @@ import {
   CardHeader,
   CardContent,
   Typography,
-  Link as MuiLink,
   IconButton,
   TextField,
   Rating,
@@ -11,17 +10,10 @@ import {
 } from "@mui/material";
 import { useUser } from "../context/UserContext";
 
-import {
-  AiFillStar,
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { CiTrash } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { ColorRing } from "react-loader-spinner";
 import { CreateReview, DeleteReview, UpdateReview } from "../services/review";
 import { GetShopById } from "../services/shop";
 import Loading from "./Loading";

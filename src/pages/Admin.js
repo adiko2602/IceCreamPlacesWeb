@@ -1,7 +1,6 @@
 import { Card, CardHeader, Typography, Grid, CardContent } from "@mui/material";
 import AdminNavigation from "../components/AdminNavigation";
 import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
 
 const Admin = () => {
   return (

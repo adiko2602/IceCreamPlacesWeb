@@ -7,7 +7,6 @@ import ShopCard from "../components/ShopCard";
 // MUI
 import {
   TextField,
-  Box,
   Typography,
   Grid,
   Card,
@@ -17,7 +16,6 @@ import {
 
 // Services
 import { GetShops } from "../services/shop";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
 
 const Search = () => {
@@ -75,7 +73,7 @@ const Search = () => {
         })
       );
     }
-  }, [query]);
+  }, [query, shopList]);
 
   if (loading) return <Loading />;
   if (shopList <= 0 || !shopList)

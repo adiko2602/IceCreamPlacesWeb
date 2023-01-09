@@ -21,9 +21,9 @@ const ShopAddMap = ({ step, setStep, formData, setFormData }) => {
         },
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coordinatesFromPin]);
 
-    console.log(coordinatesFromPin);
-  }, [coordinatesFromPin.lng, coordinatesFromPin.lat]);
   return (
     <Card className="card">
       <CardHeader className="card-header" title="Lodziarnia na mapie" />

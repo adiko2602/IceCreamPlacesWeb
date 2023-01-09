@@ -1,21 +1,9 @@
-import {
-  Card,
-  CardContent,
-  Grid,
-  Link as MuiLink,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Stack,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { List, ListItemButton, ListItemText, Stack } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 const AdminNavigation = () => {
-  const { pathname } = useLocation();
-
   const isMobile = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
