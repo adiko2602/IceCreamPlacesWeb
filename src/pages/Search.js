@@ -7,7 +7,6 @@ import ShopCard from "../components/ShopCard";
 // MUI
 import {
   TextField,
-  Box,
   Typography,
   Grid,
   Card,
@@ -17,7 +16,6 @@ import {
 
 // Services
 import { GetShops } from "../services/shop";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
 
 const Search = () => {
@@ -47,7 +45,9 @@ const Search = () => {
       }
 
       const arr = getShopsData.content;
-      await arr.sort(compare);
+      if (arr) {
+        await arr.sort(compare);
+      }
       setShopList(arr);
       setLoading(false);
     };
@@ -73,10 +73,22 @@ const Search = () => {
         })
       );
     }
-  }, [query]);
+  }, [query, shopList]);
 
   if (loading) return <Loading />;
-  if (!shopList) return <Loading />;
+  if (shopList <= 0 || !shopList)
+    return (
+      <div className="flex-column">
+        <>
+          <Typography variant="h5" gutterBottom>
+            Wyszukaj lodziarnię po nazwie lub smaku :D.
+          </Typography>
+          <Typography variant="body1">
+            Niestety nie mamy lodziarni w naszej bazie do wyszukania...
+          </Typography>
+        </>
+      </div>
+    );
 
   return (
     <Card className="card">

@@ -2,7 +2,6 @@ import { Logout } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useEffect, useState } from "react";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
 
 const Logouts = () => {
@@ -15,7 +14,8 @@ const Logouts = () => {
     user.deleteUser();
     Logout();
     navigate("/");
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) return <Loading />;
   return <div>Wylogowany</div>;

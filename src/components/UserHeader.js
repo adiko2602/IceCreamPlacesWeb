@@ -1,14 +1,7 @@
-import DrawerNavbar from "./DrawerNavbar";
+// import DrawerNavbar from "./DrawerNavbar";
 import Navbar from "./Navbar";
 
-// Context
-import { useTheme } from "../context/ThemeContext";
-
 const links = [
-  {
-    to: "/search",
-    label: "Szukaj",
-  },
   {
     to: "/profile/view",
     label: "Profil",
@@ -20,10 +13,11 @@ const links = [
 ];
 
 const UserHeader = () => {
-  const isMobile = useTheme();
+  // const isMobile = useTheme();
 
-  if (!isMobile.getIsMobile()) return <Navbar links={links} />;
-  return <DrawerNavbar links={links} />;
+  // if (!isMobile.getIsMobile()) return <Navbar links={links} />;
+  // return <DrawerNavbar links={links} />;
+  return <Navbar links={links} />;
 };
 
 export default UserHeader;

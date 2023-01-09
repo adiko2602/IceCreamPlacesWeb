@@ -23,7 +23,7 @@ const ShopAddSelectHours = ({
     if (formData.openingHours.find((item) => item.weekDay === dayNumber))
       setChecked(true);
     else setChecked(false);
-  }, [formData.openingHours]);
+  }, [formData.openingHours, dayNumber]);
   return (
     <>
       <FormControlLabel

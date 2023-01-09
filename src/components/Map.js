@@ -4,7 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import axios from "axios";
 import Loading from "./Loading";
 
-const Map = ({ mapData, pinDraggable, setCoordinatesFromPin }) => {
+const Map = ({ mapData, pinDraggable, setCoordinatesFromPin, setMapLoad }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [coordinates, setCoordinates] = useState(null);
@@ -21,6 +21,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin }) => {
   useEffect(() => {
     if (!coordinates) return;
     if (map.current) return;
+    if (setMapLoad) setMapLoad(true);
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`,
@@ -33,6 +34,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin }) => {
     map.current.on("load", () => {
       mapContainer.current.style.visibility = "visible";
       setLoading(false);
+      if (setMapLoad) setMapLoad(false);
     });
     map.current.addControl(new maplibregl.NavigationControl(), "top-right");
     console.log(mapData);
@@ -46,6 +48,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin }) => {
 
     marker.addTo(map.current);
     marker.on("dragend", onDragEnd);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 
   useEffect(() => {
@@ -82,6 +85,7 @@ const Map = ({ mapData, pinDraggable, setCoordinatesFromPin }) => {
     };
 
     populateCoordinates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

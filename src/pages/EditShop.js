@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ColorRing } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import ShopAddAddress from "../components/ShopAddAddress";
@@ -78,7 +77,6 @@ const EditShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 2: {
       return (
@@ -89,7 +87,6 @@ const EditShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 3: {
       return (
@@ -100,7 +97,6 @@ const EditShop = () => {
           setFormData={setFormData}
         />
       );
-      break;
     }
     case 4: {
       return (
@@ -112,7 +108,6 @@ const EditShop = () => {
           styleTime={styleTime}
         />
       );
-      break;
     }
     case 5: {
       return (
@@ -124,7 +119,6 @@ const EditShop = () => {
           styleTime={styleTime}
         />
       );
-      break;
     }
     case 6: {
       return (
@@ -141,11 +135,9 @@ const EditShop = () => {
           />
         </>
       );
-      break;
     }
     default: {
       return "default";
-      break;
     }
   }
 };

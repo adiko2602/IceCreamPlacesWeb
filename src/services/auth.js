@@ -9,6 +9,7 @@ export const Login = async (email, password) => {
       password: password,
     })
     .then((response) => {
+      console.log(response);
       if (!response.data.content.token) {
         console.log("error with token");
         return { message: "Błąd tokena autoryzacji." };
@@ -82,7 +83,7 @@ export const Logout = () => {
   localStorage.removeItem("token");
 };
 
-export const CheckIfLogin = () => {
-  if (JSON.parse(localStorage.getItem("token"))) return true;
+export const CheckIfLogin = async () => {
+  if (await JSON.parse(localStorage.getItem("token"))) return true;
   return false;
 };

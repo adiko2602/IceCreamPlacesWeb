@@ -7,20 +7,20 @@ import ShopCard from "../components/ShopCard";
 // MUI
 import { Button, Grid, Typography } from "@mui/material";
 import { GetShops } from "../services/shop";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
+import { GetUser } from "../services/user";
+import { useUser } from "../context/UserContext";
+import { CheckIfLogin } from "../services/auth";
 
 // Services
 
 const Home = () => {
+  const user = useUser();
+
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
-
-  const delay = (delayInms) => {
-    return new Promise((resolve) => setTimeout(resolve, delayInms));
-  };
 
   const compare = (a, b) => {
     if (a.rating < b.rating) {
@@ -32,13 +32,18 @@ const Home = () => {
     return 0;
   };
 
-  const shuffle = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
+  useEffect(() => {
+    const populateUser = async () => {
+      if (await CheckIfLogin()) {
+        const userData = await GetUser();
+        if (!userData.status) return;
+        user.setUser(await userData.content);
+      }
+    };
+
+    populateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setError("");
@@ -52,8 +57,9 @@ const Home = () => {
       }
 
       const arr = getShopsData.content;
-      // shuffle(arr);
-      await arr.sort(compare);
+      if (arr) {
+        await arr.sort(compare);
+      }
 
       setShops(arr);
       setLoading(false);
@@ -64,7 +70,19 @@ const Home = () => {
   }, []);
 
   if (loading) return <Loading />;
-  if (!shops) return <Loading />;
+  if (shops <= 0 || !shops)
+    return (
+      <>
+        <Typography variant="h5" gutterBottom>
+          Witaj na stronie poświęconej lodziarniom. Tutaj znajdziesz każdą
+          lodziarnię w Twojej okolicy.
+        </Typography>
+        <Typography variant="body1">
+          Niestety w naszej bazie są pustki... Możesz założyć konto i dodać
+          swoją lodziarnię :D
+        </Typography>
+      </>
+    );
 
   return (
     <div className="flex-column">

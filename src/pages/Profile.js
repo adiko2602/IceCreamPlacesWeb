@@ -1,13 +1,6 @@
 import { Typography, Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useRouteMatch,
-} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Loading from "../components/Loading.js";
 
 import ProfileNavigation from "../components/ProfileNavigation.js";
@@ -35,6 +28,7 @@ const Profile = () => {
 
     setLoading(true);
     populateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;

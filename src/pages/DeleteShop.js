@@ -1,6 +1,5 @@
 import { Button, Card, CardContent, CardHeader } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ColorRing } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useUser } from "../context/UserContext";

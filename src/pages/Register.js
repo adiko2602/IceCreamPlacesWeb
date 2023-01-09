@@ -20,14 +20,15 @@ import {
   Link as MuiLink,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { ColorRing } from "react-loader-spinner";
 import Loading from "../components/Loading";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+import { baseUrl } from "../services/axios";
 
 const Registers = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(true);
   const email = useRef("");
   const password = useRef("");
 
@@ -66,10 +67,36 @@ const Registers = () => {
       return;
     }
 
-    navigate("/login");
+    setSuccess(true);
+  };
+
+  const handleRegisterWithGoogle = (e) => {
+    e.preventDefault();
+    window.open(`${baseUrl}/auth/google/`, "_self");
+  };
+
+  const handleRegisterWithFacebook = (e) => {
+    e.preventDefault();
+    window.open(`${baseUrl}/auth/facebook/`, "_self");
   };
 
   if (loading) return <Loading />;
+
+  if (success)
+    return (
+      <Card className="card">
+        <CardContent className="card-content">
+          <Typography variant="body1">
+            Rejestracja przebiegła pomyślnie <br />
+            Sprawdź swój adres email, aby aktywować swoje konto. Kliknij{" "}
+            <MuiLink color="text.secondary" component={Link} to="/login">
+              <strong>tutaj</strong>
+            </MuiLink>{" "}
+            aby się zalogować.
+          </Typography>
+        </CardContent>
+      </Card>
+    );
 
   return (
     <Card className="card">
@@ -110,6 +137,24 @@ const Registers = () => {
             </Button>
           </div>
         </form>
+        <div className="flex-row">
+          <Button
+            startIcon={<FcGoogle />}
+            fullWidth
+            variant="outlined"
+            onClick={(e) => handleRegisterWithGoogle(e)}
+          >
+            <strong>Google</strong>
+          </Button>
+          <Button
+            startIcon={<FaFacebook style={{ color: "#3b5998" }} />}
+            fullWidth
+            variant="outlined"
+            onClick={(e) => handleRegisterWithFacebook(e)}
+          >
+            <strong>Facebook</strong>
+          </Button>
+        </div>
         <br />
         <Typography variant="body1">
           Masz już konto? Kliknij{" "}

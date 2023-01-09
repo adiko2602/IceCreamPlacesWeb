@@ -47,8 +47,11 @@ const ShopAddFlavors = ({ step, setStep, formData, setFormData }) => {
     formData.flavors.map((flav) => {
       if (!flav.name) {
         setDisableButton(true);
-        return;
-      } else setDisableButton(false);
+        return null;
+      } else {
+        setDisableButton(false);
+        return null;
+      }
     });
   }, [formData.flavors]);
 

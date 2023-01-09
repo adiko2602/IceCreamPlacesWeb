@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
-import { GetUser } from "../services/user";
 import Loading from "./Loading";
 
 const ProfileView = () => {
@@ -10,7 +8,7 @@ const ProfileView = () => {
   if (!userContext.user) return <Loading />;
 
   return (
-    <Card className="card">
+    <Card className="card-profile">
       <CardHeader
         className="card-header"
         title={<Typography variant="h5">Przeglądaj profil</Typography>}

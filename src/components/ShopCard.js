@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 
-// Hooks
-import { useEffect, useState } from "react";
-
 // MUI
 import {
   Card,
@@ -23,19 +20,16 @@ import { CiMapPin } from "react-icons/ci";
 const ShopCard = ({ shop, params }) => {
   const { name, address, openingHours, flavors, _id, rating } = shop;
   const { country, city, postCode, streetName, streetNumber } = address;
-  const { weekDay, startHour, startMinute, endHour, endMinute } = openingHours;
   const { showFlavors, showOpenHours, isSummary } = params;
 
-  //const [filteredFlavors, setFilteredFlavors] = useState([]);
-
   const daysNames = [
-    { dayName: "Poniedziałek", dayNumber: 1 },
-    { dayName: "Wtorek", dayNumber: 2 },
-    { dayName: "Środa", dayNumber: 3 },
-    { dayName: "Czwartek", dayNumber: 4 },
-    { dayName: "Piątek", dayNumber: 5 },
-    { dayName: "Sobota", dayNumber: 6 },
-    { dayName: "Niedziela", dayNumber: 7 },
+    { dayName: "Poniedziałek", dayNumber: 0 },
+    { dayName: "Wtorek", dayNumber: 1 },
+    { dayName: "Środa", dayNumber: 2 },
+    { dayName: "Czwartek", dayNumber: 3 },
+    { dayName: "Piątek", dayNumber: 4 },
+    { dayName: "Sobota", dayNumber: 5 },
+    { dayName: "Niedziela", dayNumber: 6 },
   ];
 
   const styleTime = (h, m) => {
@@ -55,14 +49,16 @@ const ShopCard = ({ shop, params }) => {
         <CardHeader
           className="card-header"
           title={
-            <div className="flex-row flex-space-between">
+            <div className="flex-column">
               <strong>{name}</strong>
-              <Rating name="read-only" value={rating} readOnly />
+              {!isSummary && (
+                <Rating name="read-only" value={rating} readOnly />
+              )}
             </div>
           }
         />
         <CardContent className="card-content" color="secondary">
-          <Typography type="h5">
+          <Typography variant="body1">
             <span>
               <CiMapPin />
             </span>{" "}

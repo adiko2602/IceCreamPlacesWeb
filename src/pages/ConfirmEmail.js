@@ -22,9 +22,11 @@ const ConfirmEmail = () => {
       const sendConfirmData = await AuthConfirmEmail(key);
       if (!sendConfirmData.status) {
         setError(sendConfirmData.message);
+        setConfirmation(false);
         setLoading(false);
         return;
       }
+      setConfirmation(true);
       setLoading(false);
       return;
     };

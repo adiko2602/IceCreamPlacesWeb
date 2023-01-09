@@ -40,6 +40,10 @@ import DeleteShop from "./pages/DeleteShop";
 import Lost from "./pages/Lost";
 import Protected from "./permission/Protected";
 import ConfirmEmail from "./pages/ConfirmEmail";
+import AdminUserProfile from "./components/AdminUsersProfile";
+import LoginSocialSuccess from "./pages/LoginSocialSuccess";
+import LoginSuccess from "./pages/LoginSuccess";
+import LoginFailed from "./pages/LoginFailed";
 
 // Pages
 
@@ -52,46 +56,21 @@ const App = () => {
 
   useEffect(() => {
     setIsMobile.setIsMobile(isMobile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
 
   useEffect(() => {
     const populateUser = async () => {
-      if (CheckIfLogin()) {
+      if (await CheckIfLogin()) {
         const userData = await GetUser();
+        if (!userData.status) return;
         user.setUser(await userData.content);
       }
     };
 
     populateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // if (user.user.roles.includes("admin"))
-  //   return (
-  //     <div>
-  //       {" "}
-  //       <Routes>
-  //         <Route exact path="/" element={<Home />} />
-  //         <Route path="/login" element={<Logins />} />
-  //         <Route path="/shop/:id" element={<Shop />} />
-  //         <Route path="/shop/:id/edit" element={<EditShop />} />
-  //         <Route path="/shop/:id/delete" element={<DeleteShop />} />
-  //         <Route path="/logout" element={<Logouts />} />
-  //         <Route path="/search" element={<Search />} />
-  //         <Route path="/register" element={<Registers />} />
-  //         <Route path="/profile" element={<Profile />}>
-  //           <Route path="view" element={<ProfileView />} />
-  //           <Route path="edit" element={<ProfileEdit />} />
-  //           <Route path="favorite" element={<ProfileFavorite />} />
-  //         </Route>
-  //         <Route path="/shop" element={<Shops />} />
-  //         <Route path="/admin" element={<Admin />}>
-  //           <Route path="users" element={<AdminUsers />} />
-  //           <Route path="shops" element={<AdminShops />} />
-  //         </Route>
-  //         <Route path="/shop/add" element={<AddShop />} />
-  //       </Routes>
-  //     </div>
-  //   );
 
   return (
     <BrowserRouter>
@@ -127,6 +106,10 @@ const App = () => {
               </Protected>
             }
           />
+
+          <Route path="/login/success" element={<LoginSuccess />} />
+          <Route path="/login/failed" element={<LoginFailed />} />
+          <Route path="/login/success/:key" element={<LoginSocialSuccess />} />
 
           <Route
             path="/shop/:id"
@@ -212,6 +195,7 @@ const App = () => {
             }
           >
             <Route path="users" element={<AdminUsers />} />
+            <Route path="users/:id" element={<AdminUserProfile />} />
             <Route path="shops" element={<AdminShops />} />
           </Route>
 

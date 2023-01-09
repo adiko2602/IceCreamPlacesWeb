@@ -1,4 +1,4 @@
-import { Link, useAsyncError, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
 
@@ -21,12 +21,12 @@ import {
   CardHeader,
 } from "@mui/material";
 
-import { useUser } from "../context/UserContext";
 import { Login } from "../services/auth";
-import { GetUser } from "../services/user";
-import { ColorRing } from "react-loader-spinner";
 import ResendEmailConfirmation from "../components/ResendEmailConfirmation";
 import Loading from "../components/Loading";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+import { baseUrl } from "../services/axios";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -35,8 +35,6 @@ const Logins = () => {
   const password = useRef("");
   const [error, setError] = useState("");
   const [resendEmailForm, setResendEmailForm] = useState(false);
-
-  const user = useUser();
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -69,15 +67,17 @@ const Logins = () => {
       return;
     }
 
-    const userData = await GetUser();
-    if (!userData.status) {
-      setError("Bład pobierania danych o użytkowniku.");
-      setLoading(false);
-      return;
-    }
+    navigate("/login/success");
+  };
 
-    user.setUser(userData.content);
-    navigate("/");
+  const handleLoginWithGoogle = (e) => {
+    e.preventDefault();
+    window.open(`${baseUrl}/auth/google/`, "_self");
+  };
+
+  const handleLoginWithFacebook = (e) => {
+    e.preventDefault();
+    window.open(`${baseUrl}/auth/facebook/`, "_self");
   };
 
   if (loading) return <Loading />;
@@ -122,6 +122,24 @@ const Logins = () => {
               </Button>
             </div>
           </form>
+          <div className="flex-row">
+            <Button
+              startIcon={<FcGoogle />}
+              fullWidth
+              variant="outlined"
+              onClick={(e) => handleLoginWithGoogle(e)}
+            >
+              <strong>Google</strong>
+            </Button>
+            <Button
+              startIcon={<FaFacebook style={{ color: "#3b5998" }} />}
+              fullWidth
+              variant="outlined"
+              onClick={(e) => handleLoginWithFacebook(e)}
+            >
+              <strong>Facebook</strong>
+            </Button>
+          </div>
           <br />
           <Typography variant="body1">
             Nie masz konta? Kliknij{" "}

@@ -12,14 +12,15 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Link as MuiLink,
   Button,
   Rating,
+  IconButton,
 } from "@mui/material";
 
 // Icons
 import { CiIceCream } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
+import { HiHeart } from "react-icons/hi";
+import { HiOutlineHeart } from "react-icons/hi";
 import { CiMapPin } from "react-icons/ci";
 import { CiTrash } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
@@ -39,13 +40,13 @@ const Shop = () => {
   const userContext = useUser();
 
   const daysNames = [
-    { dayName: "Poniedziałek", dayNumber: 1 },
-    { dayName: "Wtorek", dayNumber: 2 },
-    { dayName: "Środa", dayNumber: 3 },
-    { dayName: "Czwartek", dayNumber: 4 },
-    { dayName: "Piątek", dayNumber: 5 },
-    { dayName: "Sobota", dayNumber: 6 },
-    { dayName: "Niedziela", dayNumber: 7 },
+    { dayName: "Poniedziałek", dayNumber: 0 },
+    { dayName: "Wtorek", dayNumber: 1 },
+    { dayName: "Środa", dayNumber: 2 },
+    { dayName: "Czwartek", dayNumber: 3 },
+    { dayName: "Piątek", dayNumber: 4 },
+    { dayName: "Sobota", dayNumber: 5 },
+    { dayName: "Niedziela", dayNumber: 6 },
   ];
 
   const styleTime = (h, m) => {
@@ -64,25 +65,26 @@ const Shop = () => {
         setLoading(false);
         return;
       }
-
-      const userData = await GetUser();
-      if (!userData.status) {
-        setError(userData.message);
-        setLoading(false);
-        return;
-      }
-
       setShop(getShopByIdData.content);
-      await userContext.setUser(userData.content);
+
+      if (userContext.user) {
+        const userData = await GetUser();
+        if (!userData.status) {
+          setError(userData.message);
+          setLoading(false);
+          return;
+        }
+        await userContext.setUser(userData.content);
+      }
       setLoading(false);
     };
 
     setLoading(true);
     populate(params.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   if (loading) return <Loading />;
-  if (!userContext.user) return <Loading />;
   if (!shop) return <Loading />;
   return (
     <>
@@ -90,47 +92,55 @@ const Shop = () => {
         <CardHeader
           className="card-header"
           title={
-            <div className="flex-space-between flex-row full-width">
-              <div className="flex-row">
-                <Typography variant="h4">
-                  <CiIceCream />
-                </Typography>
-                <Typography variant="h5">{shop.name}</Typography>
-                <Rating name="read-only" value={shop.rating} readOnly />
+            <div className="flex-row flex-space-between">
+              <div>
+                <div className="flex-row">
+                  <Typography variant="h4">
+                    <CiIceCream />
+                  </Typography>
+                  <div className="flex-column" style={{ gap: 0 }}>
+                    <Typography variant="h5">{shop.name}</Typography>
+                    <Rating name="read-only" value={shop.rating} readOnly />
+                  </div>
+                </div>
               </div>
 
               {userContext.user && (
                 <div>
+                  <IconButton
+                    color="error"
+                    component={Link}
+                    to={`/shop/${params.id}/edit`}
+                  >
+                    <HiHeart />
+                  </IconButton>
+
+                  <IconButton component={Link} to={`/shop/${params.id}/edit`}>
+                    <HiOutlineHeart />
+                  </IconButton>
                   {(userContext.user.shops.filter(
                     (shop) => shop.id._id === params.id
                   ).length > 0 ||
                     userContext.user.roles.includes("admin")) && (
                     <>
-                      <MuiLink
-                        style={{ margin: "0 20px" }}
-                        color="text.primary"
+                      <IconButton
                         component={Link}
                         to={`/shop/${params.id}/edit`}
                       >
-                        <span>
-                          <CiEdit />
-                        </span>
-                      </MuiLink>
+                        <CiEdit />
+                      </IconButton>
                       {(userContext.user.shops.filter(
                         (shop) =>
                           shop.id._id === params.id &&
                           shop.jobPosition === "owner"
                       ).length > 0 ||
                         userContext.user.roles.includes("admin")) && (
-                        <MuiLink
-                          color="text.primary"
+                        <IconButton
                           component={Link}
                           to={`/shop/${params.id}/delete`}
                         >
-                          <span>
-                            <CiTrash />
-                          </span>
-                        </MuiLink>
+                          <CiTrash />
+                        </IconButton>
                       )}
                     </>
                   )}
@@ -139,7 +149,7 @@ const Shop = () => {
             </div>
           }
           subheader={
-            <div className="flex-row">
+            <div className="flex-row" style={{ marginTop: "1rem" }}>
               <Typography variant="h4">
                 <CiMapPin />
               </Typography>
