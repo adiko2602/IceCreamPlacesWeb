@@ -56,6 +56,7 @@ const ShopAddOpeningHours = ({
   const removeDaysData = (dayNumber) => {
     const newOpeningHours = formData.openingHours.filter((item) => {
       if (item.weekDay !== dayNumber) return item;
+      return null;
     });
 
     setFormData({
@@ -100,7 +101,7 @@ const ShopAddOpeningHours = ({
         <div className="flex-column">
           <ShopAddSelectHours
             dayName="Poniedziałek"
-            dayNumber={1}
+            dayNumber={0}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -110,7 +111,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Wtorek"
-            dayNumber={2}
+            dayNumber={1}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -120,7 +121,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Środa"
-            dayNumber={3}
+            dayNumber={2}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -130,7 +131,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Czwartek"
-            dayNumber={4}
+            dayNumber={3}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -140,7 +141,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Piątek"
-            dayNumber={5}
+            dayNumber={4}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -150,7 +151,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Sobota"
-            dayNumber={6}
+            dayNumber={5}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}
@@ -160,7 +161,7 @@ const ShopAddOpeningHours = ({
           />
           <ShopAddSelectHours
             dayName="Niedziela"
-            dayNumber={7}
+            dayNumber={6}
             addDaysData={addDaysData}
             removeDaysData={removeDaysData}
             updateDaysData={updateDaysData}

@@ -12,7 +12,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Link as MuiLink,
   Button,
   Rating,
   IconButton,
@@ -22,7 +21,6 @@ import {
 import { CiIceCream } from "react-icons/ci";
 import { HiHeart } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
-import { FaHeart } from "react-icons/fa";
 import { CiMapPin } from "react-icons/ci";
 import { CiTrash } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
@@ -42,13 +40,13 @@ const Shop = () => {
   const userContext = useUser();
 
   const daysNames = [
-    { dayName: "Poniedziałek", dayNumber: 1 },
-    { dayName: "Wtorek", dayNumber: 2 },
-    { dayName: "Środa", dayNumber: 3 },
-    { dayName: "Czwartek", dayNumber: 4 },
-    { dayName: "Piątek", dayNumber: 5 },
-    { dayName: "Sobota", dayNumber: 6 },
-    { dayName: "Niedziela", dayNumber: 7 },
+    { dayName: "Poniedziałek", dayNumber: 0 },
+    { dayName: "Wtorek", dayNumber: 1 },
+    { dayName: "Środa", dayNumber: 2 },
+    { dayName: "Czwartek", dayNumber: 3 },
+    { dayName: "Piątek", dayNumber: 4 },
+    { dayName: "Sobota", dayNumber: 5 },
+    { dayName: "Niedziela", dayNumber: 6 },
   ];
 
   const styleTime = (h, m) => {
@@ -83,6 +81,7 @@ const Shop = () => {
 
     setLoading(true);
     populate(params.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   if (loading) return <Loading />;
