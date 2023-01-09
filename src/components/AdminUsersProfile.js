@@ -126,6 +126,7 @@ const AdminUserProfile = () => {
                 onChange={handleRolesChange}
                 checked={user.roles.includes("default")}
                 name="default"
+                disabled={true}
               />
             }
             label="user"
@@ -135,6 +136,7 @@ const AdminUserProfile = () => {
               <Checkbox
                 onChange={handleRolesChange}
                 checked={user.roles.includes("owner")}
+                disabled={true}
                 name="owner"
               />
             }
@@ -145,6 +147,7 @@ const AdminUserProfile = () => {
               <Checkbox
                 onChange={handleRolesChange}
                 checked={user.roles.includes("admin")}
+                disabled={true}
                 name="admin"
               />
             }
