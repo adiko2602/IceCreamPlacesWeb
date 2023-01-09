@@ -1,17 +1,10 @@
-import DrawerNavbar from "./DrawerNavbar";
+// import DrawerNavbar from "./DrawerNavbar";
 import Navbar from "./Navbar";
-
-// Context
-import { useTheme } from "../context/ThemeContext";
 
 const links = [
   {
-    to: "/search",
-    label: "Szukaj",
-  },
-  {
     to: "/shop",
-    label: "Twoje lodziarnie",
+    label: "Moje lodziarnie",
   },
   {
     to: "/profile/view",
@@ -24,10 +17,11 @@ const links = [
 ];
 
 const OwnerHeader = () => {
-  const isMobile = useTheme();
+  // const isMobile = useTheme();
 
-  if (!isMobile.getIsMobile()) return <Navbar links={links} />;
-  return <DrawerNavbar links={links} />;
+  // if (!isMobile.getIsMobile()) return <Navbar links={links} />;
+  // return <DrawerNavbar links={links} />;
+  return <Navbar links={links} />;
 };
 
 export default OwnerHeader;

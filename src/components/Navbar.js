@@ -4,37 +4,80 @@ import { Link } from "react-router-dom";
 import {
   Link as MuiLink,
   AppBar,
-  Grid,
   Toolbar,
   Typography,
+  Avatar,
+  // Badge,
+  Menu,
+  MenuItem,
+  Button,
 } from "@mui/material";
 
 // Icons
-import { CiIceCream } from "react-icons/ci";
+import { CiIceCream, CiSearch } from "react-icons/ci";
+import { useUser } from "../context/UserContext";
+import { useState } from "react";
 
 const Navbar = ({ links }) => {
+  const userContext = useUser();
+  const [anchorEl, setAnchorEl] = useState();
+
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  if (!userContext.user) return;
   return (
     <AppBar position="static">
       <Toolbar>
-        <div className="flex-row flex-space-beetwen full-width">
-          <Typography variant="h5">
+        <div className="flex-row flex-center flex-space-between full-width">
+          <div className="flex-row flex-center">
             <MuiLink color="text.secondary" component={Link} to="/">
-              <span>
+              <Typography variant="h4" style={{ margin: "0.4rem" }}>
                 <CiIceCream />
-              </span>
+              </Typography>
             </MuiLink>
-          </Typography>
-          <Grid container gap={3}>
-            {links.map((link, i) => (
-              <Grid item key={i}>
-                <Typography>
-                  <MuiLink color="text.secondary" component={Link} to={link.to}>
-                    {link.label}
-                  </MuiLink>
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
+            <MuiLink color="text.secondary" component={Link} to="/search">
+              <Typography variant="h5" style={{ margin: "0.4rem" }}>
+                <CiSearch />
+              </Typography>
+            </MuiLink>
+          </div>
+          <div>
+            <Button
+              onClick={(e) => {
+                setAnchorEl(e.currentTarget);
+              }}
+            >
+              {/* <Badge badgeContent={4} color="secondary"> */}
+              <Avatar style={{ backgroundColor: "#6b6b6b" }}>
+                {userContext.user && userContext.user.email[0].toUpperCase()}
+              </Avatar>
+              {/* </Badge> */}
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              {links.map((link, i) => (
+                <MenuItem
+                  key={i}
+                  component={Link}
+                  onClick={handleClose}
+                  to={link.to}
+                >
+                  {link.label}
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
         </div>
       </Toolbar>
     </AppBar>
