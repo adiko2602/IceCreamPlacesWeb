@@ -14,13 +14,9 @@ const LoginSuccess = () => {
   const navigate = useNavigate();
   const userContext = useUser();
 
-  function timeout(delay) {
-    return new Promise((res) => setTimeout(res, delay));
-  }
-
   useEffect(() => {
     const populateUser = async () => {
-      const userData = GetUser();
+      const userData = await GetUser();
       if (!userData.status) {
         setError(userData.message);
         setLoading(false);
@@ -29,7 +25,7 @@ const LoginSuccess = () => {
 
       userContext.setUser(userData.content);
 
-      await timeout(5000);
+      await delay(3000);
       navigate("/");
     };
 
@@ -37,6 +33,10 @@ const LoginSuccess = () => {
     populateUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const delay = (delayInms) => {
+    return new Promise((resolve) => setTimeout(resolve, delayInms));
+  };
 
   if (loading) return <Loading />;
   return (
