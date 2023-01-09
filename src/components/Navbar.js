@@ -28,7 +28,6 @@ const Navbar = ({ links }) => {
     setAnchorEl(null);
   };
 
-  if (!userContext.user) return;
   return (
     <AppBar position="static">
       <Toolbar>
