@@ -21,6 +21,7 @@ import { CiIceCream, CiSearch } from "react-icons/ci";
 import { useUser } from "../context/UserContext";
 import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { CheckIfLogin } from "../services/auth";
 
 const Navbar = ({ links }) => {
   const userContext = useUser();
@@ -91,10 +92,15 @@ const Navbar = ({ links }) => {
                       control={
                         <Switch
                           size="small"
-                          onChange={(e) => {
+                          onChange={async (e) => {
                             if (ThemeContext.darkMode === "dark") {
                               ThemeContext.setDarkMode("light");
+                              if (await CheckIfLogin())
+                                localStorage.setItem("darkMode", "light");
                               return;
+                            }
+                            if (await CheckIfLogin()) {
+                              localStorage.setItem("darkMode", "dark");
                             }
                             ThemeContext.setDarkMode("dark");
                           }}
