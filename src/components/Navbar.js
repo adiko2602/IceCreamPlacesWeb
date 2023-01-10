@@ -11,15 +11,21 @@ import {
   Menu,
   MenuItem,
   Button,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 
 // Icons
 import { CiIceCream, CiSearch } from "react-icons/ci";
 import { useUser } from "../context/UserContext";
 import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 const Navbar = ({ links }) => {
   const userContext = useUser();
+  const ThemeContext = useTheme();
+
   const [anchorEl, setAnchorEl] = useState();
 
   const open = Boolean(anchorEl);
@@ -29,7 +35,10 @@ const Navbar = ({ links }) => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      color={ThemeContext.darkMode === "dark" ? "secondary" : "primary"}
+    >
       <Toolbar>
         <div className="flex-row flex-center flex-space-between full-width">
           <div className="flex-row flex-center">
@@ -75,6 +84,28 @@ const Navbar = ({ links }) => {
                   {link.label}
                 </MenuItem>
               ))}
+              <MenuItem>
+                <FormGroup>
+                  <Typography variant="body2">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          size="small"
+                          onChange={(e) => {
+                            if (ThemeContext.darkMode === "dark") {
+                              ThemeContext.setDarkMode("light");
+                              return;
+                            }
+                            ThemeContext.setDarkMode("dark");
+                          }}
+                          checked={ThemeContext.darkMode === "dark" && true}
+                        />
+                      }
+                      label="Tryb ciemny"
+                    />
+                  </Typography>
+                </FormGroup>
+              </MenuItem>
             </Menu>
           </div>
         </div>

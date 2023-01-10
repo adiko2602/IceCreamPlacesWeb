@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // Hooks
 import {
+  Button,
   Container,
   useMediaQuery,
   useTheme as useThemeMUI,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useTheme } from "./context/ThemeContext";
 
 // Components
@@ -44,13 +45,17 @@ import AdminUserProfile from "./components/AdminUsersProfile";
 import LoginSocialSuccess from "./pages/LoginSocialSuccess";
 import LoginSuccess from "./pages/LoginSuccess";
 import LoginFailed from "./pages/LoginFailed";
+import ToggleColorMode from "./theme/ToggleColorMode";
 
 // Pages
 
 const App = () => {
   const user = useUser();
-  const theme = useThemeMUI();
+  // const theme = useThemeMUI();
   const setIsMobile = useTheme();
+
+  const theme = useThemeMUI();
+  // const colorMode = useContext(ColorModeContext);
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -73,154 +78,159 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <NotLoginPermission>
-        <Header />
-      </NotLoginPermission>
-      <UserPermission>
-        <UserHeader />
-      </UserPermission>
-      <OwnerPermission>
-        <OwnerHeader />
-      </OwnerPermission>
-      <AdminPermission>
-        <AdminHeader />
-      </AdminPermission>
-      <Container className="container">
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <Protected access={[]}>
-                <Home />
-              </Protected>
-            }
-          />
+    <ToggleColorMode>
+      <BrowserRouter>
+        <NotLoginPermission>
+          <Header />
+        </NotLoginPermission>
+        <UserPermission>
+          <UserHeader />
+        </UserPermission>
+        <OwnerPermission>
+          <OwnerHeader />
+        </OwnerPermission>
+        <AdminPermission>
+          <AdminHeader />
+        </AdminPermission>
+        <Container className="container">
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Protected access={[]}>
+                  <Home />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/login"
-            element={
-              <Protected access={["notlogin"]}>
-                <Logins />
-              </Protected>
-            }
-          />
+            <Route
+              path="/login"
+              element={
+                <Protected access={["notlogin"]}>
+                  <Logins />
+                </Protected>
+              }
+            />
 
-          <Route path="/login/success" element={<LoginSuccess />} />
-          <Route path="/login/failed" element={<LoginFailed />} />
-          <Route path="/login/success/:key" element={<LoginSocialSuccess />} />
+            <Route path="/login/success" element={<LoginSuccess />} />
+            <Route path="/login/failed" element={<LoginFailed />} />
+            <Route
+              path="/login/success/:key"
+              element={<LoginSocialSuccess />}
+            />
 
-          <Route
-            path="/shop/:id"
-            element={
-              <Protected access={[]}>
-                <Shop />
-              </Protected>
-            }
-          />
+            <Route
+              path="/shop/:id"
+              element={
+                <Protected access={[]}>
+                  <Shop />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/shop/:id/edit"
-            element={
-              <Protected access={["admin", "owner"]}>
-                <EditShop />
-              </Protected>
-            }
-          />
+            <Route
+              path="/shop/:id/edit"
+              element={
+                <Protected access={["admin", "owner"]}>
+                  <EditShop />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/shop/:id/delete"
-            element={
-              <Protected access={["admin", "owner"]}>
-                <DeleteShop />
-              </Protected>
-            }
-          />
+            <Route
+              path="/shop/:id/delete"
+              element={
+                <Protected access={["admin", "owner"]}>
+                  <DeleteShop />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/logout"
-            element={
-              <Protected access={["default", "owner", "admin"]}>
-                <Logouts />
-              </Protected>
-            }
-          />
+            <Route
+              path="/logout"
+              element={
+                <Protected access={["default", "owner", "admin"]}>
+                  <Logouts />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/search"
-            element={
-              <Protected access={[]}>
-                <Search />
-              </Protected>
-            }
-          />
+            <Route
+              path="/search"
+              element={
+                <Protected access={[]}>
+                  <Search />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/register"
-            element={
-              <Protected access={["notlogin"]}>
-                <Registers />
-              </Protected>
-            }
-          />
+            <Route
+              path="/register"
+              element={
+                <Protected access={["notlogin"]}>
+                  <Registers />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/profile"
-            element={
-              <Protected access={["admin", "owner", "default"]}>
-                <Profile />
-              </Protected>
-            }
-          >
-            <Route path="view" element={<ProfileView />} />
-            <Route path="edit" element={<ProfileEdit />} />
-            <Route path="favorite" element={<ProfileFavorite />} />
-          </Route>
+            <Route
+              path="/profile"
+              element={
+                <Protected access={["admin", "owner", "default"]}>
+                  <Profile />
+                </Protected>
+              }
+            >
+              <Route path="view" element={<ProfileView />} />
+              <Route path="edit" element={<ProfileEdit />} />
+              <Route path="favorite" element={<ProfileFavorite />} />
+            </Route>
 
-          <Route
-            path="/shop"
-            element={
-              <Protected access={["admin", "owner", "default"]}>
-                <Shops />
-              </Protected>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <Protected access={["admin"]}>
-                <Admin />
-              </Protected>
-            }
-          >
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="users/:id" element={<AdminUserProfile />} />
-            <Route path="shops" element={<AdminShops />} />
-          </Route>
+            <Route
+              path="/shop"
+              element={
+                <Protected access={["admin", "owner", "default"]}>
+                  <Shops />
+                </Protected>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <Protected access={["admin"]}>
+                  <Admin />
+                </Protected>
+              }
+            >
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="users/:id" element={<AdminUserProfile />} />
+              <Route path="shops" element={<AdminShops />} />
+            </Route>
 
-          <Route
-            path="/shop/add"
-            element={
-              <Protected access={["owner", "admin", "default"]}>
-                <AddShop />
-              </Protected>
-            }
-          />
+            <Route
+              path="/shop/add"
+              element={
+                <Protected access={["owner", "admin", "default"]}>
+                  <AddShop />
+                </Protected>
+              }
+            />
 
-          <Route
-            path="/account/confirm/:id"
-            element={
-              <Protected access={["notlogin"]}>
-                <ConfirmEmail />
-              </Protected>
-            }
-          />
+            <Route
+              path="/account/confirm/:id"
+              element={
+                <Protected access={["notlogin"]}>
+                  <ConfirmEmail />
+                </Protected>
+              }
+            />
 
-          <Route path="*" element={<Lost />} />
-        </Routes>
-      </Container>
-    </BrowserRouter>
+            <Route path="*" element={<Lost />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </ToggleColorMode>
   );
 };
 

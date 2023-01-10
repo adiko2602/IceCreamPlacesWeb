@@ -3,7 +3,6 @@ import { useAuthHeader } from "./useAuthHeader";
 
 export const GetShops = async () => {
   const api = useAxios();
-
   return await api
     .get("shops")
     .then((response) => {
