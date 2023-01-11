@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 
 // Icons
-import { CiIceCream } from "react-icons/ci";
+import { CiIceCream, CiUser } from "react-icons/ci";
 import { HiHeart } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
 import { CiMapPin } from "react-icons/ci";
@@ -135,12 +135,20 @@ const Shop = () => {
                           shop.jobPosition === "owner"
                       ).length > 0 ||
                         userContext.user.roles.includes("admin")) && (
-                        <IconButton
-                          component={Link}
-                          to={`/shop/${params.id}/delete`}
-                        >
-                          <CiTrash />
-                        </IconButton>
+                        <>
+                          <IconButton
+                            component={Link}
+                            to={`/shop/${params.id}/employee`}
+                          >
+                            <CiUser />
+                          </IconButton>
+                          <IconButton
+                            component={Link}
+                            to={`/shop/${params.id}/delete`}
+                          >
+                            <CiTrash />
+                          </IconButton>
+                        </>
                       )}
                     </>
                   )}

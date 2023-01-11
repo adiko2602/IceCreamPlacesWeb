@@ -46,6 +46,7 @@ import LoginSocialSuccess from "./pages/LoginSocialSuccess";
 import LoginSuccess from "./pages/LoginSuccess";
 import LoginFailed from "./pages/LoginFailed";
 import ToggleColorMode from "./theme/ToggleColorMode";
+import ShopEmployee from "./pages/ShopEmployee";
 
 // Pages
 
@@ -143,6 +144,15 @@ const App = () => {
               element={
                 <Protected access={["admin", "owner"]}>
                   <DeleteShop />
+                </Protected>
+              }
+            />
+
+            <Route
+              path="/shop/:id/employee"
+              element={
+                <Protected access={["admin", "owner"]}>
+                  <ShopEmployee />
                 </Protected>
               }
             />
