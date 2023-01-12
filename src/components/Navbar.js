@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography,
   Avatar,
-  // Badge,
+  Badge,
   Menu,
   MenuItem,
   Button,
@@ -22,10 +22,12 @@ import { useUser } from "../context/UserContext";
 import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { CheckIfLogin } from "../services/auth";
+import { useNotification } from "../context/NotificationContext";
 
 const Navbar = ({ links }) => {
   const userContext = useUser();
   const ThemeContext = useTheme();
+  const notificationContext = useNotification();
 
   const [anchorEl, setAnchorEl] = useState();
 
@@ -60,11 +62,17 @@ const Navbar = ({ links }) => {
                 setAnchorEl(e.currentTarget);
               }}
             >
-              {/* <Badge badgeContent={4} color="secondary"> */}
-              <Avatar style={{ backgroundColor: "#6b6b6b" }}>
-                {userContext.user && userContext.user.email[0].toUpperCase()}
-              </Avatar>
-              {/* </Badge> */}
+              <Badge
+                badgeContent={
+                  notificationContext.notification &&
+                  notificationContext.notification.length
+                }
+                color="secondary"
+              >
+                <Avatar style={{ backgroundColor: "#6b6b6b" }}>
+                  {userContext.user && userContext.user.email[0].toUpperCase()}
+                </Avatar>
+              </Badge>
             </Button>
             <Menu
               id="basic-menu"

@@ -1,12 +1,14 @@
-import { List, ListItemButton, ListItemText } from "@mui/material";
+import { Badge, List, ListItemButton, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Stack } from "@mui/system";
 import { useTheme } from "../context/ThemeContext";
+import { useNotification } from "../context/NotificationContext";
 
 const ProfileNavigation = () => {
   const isMobile = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const notificationContext = useNotification();
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
@@ -41,6 +43,26 @@ const ProfileNavigation = () => {
         to="favorite"
       >
         <ListItemText primary="Ulubione" />
+      </ListItemButton>
+      <ListItemButton
+        selected={selectedIndex === 4}
+        onClick={(event) => handleListItemClick(4)}
+        component={Link}
+        to="notification"
+      >
+        <ListItemText
+          primary={
+            <Badge
+              badgeContent={
+                notificationContext.notification &&
+                notificationContext.notification.length
+              }
+              color="secondary"
+            >
+              Powiadomienia
+            </Badge>
+          }
+        />
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 3}

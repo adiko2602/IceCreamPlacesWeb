@@ -47,6 +47,7 @@ import LoginSuccess from "./pages/LoginSuccess";
 import LoginFailed from "./pages/LoginFailed";
 import ToggleColorMode from "./theme/ToggleColorMode";
 import ShopEmployee from "./pages/ShopEmployee";
+import ProfileNotification from "./components/ProfileNotification";
 
 // Pages
 
@@ -195,6 +196,7 @@ const App = () => {
               <Route path="view" element={<ProfileView />} />
               <Route path="edit" element={<ProfileEdit />} />
               <Route path="favorite" element={<ProfileFavorite />} />
+              <Route path="notification" element={<ProfileNotification />} />
             </Route>
 
             <Route

@@ -117,7 +117,7 @@ body.dark-theme .card-tab {
 }
 
 .flex-space-between {
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 
 .full-width {
