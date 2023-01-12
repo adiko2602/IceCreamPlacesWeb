@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import ShopEmployeeAdd from "../components/ShopEmployeeAdd";
 import { useTheme } from "../context/ThemeContext";
+import { DeleteEmployee, UpdateEmployee } from "../services/employee";
 import { GetShopById } from "../services/shop";
 
 const ShopEmployee = () => {
@@ -41,21 +42,27 @@ const ShopEmployee = () => {
     return;
   };
 
-  const handleUpdateEmployee = (e, employee) => {
+  const handleUpdateEmployee = async (e, employee) => {
     e.preventDefault();
+    setLoading(true);
     let arr = shop.employees;
     let index = findIndexByEmail(arr, employee.email);
     if (index < 0) return;
     const updateEmployee = arr[index];
-    // update employee
-
+    const updateEmployeeData = await UpdateEmployee(shop._id, updateEmployee);
+    if (!updateEmployeeData.status) {
+      setError(updateEmployeeData.message);
+      setLoading(false);
+      return;
+    }
     arr = changed;
     index = arr.indexOf(employee.email);
     if (index < 0) return;
     arr.splice(index, 1);
     setChanged(arr);
 
-    populateShop();
+    await populateShop();
+    setLoading(false);
   };
 
   const handleJobPositionChange = (e, employee) => {
@@ -70,15 +77,21 @@ const ShopEmployee = () => {
     }
   };
 
-  const handleDeleteEmployee = (e, employee) => {
+  const handleDeleteEmployee = async (e, employee) => {
     e.preventDefault();
+    setLoading(true);
     const arr = shop.employees;
     const index = findIndexByEmail(arr, employee.email);
     if (index < 0) return;
     const deleteEmployee = arr[index];
-    // delete employee
-
-    populateShop();
+    const deleteEmployeeData = await DeleteEmployee(shop._id, deleteEmployee);
+    if (!deleteEmployeeData.status) {
+      setError(deleteEmployeeData.message);
+      setLoading(false);
+      return;
+    }
+    await populateShop();
+    setLoading(false);
   };
 
   const findIndexByEmail = (arr, email) => {

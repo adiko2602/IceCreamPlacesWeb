@@ -15,6 +15,7 @@ import { Box, Container } from "@mui/system";
 import { useState } from "react";
 import validator from "validator";
 import { useTheme } from "../context/ThemeContext";
+import { CreateEmployee } from "../services/employee";
 import { GetShopById } from "../services/shop";
 import Loading from "./Loading";
 
@@ -30,14 +31,18 @@ const ShopEmployeeAdd = ({ shop, setShop, setChanged, populateShop }) => {
     e.preventDefault();
     if (!validator.isEmail(employee.email)) {
       setError("Nieprawidłowy adres email pracownika.");
+      setLoading(false);
+      return;
+    }
+    const employeeData = await CreateEmployee(shop._id, employee);
+    if (!employeeData.status) {
+      setError(employeeData.message);
+      setLoading(false);
       return;
     }
 
-    // send to api question about email exists
-
     populateShop();
     setEmployee({ email: "", jobPosition: "" });
-    setShop({});
     setLoading(false);
   };
 
