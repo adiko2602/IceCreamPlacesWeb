@@ -1,5 +1,35 @@
 import { useAxios } from "./axios";
 
+export const SetNewPasswordAuth = async (password, resetCode) => {
+  const api = useAxios();
+
+  return await api
+    .post(`auth/reset-password/${resetCode}`, { password: password })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
+export const ResetPasswordAuth = async (email) => {
+  const api = useAxios();
+
+  return await api
+    .post("auth/reset-password", { email: email })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
 export const Login = async (email, password) => {
   const api = useAxios();
 

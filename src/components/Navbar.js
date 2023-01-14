@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography,
   Avatar,
-  // Badge,
+  Badge,
   Menu,
   MenuItem,
   Button,
@@ -21,10 +21,13 @@ import { CiIceCream, CiSearch } from "react-icons/ci";
 import { useUser } from "../context/UserContext";
 import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { CheckIfLogin } from "../services/auth";
+import { useNotification } from "../context/NotificationContext";
 
 const Navbar = ({ links }) => {
   const userContext = useUser();
   const ThemeContext = useTheme();
+  const notificationContext = useNotification();
 
   const [anchorEl, setAnchorEl] = useState();
 
@@ -59,11 +62,16 @@ const Navbar = ({ links }) => {
                 setAnchorEl(e.currentTarget);
               }}
             >
-              {/* <Badge badgeContent={4} color="secondary"> */}
-              <Avatar style={{ backgroundColor: "#6b6b6b" }}>
-                {userContext.user && userContext.user.email[0].toUpperCase()}
-              </Avatar>
-              {/* </Badge> */}
+              <Badge
+                badgeContent={
+                  userContext.user && userContext.user.notifications.length
+                }
+                color="secondary"
+              >
+                <Avatar style={{ backgroundColor: "#6b6b6b" }}>
+                  {userContext.user && userContext.user.email[0].toUpperCase()}
+                </Avatar>
+              </Badge>
             </Button>
             <Menu
               id="basic-menu"
@@ -91,10 +99,15 @@ const Navbar = ({ links }) => {
                       control={
                         <Switch
                           size="small"
-                          onChange={(e) => {
+                          onChange={async (e) => {
                             if (ThemeContext.darkMode === "dark") {
                               ThemeContext.setDarkMode("light");
+                              if (await CheckIfLogin())
+                                localStorage.setItem("darkMode", "light");
                               return;
+                            }
+                            if (await CheckIfLogin()) {
+                              localStorage.setItem("darkMode", "dark");
                             }
                             ThemeContext.setDarkMode("dark");
                           }}

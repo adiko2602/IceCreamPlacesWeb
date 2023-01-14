@@ -3,11 +3,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useTheme } from "../context/ThemeContext";
 import "./theme.css";
 import { useMediaQuery } from "@mui/material";
+import { useUser } from "../context/UserContext";
+import { CheckIfLogin } from "../services/auth";
 
 export default function ToggleColorMode({ children }) {
-  const prefersColorScheme = useMediaQuery("(prefers-color-scheme: dark)");
-  console.log(prefersColorScheme);
   const themeContext = useTheme();
+
+  const prefersColorScheme = useMediaQuery("(prefers-color-scheme: dark)");
 
   useEffect(() => {
     if (themeContext.darkMode === "dark") {
@@ -18,18 +20,31 @@ export default function ToggleColorMode({ children }) {
   }, [themeContext.darkMode]);
 
   useEffect(() => {
-    const setPref = localStorage.getItem("darkMode");
-    if (!setPref) {
-      const pref = prefersColorScheme ? "dark" : "light";
-      themeContext.setDarkMode(pref);
-      localStorage.setItem("darkMode", pref);
-      return;
-    }
-    if (setPref === "dark" || setPref === "light") {
+    const checkMode = async () => {
+      const setPref = localStorage.getItem("darkMode");
+
+      if (!(await CheckIfLogin())) {
+        if (prefersColorScheme) {
+          themeContext.setDarkMode("dark");
+        } else {
+          themeContext.setDarkMode("light");
+        }
+        return;
+      }
+
+      if (!setPref) {
+        if (prefersColorScheme) {
+          themeContext.setDarkMode("dark");
+        } else {
+          themeContext.setDarkMode("light");
+        }
+        return;
+      }
+
       themeContext.setDarkMode(setPref);
-      return;
-    }
-    themeContext.setDarkMode("light");
+    };
+
+    checkMode();
   }, []);
 
   const themeDark = {
@@ -94,6 +109,8 @@ export default function ToggleColorMode({ children }) {
   const theme = useMemo(
     () =>
       createTheme(themeContext.darkMode === "light" ? themeLight : themeDark),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [themeContext]
   );
 

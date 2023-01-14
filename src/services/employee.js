@@ -1,14 +1,14 @@
 import { useAxios } from "./axios";
 import { useAuthHeader } from "./useAuthHeader";
 
-export const RemoveNotification = async (notifiId) => {
-  const api = useAxios();
+export const AcceptIvitation = async (notificationId) => {
   const authHeader = useAuthHeader();
+  const api = useAxios();
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
-    .delete(`users/notifications/${notifiId}`, authHeader)
+    .post(`users/shop-invitations/${notificationId}/accept`, {}, authHeader)
     .then((response) => {
       console.log(response.data);
       return response.data;
@@ -19,32 +19,14 @@ export const RemoveNotification = async (notifiId) => {
     });
 };
 
-export const GetAllUsers = async () => {
+export const DeclineIvitation = async (notificationId) => {
   const authHeader = useAuthHeader();
   const api = useAxios();
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
-    .get("users/all", authHeader)
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return error.resposne.data;
-    });
-};
-
-export const GetUser = async () => {
-  const authHeader = useAuthHeader();
-  const api = useAxios();
-
-  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
-
-  return await api
-    .get("users", authHeader)
+    .post(`users/shop-invitations/${notificationId}/decline`, {}, authHeader)
     .then((response) => {
       console.log(response.data);
       return response.data;
@@ -55,16 +37,16 @@ export const GetUser = async () => {
     });
 };
 
-export const GetUserById = async (userId) => {
+export const CreateEmployee = async (shopId, employee) => {
   const authHeader = useAuthHeader();
   const api = useAxios();
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
-    .get(`users/${userId}`, authHeader)
+    .post(`shops/${shopId}/employees`, employee, authHeader)
     .then((response) => {
-      console.log(response.data);
+      console.log(response);
       return response.data;
     })
     .catch((error) => {
@@ -73,14 +55,32 @@ export const GetUserById = async (userId) => {
     });
 };
 
-export const UpdateUserById = async (userId, user) => {
+export const UpdateEmployee = async (shopId, employee) => {
   const authHeader = useAuthHeader();
   const api = useAxios();
 
   if (!authHeader) return { message: "Błąd tokena autoryzacji" };
 
   return await api
-    .patch(`users/${userId}`, user, authHeader)
+    .patch(`shops/${shopId}/employees`, employee, authHeader)
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error.response.data;
+    });
+};
+
+export const DeleteEmployee = async (shopId, employee) => {
+  const authHeader = useAuthHeader();
+  const api = useAxios();
+
+  if (!authHeader) return { message: "Błąd tokena autoryzacji" };
+
+  return await api
+    .delete(`shops/${shopId}/employees/${employee.email}`, authHeader)
     .then((response) => {
       console.log(response.data);
       return response.data;

@@ -1,12 +1,15 @@
-import { List, ListItemButton, ListItemText } from "@mui/material";
+import { Badge, List, ListItemButton, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Stack } from "@mui/system";
 import { useTheme } from "../context/ThemeContext";
+import { useNotification } from "../context/NotificationContext";
+import { useUser } from "../context/UserContext";
 
 const ProfileNavigation = () => {
   const isMobile = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const userContext = useUser();
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
@@ -26,14 +29,14 @@ const ProfileNavigation = () => {
       >
         <ListItemText primary="Przeglądaj" />
       </ListItemButton>
-      <ListItemButton
+      {/* <ListItemButton
         selected={selectedIndex === 1}
         onClick={(event) => handleListItemClick(1)}
         component={Link}
         to="edit"
       >
         <ListItemText primary="Edytuj" />
-      </ListItemButton>
+      </ListItemButton> */}
       <ListItemButton
         selected={selectedIndex === 2}
         onClick={(event) => handleListItemClick(2)}
@@ -41,6 +44,25 @@ const ProfileNavigation = () => {
         to="favorite"
       >
         <ListItemText primary="Ulubione" />
+      </ListItemButton>
+      <ListItemButton
+        selected={selectedIndex === 4}
+        onClick={(event) => handleListItemClick(4)}
+        component={Link}
+        to="notification"
+      >
+        <ListItemText
+          primary={
+            <Badge
+              badgeContent={
+                userContext.user && userContext.user.notifications.length
+              }
+              color="secondary"
+            >
+              Powiadomienia
+            </Badge>
+          }
+        />
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 3}

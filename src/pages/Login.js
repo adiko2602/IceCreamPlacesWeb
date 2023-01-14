@@ -27,6 +27,7 @@ import Loading from "../components/Loading";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { baseUrl } from "../services/axios";
+import ResetPassword from "../components/ResetPassword";
 
 const Logins = () => {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ const Logins = () => {
   const password = useRef("");
   const [error, setError] = useState("");
   const [resendEmailForm, setResendEmailForm] = useState(false);
+  const [resetPasswordForm, setResetPasswordForm] = useState(false);
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -142,6 +144,19 @@ const Logins = () => {
           </div>
           <br />
           <Typography variant="body1">
+            Nie pamiętasz hasła? Kliknij{" "}
+            <MuiLink
+              color="text.secondary"
+              component={Link}
+              onClick={() => {
+                setResetPasswordForm(() => !resetPasswordForm);
+              }}
+            >
+              <strong>tutaj</strong>
+            </MuiLink>
+            , aby je zresetować.
+          </Typography>
+          <Typography variant="body1">
             Nie masz konta? Kliknij{" "}
             <MuiLink color="text.secondary" component={Link} to="/register">
               <strong>tutaj</strong>
@@ -173,6 +188,17 @@ const Logins = () => {
                   setResendEmailForm={setResendEmailForm}
                   setErrorLogin={setError}
                 />
+              </CardContent>
+            </Card>
+          )}
+          {resetPasswordForm && (
+            <Card className="card">
+              <CardHeader
+                className="card-header"
+                title="Wpisz adres email, użyty przy rejestracji"
+              />
+              <CardContent className="card-content">
+                <ResetPassword />
               </CardContent>
             </Card>
           )}
