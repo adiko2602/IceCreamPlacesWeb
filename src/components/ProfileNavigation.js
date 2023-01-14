@@ -4,11 +4,12 @@ import { useState } from "react";
 import { Stack } from "@mui/system";
 import { useTheme } from "../context/ThemeContext";
 import { useNotification } from "../context/NotificationContext";
+import { useUser } from "../context/UserContext";
 
 const ProfileNavigation = () => {
   const isMobile = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const notificationContext = useNotification();
+  const userContext = useUser();
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
@@ -54,8 +55,7 @@ const ProfileNavigation = () => {
           primary={
             <Badge
               badgeContent={
-                notificationContext.notification &&
-                notificationContext.notification.length
+                userContext.user && userContext.user.notifications.length
               }
               color="secondary"
             >

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -9,15 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { CiCircleRemove } from "react-icons/ci";
+import { IoClose } from "react-icons/io5";
 import { useNotification } from "../context/NotificationContext";
+import { useUser } from "../context/UserContext";
 import Loading from "./Loading";
+import NotificationShopInvitation from "./NotificationShopInvitation";
 
 const ProfileNotification = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const notificationContext = useNotification();
+  const userContext = useUser();
 
   const handleRemoveNotification = async (e, notifi) => {
     e.preventDefault();
@@ -71,10 +74,13 @@ const ProfileNotification = () => {
           <div className="flex-row flex-space-between flex-center">
             <Typography variant="h5">Powiadomienia</Typography>
             <div>
-              {notificationContext.notification && (
-                <IconButton onClick={handleRemoveAllNotification}>
-                  <CiCircleRemove />
-                </IconButton>
+              {userContext.user.notifications.length > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={handleRemoveAllNotification}
+                >
+                  Usuń wszystkie
+                </Button>
               )}
             </div>
           </div>
@@ -82,20 +88,24 @@ const ProfileNotification = () => {
       />
       <CardContent className="card-content-profile">
         <List>
-          {notificationContext.notification &&
-            notificationContext.notification.map((notifi) => (
+          {userContext.user &&
+            userContext.user.notifications.map((notifi) => (
               <>
                 {/* dokonczyc gdy api <ListItem key={notifi.id}>Cd</ListItem> */}
                 <ListItem>
                   <div className="flex-row flex-space-between flex-center full-width">
-                    <div>Name of notifi and link to event</div>
+                    <div>
+                      {notifi.type === "shopInvitation" && (
+                        <NotificationShopInvitation notifi={notifi} />
+                      )}
+                    </div>
                     <div>
                       <IconButton
                         onClick={(e) => {
                           handleRemoveNotification(e, notifi);
                         }}
                       >
-                        <CiCircleRemove />
+                        <IoClose />
                       </IconButton>
                     </div>
                   </div>
