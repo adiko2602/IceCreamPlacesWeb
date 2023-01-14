@@ -48,6 +48,7 @@ import LoginFailed from "./pages/LoginFailed";
 import ToggleColorMode from "./theme/ToggleColorMode";
 import ShopEmployee from "./pages/ShopEmployee";
 import ProfileNotification from "./components/ProfileNotification";
+import SetNewPassword from "./pages/SetNewPassword";
 
 // Pages
 
@@ -183,6 +184,11 @@ const App = () => {
                   <Registers />
                 </Protected>
               }
+            />
+
+            <Route
+              path="/auth/reset-password/:resetCode"
+              element={<SetNewPassword />}
             />
 
             <Route

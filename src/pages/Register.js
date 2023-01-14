@@ -31,10 +31,17 @@ const Registers = () => {
   const [success, setSuccess] = useState(true);
   const email = useRef("");
   const password = useRef("");
+  const password2 = useRef("");
 
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+    if (password.current.value !== password2.current.value) {
+      setError("Hasła muszą się zgadzać");
+      setLoading(false);
+      return;
+    }
+
     if (!validator.isEmail(email.current.value)) {
       setError("Nieprawidłowy adres email.");
       setLoading(false);
@@ -128,6 +135,17 @@ const Registers = () => {
                 type="password"
                 id="password"
                 label="Hasło"
+              />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+
+            <FormControl>
+              <TextField
+                fullWidth
+                inputRef={password2}
+                type="password"
+                id="password2"
+                label="Powtórz hasło"
               />
               <FormHelperText></FormHelperText>
             </FormControl>
