@@ -79,11 +79,11 @@ const ProfileFavorite = () => {
               <Typography variant="body1">Brak ulubionych lodziarni</Typography>
             ) : (
               shops.map((shop) => (
-                <>
-                  <ListItem key={shop.id}>
+                <div key={shop.id}>
+                  <ListItem>
                     <div className="flex-row full-width flex-space-between flex-center">
                       <MuiLink component={Link} to={`/shop/${shop.id}`}>
-                        {shop.name}
+                        <strong>{shop.name}</strong>
                         <br />
                         {shop.address.city} {shop.address.streetName}{" "}
                         {shop.address.streetNumber}
@@ -109,7 +109,7 @@ const ProfileFavorite = () => {
                       }}
                     />
                   </div>
-                </>
+                </div>
               ))
             ))}
         </List>

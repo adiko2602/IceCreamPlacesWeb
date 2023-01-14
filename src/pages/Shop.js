@@ -146,12 +146,23 @@ const Shop = () => {
                   ).length > 0 ||
                     userContext.user.roles.includes("admin")) && (
                     <>
-                      <IconButton
-                        component={Link}
-                        to={`/shop/${params.id}/edit`}
-                      >
-                        <CiEdit />
-                      </IconButton>
+                      {shop.jobPosition === "owner" ||
+                        (userContext.user.roles.includes("admin") && (
+                          <IconButton
+                            component={Link}
+                            to={`/shop/${params.id}/edit`}
+                          >
+                            <CiEdit />
+                          </IconButton>
+                        ))}
+                      {shop.jobPosition === "employee" && (
+                        <IconButton
+                          component={Link}
+                          to={`/shop/${params.id}/edit/employee`}
+                        >
+                          <CiEdit />
+                        </IconButton>
+                      )}
                       {(userContext.user.shops.filter(
                         (shop) =>
                           shop.id._id === params.id &&

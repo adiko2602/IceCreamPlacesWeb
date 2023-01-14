@@ -40,7 +40,7 @@ const ProfileNotification = () => {
         <List>
           {userContext.user &&
             userContext.user.notifications.map((notifi) => (
-              <>
+              <div key={notifi._id}>
                 <ListItem>
                   {notifi.type === "shopInvitation" && (
                     <NotificationShopInvitation notifi={notifi} />
@@ -57,7 +57,7 @@ const ProfileNotification = () => {
                     }}
                   />
                 </div>
-              </>
+              </div>
             ))}
         </List>
       </CardContent>
