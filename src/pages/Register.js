@@ -28,7 +28,7 @@ import { baseUrl } from "../services/axios";
 const Registers = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const email = useRef("");
   const password = useRef("");
   const password2 = useRef("");
