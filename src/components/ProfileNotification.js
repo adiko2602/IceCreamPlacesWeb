@@ -29,7 +29,9 @@ const ProfileNotification = () => {
       <Card className="card-profile">
         <CardHeader className="card-header-profile" title="Powiadomienia" />
         <CardContent className="card-content-profile">
-          Brak powiadomień
+          <List>
+            <Typography variant="body1">Brak powiadomień</Typography>
+          </List>
         </CardContent>
       </Card>
     );
