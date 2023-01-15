@@ -70,27 +70,17 @@ const EditShopEmployee = () => {
   switch (step) {
     case 1: {
       return (
-        <ShopAddOpeningHours
-          step={step}
-          setStep={setStep}
-          formData={formData}
-          setFormData={setFormData}
-          styleTime={styleTime}
-        />
-      );
-    }
-    case 2: {
-      return (
         <ShopAddFlavors
           step={step}
           setStep={setStep}
           formData={formData}
           setFormData={setFormData}
           styleTime={styleTime}
+          editEmployee={true}
         />
       );
     }
-    case 3: {
+    case 2: {
       return (
         <>
           <ShopAddSummary

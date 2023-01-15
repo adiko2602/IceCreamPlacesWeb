@@ -108,6 +108,73 @@ const Shop = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
+  const favoriteShopButton = () => {
+    if (userContext.user.favoriteShops.includes(params.id)) {
+      return (
+        <IconButton color="error" onClick={handleFavorite}>
+          <HiHeart />
+        </IconButton>
+      );
+    }
+    return (
+      <IconButton onClick={handleFavorite}>
+        <HiOutlineHeart />
+      </IconButton>
+    );
+  };
+
+  const editShopButton = () => {
+    if (userContext.user.roles.includes("admin")) {
+      return (
+        <>
+          <IconButton component={Link} to={`/shop/${params.id}/edit`}>
+            <CiEdit />
+          </IconButton>
+          <IconButton component={Link} to={`/shop/${params.id}/employee`}>
+            <CiUser />
+          </IconButton>
+          <IconButton component={Link} to={`/shop/${params.id}/delete`}>
+            <CiTrash />
+          </IconButton>
+        </>
+      );
+    }
+
+    if (
+      userContext.user.roles.includes("owner") ||
+      userContext.user.roles.includes("employee")
+    ) {
+      const index = userContext.user.shops.findIndex((shop) => {
+        return shop.id._id === params.id;
+      });
+
+      if (index > -1) {
+        if (userContext.user.shops[index].jobPosition === "owner") {
+          console.log(userContext.user.shops[index].jobPosition);
+          return (
+            <>
+              <IconButton component={Link} to={`/shop/${params.id}/edit`}>
+                <CiEdit />
+              </IconButton>
+              <IconButton component={Link} to={`/shop/${params.id}/employee`}>
+                <CiUser />
+              </IconButton>
+              <IconButton component={Link} to={`/shop/${params.id}/delete`}>
+                <CiTrash />
+              </IconButton>
+            </>
+          );
+        }
+        return (
+          <IconButton component={Link} to={`/shop/${params.id}/edit/employee`}>
+            <CiEdit />
+          </IconButton>
+        );
+      }
+    }
+    return null;
+  };
+
   if (loading) return <Loading />;
   if (!shop) return <Loading />;
   return (
@@ -131,61 +198,13 @@ const Shop = () => {
 
               {userContext.user && (
                 <div>
-                  {userContext.user.favoriteShops.includes(params.id) ? (
-                    <IconButton color="error" onClick={handleFavorite}>
-                      <HiHeart />
-                    </IconButton>
-                  ) : (
-                    <IconButton onClick={handleFavorite}>
-                      <HiOutlineHeart />
-                    </IconButton>
-                  )}
+                  {/* Favorite Button */}
+                  {favoriteShopButton()}
+                  {/* End Favorite Button */}
 
-                  {(userContext.user.shops.filter(
-                    (shop) => shop.id._id === params.id
-                  ).length > 0 ||
-                    userContext.user.roles.includes("admin")) && (
-                    <>
-                      {shop.jobPosition === "owner" ||
-                        (userContext.user.roles.includes("admin") && (
-                          <IconButton
-                            component={Link}
-                            to={`/shop/${params.id}/edit`}
-                          >
-                            <CiEdit />
-                          </IconButton>
-                        ))}
-                      {shop.jobPosition === "employee" && (
-                        <IconButton
-                          component={Link}
-                          to={`/shop/${params.id}/edit/employee`}
-                        >
-                          <CiEdit />
-                        </IconButton>
-                      )}
-                      {(userContext.user.shops.filter(
-                        (shop) =>
-                          shop.id._id === params.id &&
-                          shop.jobPosition === "owner"
-                      ).length > 0 ||
-                        userContext.user.roles.includes("admin")) && (
-                        <>
-                          <IconButton
-                            component={Link}
-                            to={`/shop/${params.id}/employee`}
-                          >
-                            <CiUser />
-                          </IconButton>
-                          <IconButton
-                            component={Link}
-                            to={`/shop/${params.id}/delete`}
-                          >
-                            <CiTrash />
-                          </IconButton>
-                        </>
-                      )}
-                    </>
-                  )}
+                  {/* Edit Button for Admin and Owner */}
+                  {editShopButton()}
+                  {/* End Edit Button for Admin and Owner */}
                 </div>
               )}
             </div>
