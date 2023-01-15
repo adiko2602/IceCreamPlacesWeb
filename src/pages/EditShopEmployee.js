@@ -40,7 +40,7 @@ const EditShopEmployee = () => {
       const userData = await GetUser();
       user.setUser(await userData.content);
 
-      navigate(`/shop/${res.content._id}`);
+      navigate(`/shop/${params.id}`);
       return;
     }
     setError(res.message);
