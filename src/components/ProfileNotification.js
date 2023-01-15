@@ -39,26 +39,28 @@ const ProfileNotification = () => {
       <CardContent className="card-content-profile">
         <List>
           {userContext.user &&
-            userContext.user.notifications.map((notifi) => (
-              <div key={notifi._id}>
-                <ListItem>
-                  {notifi.type === "shopInvitation" && (
-                    <NotificationShopInvitation notifi={notifi} />
-                  )}
-                  {notifi.type === "shopUpdate" && (
-                    <NotificationShopUpdate notifi={notifi} />
-                  )}
-                </ListItem>
-                <div>
-                  <Divider
-                    style={{
-                      marginBottom: "1rem",
-                      paddingBottom: "1rem",
-                    }}
-                  />
+            userContext.user.notifications
+              .map((notifi) => (
+                <div key={notifi._id}>
+                  <ListItem>
+                    {notifi.type === "shopInvitation" && (
+                      <NotificationShopInvitation notifi={notifi} />
+                    )}
+                    {notifi.type === "shopUpdate" && (
+                      <NotificationShopUpdate notifi={notifi} />
+                    )}
+                  </ListItem>
+                  <div>
+                    <Divider
+                      style={{
+                        marginBottom: "1rem",
+                        paddingBottom: "1rem",
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+              .reverse()}
         </List>
       </CardContent>
     </Card>

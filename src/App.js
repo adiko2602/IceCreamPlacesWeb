@@ -136,7 +136,7 @@ const App = () => {
             <Route
               path="/shop/:id/edit"
               element={
-                <Protected access={["admin", "owner", "employee"]}>
+                <Protected access={["admin", "owner"]}>
                   <EditShop />
                 </Protected>
               }

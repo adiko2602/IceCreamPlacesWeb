@@ -29,7 +29,7 @@ const EditShopEmployee = () => {
 
   const handleUpdateShop = async () => {
     setLoading(true);
-    const res = await UpdateShopById(params.id, formData);
+    const res = await UpdateShopFlavorsById(params.id, formData.flavors);
     if (res.status) {
       console.log(res.content);
 
