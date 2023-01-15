@@ -8,7 +8,11 @@ import ShopAddName from "../components/ShopAddName";
 import ShopAddOpeningHours from "../components/ShopAddOpeningHours";
 import ShopAddSummary from "../components/ShopAddSummary";
 import { useUser } from "../context/UserContext";
-import { GetShopById, UpdateShopById } from "../services/shop";
+import {
+  GetShopById,
+  UpdateShopById,
+  UpdateShopFlavorsById,
+} from "../services/shop";
 import { GetUser } from "../services/user";
 
 const EditShopEmployee = () => {
