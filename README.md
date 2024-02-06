@@ -1,4 +1,4 @@
-# ice-cream-places-ICP
+# IceCreamPlacesWeb
 
 ## About the project
 
